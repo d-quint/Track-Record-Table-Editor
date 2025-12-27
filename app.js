@@ -2518,6 +2518,12 @@ async function captureTableAsImage() {
     try {
         closeDropdown();
 
+        // Prompt for filename
+        const defaultName = (state.title || 'track-record').replace(/[<>:"/\\|?*]+/g, '').trim() || 'track-record';
+        const filename = prompt('Enter filename for the image:', defaultName);
+        if (filename === null) return; // User cancelled
+        const safeName = (filename.trim() || 'track-record').replace(/[<>:"/\\|?*]+/g, '');
+
         const exportEl = buildExportTableElement();
         if (!exportEl) return;
         exportEl.style.position = 'fixed';
@@ -2537,7 +2543,7 @@ async function captureTableAsImage() {
         exportEl.remove();
         
         const link = document.createElement('a');
-        link.download = 'track-record.png';
+        link.download = safeName + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
     } catch (err) {
@@ -2547,12 +2553,18 @@ async function captureTableAsImage() {
 
 // ===== SAVE/LOAD =====
 function saveProject() {
+    // Prompt for filename
+    const defaultName = (state.title || 'track-record-project').replace(/[<>:"/\\|?*]+/g, '').trim() || 'track-record-project';
+    const filename = prompt('Enter filename for the project:', defaultName);
+    if (filename === null) return; // User cancelled
+    const safeName = (filename.trim() || 'track-record-project').replace(/[<>:"/\\|?*]+/g, '');
+
     const data = JSON.stringify(state, null, 2);
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
     const link = document.createElement('a');
-    link.download = 'track-record-project.json';
+    link.download = safeName + '.json';
     link.href = url;
     link.click();
     
