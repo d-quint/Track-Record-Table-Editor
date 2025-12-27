@@ -2553,7 +2553,7 @@ async function captureTableAsImage() {
 
 // ===== SAVE/LOAD =====
 function saveProject() {
-    // Prompt for filename
+    // Prompt for filename, ask first
     const defaultName = (state.title || 'track-record-project').replace(/[<>:"/\\|?*]+/g, '').trim() || 'track-record-project';
     const filename = prompt('Enter filename for the project:', defaultName);
     if (filename === null) return; // User cancelled
