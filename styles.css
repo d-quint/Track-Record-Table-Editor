@@ -123,6 +123,23 @@ header h1 {
     border-bottom-color: rgba(224, 126, 244, 0.55);
 }
 
+.footer-separator {
+    margin: 0 0.5em;
+    opacity: 0.5;
+}
+
+.footer-coffee {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+}
+
+.coffee-icon {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+}
+
 /* ===== SIDEBAR ===== */
 .sidebar {
     background: var(--bg-secondary);
