@@ -1560,6 +1560,7 @@ input[type="color"]::-moz-color-swatch {
     background: rgba(5, 8, 22, 0.35);
     border: 1px solid var(--border-color);
     border-radius: 14px;
+    overflow: hidden;
 }
 
 .tab {
@@ -1570,6 +1571,25 @@ input[type="color"]::-moz-color-swatch {
     color: var(--text-secondary);
     font-size: 0.875rem;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.tab-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    display: none;
+}
+
+.tab-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tab:hover {
@@ -1658,6 +1678,19 @@ input[type="color"]::-moz-color-swatch {
     .header-actions .btn {
         padding: 0.55rem;
     }
+    
+    /* Show icons, hide text on tabs */
+    .tab-icon {
+        display: block;
+    }
+    
+    .tab-text {
+        display: none;
+    }
+    
+    .tab {
+        padding: 0.5rem;
+    }
 }
 
 /* Mobile breakpoint */
@@ -1738,7 +1771,6 @@ input[type="color"]::-moz-color-swatch {
     }
     
     header h1 {
-        font-size: 0.95rem;
         gap: 0.5rem;
     }
     
@@ -1762,19 +1794,21 @@ input[type="color"]::-moz-color-swatch {
         height: 18px;
     }
     
-    /* Header actions - compact grid */
+    /* Header actions - 2x3 grid (2 rows, 3 columns) */
     .header-actions {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: repeat(2, auto);
         gap: 0.35rem;
         width: 100%;
     }
     
     .header-actions .btn {
         padding: 0.45rem 0.5rem;
-        font-size: 0.7rem;
         justify-content: center;
         gap: 0.25rem;
+        min-width: 0;
+        overflow: hidden;
     }
     
     .header-actions .btn .btn-icon {
@@ -1806,7 +1840,6 @@ input[type="color"]::-moz-color-swatch {
     
     /* Tabs - compact */
     .tabs {
-        grid-template-columns: repeat(4, 1fr);
         gap: 0.25rem;
         padding: 0.25rem;
         margin-bottom: 0.65rem;
@@ -1814,9 +1847,13 @@ input[type="color"]::-moz-color-swatch {
     }
     
     .tab {
-        padding: 0.45rem 0.35rem;
-        font-size: 0.7rem;
+        padding: 0.45rem;
         border-radius: 10px;
+    }
+    
+    .tab-icon {
+        width: 18px;
+        height: 18px;
     }
     
     /* Contestants list - compact */
@@ -2019,75 +2056,7 @@ input[type="color"]::-moz-color-swatch {
         padding: 0.75rem;
         border-radius: 12px;
     }
-    
-    /* Paint toolbar - compact mobile layout */
-    .paint-toolbar {
-        padding: 6px;
-        margin: 0 0 8px 0;
-        gap: 6px;
-        border-radius: 10px;
-    }
-    
-    .paint-toolbar-top {
-        gap: 6px;
-    }
-    
-    .paint-tabs {
-        gap: 4px;
-    }
-    
-    .paint-tab {
-        padding: 4px 6px;
-        font-size: 9px;
-        border-radius: 8px 8px 0 0;
-    }
-    
-    .paint-tabpanes {
-        padding-top: 6px;
-    }
-    
-    .paint-palette {
-        gap: 4px;
-    }
-    
-    .paint-item {
-        border-radius: 20px;
-    }
-    
-    .paint-select {
-        padding: 4px 6px;
-        gap: 4px;
-    }
-    
-    .paint-caret-btn {
-        padding: 4px 6px 4px 0;
-        font-size: 10px;
-    }
-    
-    .paint-swatch {
-        width: 10px;
-        height: 10px;
-        border-radius: 3px;
-    }
-    
-    .paint-label {
-        font-size: 9px;
-    }
-    
-    .paint-action {
-        width: 26px;
-        height: 26px;
-    }
-    
-    .paint-action svg {
-        width: 14px;
-        height: 14px;
-    }
-    
-    .paint-toolbar-actions {
-        gap: 6px;
-    }
-    
+
     /* Modal - full screen on mobile */
     .modal {
         min-width: unset;
@@ -2141,18 +2110,14 @@ input[type="color"]::-moz-color-swatch {
 
 /* Extra small mobile */
 @media (max-width: 480px) {
-    header h1 {
-        font-size: 0.85rem;
-    }
-    
     .header-actions {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 0.25rem;
     }
     
     .header-actions .btn {
         padding: 0.4rem;
-        font-size: 0.65rem;
+        min-width: 0;
     }
     
     .header-actions .btn .btn-icon {
@@ -2166,12 +2131,17 @@ input[type="color"]::-moz-color-swatch {
     }
     
     .tabs {
-        grid-template-columns: repeat(4, 1fr);
+        gap: 0.2rem;
+        padding: 0.2rem;
     }
     
     .tab {
-        padding: 0.4rem 0.25rem;
-        font-size: 0.65rem;
+        padding: 0.4rem;
+    }
+    
+    .tab-icon {
+        width: 16px;
+        height: 16px;
     }
     
     .preview-area {
@@ -2183,45 +2153,7 @@ input[type="color"]::-moz-color-swatch {
         padding: 0.5rem;
         border-radius: 10px;
     }
-    
-    .paint-toolbar {
-        padding: 5px;
-        gap: 5px;
-    }
-    
-    .paint-tab {
-        padding: 3px 5px;
-        font-size: 8px;
-    }
-    
-    .paint-palette {
-        gap: 3px;
-    }
-    
-    .paint-select {
-        padding: 3px 5px;
-        gap: 3px;
-    }
-    
-    .paint-swatch {
-        width: 8px;
-        height: 8px;
-    }
-    
-    .paint-label {
-        font-size: 8px;
-    }
-    
-    .paint-action {
-        width: 24px;
-        height: 24px;
-    }
-    
-    .paint-action svg {
-        width: 12px;
-        height: 12px;
-    }
-    
+
     .modal {
         width: 98vw;
         padding: 0.75rem;
