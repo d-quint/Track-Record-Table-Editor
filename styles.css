@@ -73,9 +73,10 @@ header h1 {
 }
 
 .app-mark svg {
-    width: 18px;
-    height: 18px;
-    stroke: var(--accent);
+    width: 20px;
+    height: 20px;
+    fill: var(--accent);
+    color: var(--accent);
 }
 
 .header-actions {
