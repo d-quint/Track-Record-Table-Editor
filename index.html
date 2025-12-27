@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Record Table Editor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <h1>
+                <span class="app-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19V5" />
+                        <path d="M8 19V11" />
+                        <path d="M12 19V8" />
+                        <path d="M16 19V14" />
+                        <path d="M20 19V6" />
+                    </svg>
+                </span>
+                Track Record Table Editor
+            </h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="toggleSidebar" aria-controls="sidebar" aria-pressed="false">
+                    Toggle Panel
+                </button>
+                <button class="btn btn-secondary" id="saveProject">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" />
+                        <path d="M17 21v-8H7v8" />
+                        <path d="M7 3v5h8" />
+                    </svg>
+                    Save Project
+                </button>
+                <button class="btn btn-secondary" id="loadProject">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 7h5l2 2h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
+                        <path d="M12 11v6" />
+                        <path d="M9.5 14.5 12 17l2.5-2.5" />
+                    </svg>
+                    Load Project
+                </button>
+                <input type="file" id="loadProjectInput" accept=".json" style="display: none;">
+                <button class="btn btn-secondary" id="newBlankProject">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <path d="M14 2v6h6" />
+                        <path d="M12 18v-6" />
+                        <path d="M9 15h6" />
+                    </svg>
+                    New Blank
+                </button>
+                <button class="btn btn-danger" id="resetProject">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 6.36 2.64" />
+                        <path d="M21 3v6h-6" />
+                        <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-6.36-2.64" />
+                        <path d="M3 21v-6h6" />
+                    </svg>
+                    Reset
+                </button>
+                <button class="btn btn-success" id="copyHtml">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 9h10v10H9z" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    Copy HTML
+                </button>
+                <button class="btn btn-primary" id="exportImage">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 7a2 2 0 0 1 2-2h2l2-2h4l2 2h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
+                        <path d="M12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
+                    </svg>
+                    Export Image
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab active" data-tab="tab-contestants">Contestants</div>
+                    <div class="tab" data-tab="tab-episodes">Episodes</div>
+                    <div class="tab" data-tab="tab-placements">Placements</div>
+                    <div class="tab" data-tab="tab-settings">Settings</div>
+                </div>
+
+                <!-- Contestants Tab -->
+                <div id="tab-contestants" class="tab-content active">
+                    <div class="sidebar-section">
+                        <div class="panel-header">
+                            <h3>Contestants</h3>
+                            <button class="btn btn-primary btn-sm" id="addContestant">+ Add</button>
+                        </div>
+                        <p class="panel-subtext">Drag to reorder. Click photo area to upload.</p>
+                        <div id="contestantsList" class="contestants-list"></div>
+                    </div>
+
+                    <div class="sidebar-section" id="groupsSection" hidden>
+                        <div class="panel-header">
+                            <h3>Groups</h3>
+                            <button class="btn btn-primary btn-sm" id="addGroup">+ Add</button>
+                        </div>
+                        <p class="panel-subtext">Assign contestants to colored groups and show a group label in the table.</p>
+
+                        <div id="groupsManager" class="groups-manager">
+                            <div class="groups-header">
+                                <div class="groups-title">Group list</div>
+                            </div>
+                            <div id="groupsList" class="groups-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Episodes Tab -->
+                <div id="tab-episodes" class="tab-content">
+                    <div class="sidebar-section">
+                        <div class="panel-header">
+                            <h3>Episodes</h3>
+                            <button class="btn btn-primary btn-sm" id="addEpisode">+ Add</button>
+                        </div>
+                        <p class="panel-subtext">Drag to reorder. Edit challenge text inline.</p>
+                        <div id="episodesList" class="episodes-list"></div>
+                    </div>
+                </div>
+
+                <!-- Placements Tab -->
+                <div id="tab-placements" class="tab-content">
+                    <div class="sidebar-section">
+                        <div class="panel-header">
+                            <h3>Placements</h3>
+                            <button class="btn btn-primary btn-sm" id="addPlacement">+ Add Custom</button>
+                        </div>
+                        <p class="panel-subtext">Click colors to change. Edit labels inline.</p>
+                        <div id="placementsList" class="placements-list"></div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <div class="panel-header">
+                            <h3>Border Add-ons</h3>
+                            <button class="btn btn-primary btn-sm" id="addBorderAddon">+ Add Custom</button>
+                        </div>
+                        <p class="panel-subtext">These don’t replace placements; they only add a border (paint from the Borders tab above the table).</p>
+                        <div id="bordersList" class="borders-list"></div>
+                    </div>
+                    <div class="sidebar-section">
+                        <div class="panel-header">
+                            <h3>Subtext Add-ons</h3>
+                            <button class="btn btn-primary btn-sm" id="addSubtextAddon">+ Add Custom</button>
+                        </div>
+                        <p class="panel-subtext">These don't replace placements; they add small italic text below (paint from the Subtexts tab above the table).</p>
+                        <div id="subtextsList" class="subtexts-list"></div>
+                    </div>                </div>
+
+                <!-- Settings Tab -->
+                <div id="tab-settings" class="tab-content">
+                    <div class="sidebar-section">
+                        <div class="panel-header">
+                            <h3>Table Settings</h3>
+                        </div>
+                        <p class="panel-subtext">Adjust columns and title for the exported table.</p>
+
+                        <div class="panel-card">
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label for="tableTitle">Table title</label>
+                                <input type="text" id="tableTitle" class="form-control" value="Season 1 Track Record">
+                            </div>
+                        </div>
+
+                        <div class="panel-card">
+                            <div class="settings-card-title">Columns</div>
+                            <div class="settings-options">
+                                <label class="settings-option">
+                                    <input type="checkbox" id="showPhotos" checked>
+                                    <span>Photo column</span>
+                                </label>
+                                <label class="settings-option">
+                                    <input type="checkbox" id="showAge" checked>
+                                    <span>Age column</span>
+                                </label>
+                                <label class="settings-option">
+                                    <input type="checkbox" id="showLocation" checked>
+                                    <span>Location column</span>
+                                </label>
+                                <label class="settings-option">
+                                    <input type="checkbox" id="allStarsMode">
+                                    <span>All Stars mode (Original Season/Rank)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="panel-card">
+                            <div class="settings-card-title">Features</div>
+                            <div class="settings-options">
+                                <label class="settings-option">
+                                    <input type="checkbox" id="enableGroupsSettings">
+                                    <span>Enable groups</span>
+                                </label>
+                                <label class="settings-option">
+                                    <input type="checkbox" id="customEpisodeLabelsSettings">
+                                    <span>Edit episode labels (merge columns)</span>
+                                </label>
+                                <label class="settings-option">
+                                    <input type="checkbox" id="autoFillOut" checked>
+                                    <span>Auto-fill "Out" after elimination</span>
+                                </label>
+                                <label class="settings-option">
+                                    <input type="checkbox" id="showRankColumn" checked>
+                                    <span>Show rank column</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="panel-card">
+                            <div class="settings-card-title">Table appearance</div>
+                            <div class="panel-help" style="margin-bottom:0.75rem;">Adjust the overall size or fine-tune individual properties.</div>
+                            <div class="settings-appearance-grid">
+                                <div class="settings-slider settings-slider-primary">
+                                    <label for="tableScale">Overall scale</label>
+                                    <div class="slider-row">
+                                        <input type="range" id="tableScale" class="form-range" min="50" max="150" value="80" step="5">
+                                        <span class="slider-value" id="tableScaleValue">80%</span>
+                                    </div>
+                                </div>
+                                <div class="settings-divider"></div>
+                                <div class="settings-font-selector">
+                                    <label for="tableFont">Font family</label>
+                                    <select id="tableFont" class="form-control">
+                                        <option value="Geist, system-ui, sans-serif">Geist (Default)</option>
+                                        <option value="system-ui, sans-serif">System UI</option>
+                                        <option value="Arial, sans-serif">Arial</option>
+                                        <option value="'Courier New', monospace">Courier New</option>
+                                        <option value="Georgia, serif">Georgia</option>
+                                        <option value="'Times New Roman', serif">Times New Roman</option>
+                                        <option value="Verdana, sans-serif">Verdana</option>
+                                        <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                                    </select>
+                                </div>
+                                <div class="settings-slider">
+                                    <label for="tableFontSize">Font size</label>
+                                    <div class="slider-row">
+                                        <input type="range" id="tableFontSize" class="form-range" min="70" max="150" value="100" step="5">
+                                        <span class="slider-value" id="tableFontSizeValue">100%</span>
+                                    </div>
+                                </div>
+                                <div class="settings-slider">
+                                    <label for="cellPadding">Cell padding</label>
+                                    <div class="slider-row">
+                                        <input type="range" id="cellPadding" class="form-range" min="50" max="200" value="100" step="10">
+                                        <span class="slider-value" id="cellPaddingValue">100%</span>
+                                    </div>
+                                </div>
+                                <div class="settings-slider">
+                                    <label for="photoSize">Photo size</label>
+                                    <div class="slider-row">
+                                        <input type="range" id="photoSize" class="form-range" min="50" max="200" value="100" step="10">
+                                        <span class="slider-value" id="photoSizeValue">100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <div class="panel-header">
+                            <h3>Quick Tips</h3>
+                        </div>
+                        <p class="panel-subtext">Small reminders while editing.</p>
+                        <ul class="tips-list text-sm text-muted">
+                            <li>Click any cell in the table to change placement</li>
+                            <li>After ELIM, cells auto-fill as "Out"</li>
+                            <li>Drag contestants/episodes to reorder</li>
+                            <li>Photos are auto-cropped to square</li>
+                            <li>Save project to continue later</li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Preview Area -->
+            <main class="preview-area">
+                <div class="preview-container" id="tablePreview">
+                    <!-- Table will be rendered here -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer" aria-label="Attribution">
+            <p class="footer-text">
+                Built with <span class="footer-heart" aria-hidden="true">♥</span> by
+                <a href="https://github.com/d-quint/" target="_blank" rel="noopener noreferrer" class="footer-link">d-quint</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal-overlay" id="exportModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Export HTML</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="export-options">
+                <p class="text-sm text-muted">Copy the HTML below to use in your wiki or website:</p>
+                <div class="export-preview">
+                    <pre id="exportHtmlContent"></pre>
+                </div>
+                <div class="flex gap-1 mt-2">
+                    <button class="btn btn-primary" id="exportHtml" onclick="navigator.clipboard.writeText(document.getElementById('exportHtmlContent').textContent); alert('Copied!');">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 9h10v10H9z" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                        Copy to Clipboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
