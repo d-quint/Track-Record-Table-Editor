@@ -2239,28 +2239,6 @@ input[type="color"]::-moz-color-swatch {
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
-    /* Larger touch targets */
-    .btn {
-        min-height: 44px;
-    }
-    
-    .btn-sm {
-        min-height: 36px;
-    }
-    
-    .tab {
-        min-height: 40px;
-    }
-    
-    .paint-item {
-        min-height: 36px;
-    }
-    
-    .paint-action {
-        min-width: 40px;
-        min-height: 40px;
-    }
-    
     /* Better scrolling for touch */
     .sidebar,
     .preview-area,
