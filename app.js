@@ -3032,10 +3032,11 @@ function renderPaintPalette(rootIds) {
 
 function buildPaintSections(rootIds) {
     // Simple, readable grouping (keeps layout tidy without adding new screens)
-    const performance = ['WIN', 'TOP', 'HIGH', 'SAFE', 'LOW', 'BTM', 'ELIM'];
+    // Note: "Other" placements are merged into the main Placements tab (right after ELIM).
+    const other = ['OUT', 'EMPTY'];
+    const performance = ['WIN', 'TOP', 'HIGH', 'SAFE', 'LOW', 'BTM', 'ELIM', ...other];
     const finale = ['WINNER', 'RUNNERUP', 'GUEST', 'MISSCON', 'FIN_TOP3', 'FIN_TOP4', 'LSFTC', 'TSW', 'FAME', 'QFG'];
     const events = ['RUN', 'LPRZW', 'DEPT', 'CUT', 'BLOCK', 'OUT_EVENT', 'RTRN', 'QUIT', 'DISQ'];
-    const other = ['OUT', 'EMPTY'];
 
     // Only show true roots in the palette (never show an ID both as a root chip and as a submenu item).
     const childIds = new Set();
@@ -3056,14 +3057,13 @@ function buildPaintSections(rootIds) {
     const present = new Set(trueRootIds);
     const filterPresent = (ids) => ids.filter(id => present.has(id) && getPlacementById(id) && !getPlacementById(id).hidden);
 
-    const used = new Set([...performance, ...finale, ...events, ...other]);
+    const used = new Set([...performance, ...finale, ...events]);
     const extras = trueRootIds.filter(id => !used.has(id) && getPlacementById(id) && !getPlacementById(id).hidden);
 
     const sections = [
         { key: 'placements', title: 'Placements', kind: 'placement', ids: filterPresent(performance) },
         { key: 'finale', title: 'Finale', kind: 'placement', ids: filterPresent(finale) },
-        { key: 'events', title: 'Events', kind: 'placement', ids: filterPresent(events) },
-        { key: 'other', title: 'Other', kind: 'placement', ids: filterPresent(other) }
+        { key: 'events', title: 'Events', kind: 'placement', ids: filterPresent(events) }
     ].filter(s => s.ids.length > 0);
 
     if (extras.length) sections.push({ key: 'custom', title: 'Custom', kind: 'placement', ids: extras });

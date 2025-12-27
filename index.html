@@ -190,6 +190,10 @@
                                     <span>Location column</span>
                                 </label>
                                 <label class="settings-option">
+                                    <input type="checkbox" id="showRankColumn" checked>
+                                    <span>Rank column</span>
+                                </label>
+                                <label class="settings-option">
                                     <input type="checkbox" id="allStarsMode">
                                     <span>All Stars mode (Original Season/Rank)</span>
                                 </label>
@@ -210,10 +214,6 @@
                                 <label class="settings-option">
                                     <input type="checkbox" id="autoFillOut" checked>
                                     <span>Auto-fill "Out" after elimination</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="showRankColumn" checked>
-                                    <span>Show rank column</span>
                                 </label>
                             </div>
                         </div>
@@ -274,11 +274,15 @@
                         </div>
                         <p class="panel-subtext">Small reminders while editing.</p>
                         <ul class="tips-list text-sm text-muted">
-                            <li>Click any cell in the table to change placement</li>
-                            <li>After ELIM, cells auto-fill as "Out"</li>
-                            <li>Drag contestants/episodes to reorder</li>
-                            <li>Photos are auto-cropped to square</li>
-                            <li>Save project to continue later</li>
+                            <li><strong>Paint placements:</strong> Click or drag across cells to paint the selected placement</li>
+                            <li><strong>Auto-numbering:</strong> TOP/BTM auto-show as TOP2/BTM2 when multiple appear in a column</li>
+                            <li><strong>Auto-fill OUT:</strong> After ELIM/EXTM, later empty cells become "Out" automatically</li>
+                            <li><strong>Tie ranks:</strong> Multiple eliminations or LSFTC losers share the same rank automatically</li>
+                            <li><strong>Reorder:</strong> Drag contestants/episodes via the ⋮⋮ handle, or drag from the table's left gutter</li>
+                            <li><strong>Photos:</strong> Click a photo placeholder → Upload or Paste from clipboard</li>
+                            <li><strong>Undo/Redo:</strong> Ctrl+Z / Ctrl+Y works for placements, edits, and photo changes</li>
+                            <li><strong>Borders &amp; Subtexts:</strong> Use separate palette tabs to add border overlays or mini-challenge labels</li>
+                            <li><strong>Export:</strong> Copy HTML or save as PNG for wiki/website use</li>
                         </ul>
                     </div>
                 </div>
