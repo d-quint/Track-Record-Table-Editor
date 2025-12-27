@@ -349,14 +349,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setSidebarCollapsed(isCollapsed) {
-    const main = document.querySelector('.main-content');
-    if (!main) return;
-    main.classList.toggle('is-sidebar-collapsed', !!isCollapsed);
+    const wrapper = document.querySelector('.sidebar-wrapper');
+    if (!wrapper) return;
+    wrapper.classList.toggle('is-collapsed', !!isCollapsed);
 
     const btn = document.getElementById('toggleSidebar');
     if (!btn) return;
-    btn.setAttribute('aria-pressed', isCollapsed ? 'true' : 'false');
-    btn.textContent = isCollapsed ? 'Show Panel' : 'Hide Panel';
+    btn.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
 }
 
 function initGroupsState() {
@@ -713,11 +712,11 @@ function setupEventListeners() {
     // Sidebar collapse
     const toggleSidebarBtn = document.getElementById('toggleSidebar');
     if (toggleSidebarBtn) {
-        // Ensure initial label matches current state
-        setSidebarCollapsed(document.querySelector('.main-content')?.classList.contains('is-sidebar-collapsed'));
+        // Ensure initial state
+        setSidebarCollapsed(document.querySelector('.sidebar-wrapper')?.classList.contains('is-collapsed'));
         toggleSidebarBtn.addEventListener('click', () => {
-            const main = document.querySelector('.main-content');
-            const isCollapsed = main?.classList.contains('is-sidebar-collapsed');
+            const wrapper = document.querySelector('.sidebar-wrapper');
+            const isCollapsed = wrapper?.classList.contains('is-collapsed');
             setSidebarCollapsed(!isCollapsed);
         });
     }
