@@ -1378,6 +1378,11 @@ function renderPlacementTree(ids, depth) {
 function renderTable() {
     const container = document.getElementById('tablePreview');
 
+    // Preserve scroll position before re-render
+    const existingScrollContainer = document.getElementById('tableScroll');
+    const scrollLeft = existingScrollContainer?.scrollLeft || 0;
+    const scrollTop = existingScrollContainer?.scrollTop || 0;
+
     // Keep placement palette in sync with latest edits/moves.
     normalizePlacementTree();
 
@@ -1463,6 +1468,13 @@ function renderTable() {
 
     const paletteHtml = renderPaintPalette(state.placementRoots);
     container.innerHTML = `${paletteHtml}<div class="table-scroll" id="tableScroll"><div class="table-stage"><div id="tableGutter" class="table-gutter" aria-hidden="true"></div><div id="tableOnly">${tableHtml}</div></div></div>`;
+
+    // Restore scroll position after re-render
+    const newScrollContainer = document.getElementById('tableScroll');
+    if (newScrollContainer) {
+        newScrollContainer.scrollLeft = scrollLeft;
+        newScrollContainer.scrollTop = scrollTop;
+    }
 
     setupTableContestantDragDrop();
 

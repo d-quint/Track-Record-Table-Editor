@@ -2088,46 +2088,6 @@ input[type="color"]::-moz-color-swatch {
         gap: 6px;
     }
     
-    /* Table - compact for mobile */
-    .table-stage {
-        --table-gutter-width: 32px;
-    }
-    
-    .track-record-table {
-        font-size: 11px;
-    }
-    
-    .track-record-table th,
-    .track-record-table td {
-        padding: 3px 5px;
-        min-width: 38px;
-    }
-    
-    .track-record-table .photo-cell img {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .track-record-table .contestant-name-cell {
-        min-width: 70px;
-        font-size: 10px;
-    }
-    
-    .track-record-table .placement-cell {
-        min-width: 40px;
-        font-size: 10px;
-    }
-    
-    .track-record-table .rank-cell {
-        min-width: 40px;
-    }
-    
-    .table-add-btn {
-        width: 20px;
-        height: 20px;
-        font-size: 14px;
-    }
-    
     /* Modal - full screen on mobile */
     .modal {
         min-width: unset;
@@ -2260,31 +2220,6 @@ input[type="color"]::-moz-color-swatch {
     .paint-action svg {
         width: 12px;
         height: 12px;
-    }
-    
-    .track-record-table {
-        font-size: 10px;
-    }
-    
-    .track-record-table th,
-    .track-record-table td {
-        padding: 2px 4px;
-        min-width: 32px;
-    }
-    
-    .track-record-table .photo-cell img {
-        width: 55px;
-        height: 55px;
-    }
-    
-    .track-record-table .contestant-name-cell {
-        min-width: 55px;
-        font-size: 9px;
-    }
-    
-    .track-record-table .placement-cell {
-        min-width: 32px;
-        font-size: 9px;
     }
     
     .modal {
