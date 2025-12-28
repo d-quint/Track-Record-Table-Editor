@@ -1433,9 +1433,10 @@ function renderTable() {
     state.contestants.forEach((contestant, cIdx) => {
         const rank = rankLabels ? (rankLabels[cIdx] || getRank(cIdx)) : getRank(cIdx);
         const group = state.groupsEnabled ? getGroupById(contestant.groupId) : null;
-        const groupStyle = group ? ` style="background:${group.bgColor};color:${group.textColor};padding:${0.25 * padding}em ${0.5 * padding}em;"` : ` style="padding:${0.25 * padding}em ${0.5 * padding}em;"`;
+        const groupStyle = group ? ` style="background:${group.bgColor};color:${group.textColor};padding:${0.4 * padding}em ${0.75 * padding}em;"` : ` style="padding:${0.4 * padding}em ${0.75 * padding}em;"`;
         const groupLabel = group ? `<br><small contenteditable="false">(${escapeHtml(group.name)})</small>` : '';
         const cellPaddingStyle = `style="padding:${0.25 * padding}em ${0.5 * padding}em;"`;
+        const textCellPaddingStyle = `style="padding:${0.4 * padding}em ${0.75 * padding}em;"`;
         tableHtml += `
             <tr class="table-contestant-row" data-id="${contestant.id}">
                 ${state.showRankColumn ? `<td class="rank-cell" ${cellPaddingStyle}>${rank}</td>` : ''}
@@ -1453,8 +1454,8 @@ function renderTable() {
                         </div>
                     </td>
                 ` : ''}
-                ${state.allStarsMode ? `<td contenteditable="true" ${cellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="originalSeason">${escapeHtml(contestant.originalSeason || '')}</td>` : (state.showAge ? `<td contenteditable="true" ${cellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="age">${contestant.age || ''}</td>` : '')}
-                ${state.allStarsMode ? `<td contenteditable="true" ${cellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="originalRank">${escapeHtml(contestant.originalRank || '')}</td>` : (state.showLocation ? `<td contenteditable="true" ${cellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="location">${escapeHtml(contestant.location || '')}</td>` : '')}
+                ${state.allStarsMode ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="originalSeason">${escapeHtml(contestant.originalSeason || '')}</td>` : (state.showAge ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="age">${contestant.age || ''}</td>` : '')}
+                ${state.allStarsMode ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="originalRank">${escapeHtml(contestant.originalRank || '')}</td>` : (state.showLocation ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="location">${escapeHtml(contestant.location || '')}</td>` : '')}
                 ${state.episodes.map((ep, epIdx) => {
                     const placementId = contestant.placements[epIdx] || 'EMPTY';
                     return renderPlacementCell(contestant.id, epIdx, placementId, episodeCounts[epIdx], padding);

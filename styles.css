@@ -1094,6 +1094,11 @@ input[type="color"]::-moz-color-swatch {
 .track-record-table .contestant-name-cell {
     font-weight: 500;
     min-width: 100px;
+    padding: 0.4em 0.75em;
+}
+
+.track-record-table .text-cell {
+    padding: 0.4em 0.75em;
 }
 
 .track-record-table .photo-cell img {
