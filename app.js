@@ -2629,10 +2629,16 @@ function inlineExportStyles(table) {
         }
     });
 
-    // Subtext styling
-    table.querySelectorAll('td small').forEach(small => {
+    // Subtext/small styling in placement cells - match CSS .placement-cell small
+    table.querySelectorAll('td[data-contestant] small').forEach(small => {
         const existingStyle = small.getAttribute('style') || '';
         small.setAttribute('style', `font-weight:300; font-size:0.7em; opacity:0.85; ${existingStyle}`);
+    });
+    
+    // Group labels in name cells - use slightly different styling
+    table.querySelectorAll('.contestant-name-cell small').forEach(small => {
+        const existingStyle = small.getAttribute('style') || '';
+        small.setAttribute('style', `font-weight:400; font-size:0.85em; ${existingStyle}`);
     });
 
     // Photo wrapper divs - just need to pass through size
