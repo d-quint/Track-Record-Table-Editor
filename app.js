@@ -2356,6 +2356,13 @@ function setupTableContestantDragDrop() {
         tableScroll.addEventListener('scroll', () => {
             rebuildTableGutterHandles();
         });
+        // Ctrl+wheel scrolls horizontally instead of vertically
+        tableScroll.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                tableScroll.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
     }
 
     const grips = document.querySelectorAll('#tableGutter .table-row-grip');
