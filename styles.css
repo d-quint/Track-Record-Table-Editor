@@ -388,15 +388,9 @@ header h1 {
 /* Only the table area should scroll horizontally (palette stays static). */
 .table-scroll {
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: auto;
     max-width: 100%;
-    /* Flip the container to move scrollbar to top */
-    transform: scaleY(-1);
-}
-
-/* Flip the content back to normal orientation */
-.table-scroll > * {
-    transform: scaleY(-1);
+    max-height: calc(100vh - 220px);
 }
 
 /* ===== BUTTONS ===== */

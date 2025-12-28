@@ -1966,8 +1966,22 @@ function addEpisode() {
         challenge: 'Challenge'
     };
     state.episodes.push(newEpisode);
-    // Add empty placement for all contestants
-    state.contestants.forEach(c => c.placements.push('EMPTY'));
+    
+    // Placements that mean the contestant is out of the running
+    const outPlacements = new Set([
+        'ELIM', 'FELIM', 'DELIM', 'ELIM_R1', 'EXTM', 'QUIT', 'DISQ', 'DEPT', 'CUT', 'HIGH_CUT', 'OUT'
+    ]);
+    
+    // Add placement for all contestants - OUT if already eliminated, EMPTY otherwise
+    state.contestants.forEach(c => {
+        // Check if contestant has an elimination placement in any previous episode
+        const isOut = c.placements.some(p => {
+            const canonId = canonicalizePlacementId(p || 'EMPTY');
+            const baseId = isRtrnComboId(canonId) ? canonicalizePlacementId(getRtrnComboBaseId(canonId)) : canonId;
+            return outPlacements.has(baseId);
+        });
+        c.placements.push(isOut ? 'OUT' : 'EMPTY');
+    });
     // Keep border overlays aligned to episodes
     state.contestants.forEach(c => {
         if (!Array.isArray(c.borders)) c.borders = [];
@@ -3578,11 +3592,17 @@ function getContestantTieKey(contestant) {
     if (placements.includes('WINNER')) return 'FINAL:WINNER';
     if (placements.includes('RUNNERUP')) return 'FINAL:RUNNERUP';
 
-    // LSFTC losers: anyone losing the same round shares a rank range
-    const lsftcRounds = ['LSFTC_L1', 'LSFTC_L2', 'LSFTC_L3'];
-    for (const round of lsftcRounds) {
-        if (placements.includes(round)) return `FINAL:${round}`;
+    // LSFTC losers: LOST 1ST and LOST 2ND in the same EPISODE (column) share a rank,
+    // since they lost at the same bracket level. LOST 3RD is separate (they're runner-up).
+    const lsftcEarlyRounds = ['LSFTC_L1', 'LSFTC_L2'];
+    for (let epIdx = 0; epIdx < placements.length; epIdx++) {
+        const p = placements[epIdx];
+        if (lsftcEarlyRounds.includes(p)) {
+            return `FINAL:LSFTC_EP${epIdx}`;
+        }
     }
+    // LOST 3RD gets its own tie group (runner-up level)
+    if (placements.includes('LSFTC_L3')) return 'FINAL:LSFTC_L3';
 
     // Group together contestants who stop competing in the same episode.
     // This covers double eliminations, multiple finale eliminations, etc.
