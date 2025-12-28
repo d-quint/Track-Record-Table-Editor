@@ -2538,30 +2538,128 @@ function buildExportTableElement() {
     table.querySelectorAll('th.add-episode-btn-cell').forEach(c => c.remove());
     table.querySelectorAll('button.table-add-btn, button').forEach(b => b.remove());
 
-    // Remove any drag/drop indicator classes/attributes
-    table.querySelectorAll('tr.table-drop-target').forEach(r => r.classList.remove('table-drop-target'));
-    table.querySelectorAll('tr.table-contestant-row').forEach(r => r.classList.remove('table-contestant-row'));
-    table.querySelectorAll('[data-id]').forEach(el => el.removeAttribute('data-id'));
-
-    // Remove click handlers and interactive attributes
-    table.querySelectorAll('.placement-cell, .out-cell').forEach(cell => {
-        cell.removeAttribute('onclick');
-        cell.classList.remove('placement-cell');
-    });
-
     // Remove contenteditable attributes
     table.querySelectorAll('[contenteditable]').forEach(el => {
         el.removeAttribute('contenteditable');
         el.removeAttribute('onblur');
     });
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'table-wide';
-    const inner = document.createElement('div');
-    inner.className = 'table-wide-inner';
-    inner.appendChild(table);
-    wrapper.appendChild(inner);
-    return wrapper;
+    // Inline all styles for export consistency (BEFORE removing classes)
+    inlineExportStyles(table);
+
+    // Return just the table - wrapper divs with classes won't apply outside editor
+    return table;
+}
+
+function inlineExportStyles(table) {
+    // Get current table settings
+    const scale = (state.tableScale || 100) / 100;
+    const fontSize = ((state.tableFontSize || 100) / 100) * scale;
+    const padding = ((state.cellPadding || 100) / 100) * scale;
+    const photoScale = ((state.photoSize || 100) / 100) * scale;
+    const fontFamily = state.tableFont || 'Geist, system-ui, sans-serif';
+
+    // Table-level styles
+    const existingTableStyle = table.getAttribute('style') || '';
+    table.setAttribute('style', `border-collapse:collapse; text-align:center; font-family:${fontFamily}; font-size:${fontSize}em; color:#000; ${existingTableStyle}`);
+
+    // All th and td: border, padding, min-width, color
+    const baseCellStyle = `border:1px solid #a2a9b1; min-width:50px; color:#000;`;
+    
+    // Headers (th)
+    table.querySelectorAll('th').forEach(th => {
+        const existingStyle = th.getAttribute('style') || '';
+        // Check if it's the main header row
+        const isHeaderRow = th.closest('.header-row');
+        const isEpisodeHeader = th.classList.contains('episode-header');
+        
+        let headerPadding = `padding:${0.5 * padding}em;`;
+        if (isEpisodeHeader) {
+            headerPadding = `padding:${0.125 * padding}em ${0.25 * padding}em;`;
+        } else if (isHeaderRow) {
+            headerPadding = `padding:${0.5 * padding}em;`;
+        }
+        
+        th.setAttribute('style', `${baseCellStyle} background:#eaecf0; font-weight:600; ${headerPadding} ${existingStyle}`);
+    });
+
+    // Episode header spans (challenge names)
+    table.querySelectorAll('.episode-header span').forEach(span => {
+        const existingStyle = span.getAttribute('style') || '';
+        span.setAttribute('style', `line-height:1.05; font-size:0.75em; ${existingStyle}`);
+    });
+
+    // Contestant name cells
+    table.querySelectorAll('.contestant-name-cell').forEach(cell => {
+        const existingStyle = cell.getAttribute('style') || '';
+        cell.setAttribute('style', `${baseCellStyle} font-weight:500; min-width:100px; padding:${0.4 * padding}em ${0.75 * padding}em; ${existingStyle}`);
+    });
+
+    // Text cells (age, location, original season/rank)
+    table.querySelectorAll('.text-cell').forEach(cell => {
+        const existingStyle = cell.getAttribute('style') || '';
+        cell.setAttribute('style', `${baseCellStyle} padding:${0.4 * padding}em ${0.75 * padding}em; ${existingStyle}`);
+    });
+
+    // Photo cells
+    table.querySelectorAll('.photo-cell').forEach(cell => {
+        const existingStyle = cell.getAttribute('style') || '';
+        cell.setAttribute('style', `${baseCellStyle} padding:${0.25 * padding}em ${0.5 * padding}em; ${existingStyle}`);
+    });
+    table.querySelectorAll('.photo-cell img').forEach(img => {
+        const existingStyle = img.getAttribute('style') || '';
+        img.setAttribute('style', `width:${110 * photoScale}px; height:${110 * photoScale}px; object-fit:cover; ${existingStyle}`);
+    });
+
+    // Rank cells
+    table.querySelectorAll('.rank-cell').forEach(cell => {
+        const existingStyle = cell.getAttribute('style') || '';
+        cell.setAttribute('style', `${baseCellStyle} min-width:60px; padding:${0.25 * padding}em ${0.5 * padding}em; ${existingStyle}`);
+    });
+
+    // Placement cells (already have inline bg/color, add font-weight and border)
+    table.querySelectorAll('td[data-contestant]').forEach(cell => {
+        const existingStyle = cell.getAttribute('style') || '';
+        // Check if it's an out cell (gray row continuation)
+        const isOut = cell.classList.contains('out-cell');
+        if (isOut) {
+            cell.setAttribute('style', `${baseCellStyle} padding:${0.25 * padding}em ${0.5 * padding}em; ${existingStyle}`);
+        } else {
+            cell.setAttribute('style', `${baseCellStyle} font-weight:450; min-width:55px; padding:${0.25 * padding}em ${0.5 * padding}em; ${existingStyle}`);
+        }
+    });
+
+    // Subtext styling
+    table.querySelectorAll('td small').forEach(small => {
+        const existingStyle = small.getAttribute('style') || '';
+        small.setAttribute('style', `font-weight:300; font-size:0.7em; opacity:0.85; ${existingStyle}`);
+    });
+
+    // Photo wrapper divs - just need to pass through size
+    table.querySelectorAll('.photo-menu-wrapper').forEach(wrapper => {
+        const existingStyle = wrapper.getAttribute('style') || '';
+        wrapper.setAttribute('style', `display:inline-block; ${existingStyle}`);
+    });
+
+    // Remove onclick handlers from images
+    table.querySelectorAll('img[onclick]').forEach(img => {
+        img.removeAttribute('onclick');
+        img.removeAttribute('title');
+    });
+
+    // Remove all classes from elements (they won't apply outside the editor)
+    table.querySelectorAll('*').forEach(el => {
+        el.removeAttribute('class');
+    });
+    table.removeAttribute('class');
+
+    // Remove data attributes used for interactivity
+    table.querySelectorAll('[data-contestant]').forEach(el => el.removeAttribute('data-contestant'));
+    table.querySelectorAll('[data-episode]').forEach(el => el.removeAttribute('data-episode'));
+    table.querySelectorAll('[data-edit-scope]').forEach(el => el.removeAttribute('data-edit-scope'));
+    table.querySelectorAll('[data-edit-id]').forEach(el => el.removeAttribute('data-edit-id'));
+    table.querySelectorAll('[data-edit-field]').forEach(el => el.removeAttribute('data-edit-field'));
+    table.querySelectorAll('[data-edit-mode]').forEach(el => el.removeAttribute('data-edit-mode'));
 }
 
 function generateExportHtml() {
