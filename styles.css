@@ -1202,6 +1202,7 @@ input[type="color"]::-moz-color-swatch {
     gap: 8px;
     align-items: center;
     margin-left: auto;
+    flex-shrink: 0;
 }
 
 .paint-tabs {
@@ -1209,6 +1210,110 @@ input[type="color"]::-moz-color-swatch {
     flex-wrap: wrap;
     gap: 6px;
     align-items: center;
+}
+
+/* Dropdown (hidden by default, shown on narrow screens) */
+.paint-tabs-dropdown {
+    display: none;
+    position: relative;
+}
+
+.paint-tabs-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    color: #0f172a;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.paint-tabs-dropdown-toggle:hover {
+    border-color: rgba(195, 25, 172, 0.55);
+}
+
+.paint-tabs-dropdown-chevron {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.paint-tabs-dropdown.open .paint-tabs-dropdown-chevron {
+    transform: rotate(180deg);
+}
+
+.paint-tabs-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 100;
+    min-width: 140px;
+    padding: 4px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.paint-tabs-dropdown.open .paint-tabs-dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.paint-tabs-dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    color: rgba(15, 23, 42, 0.72);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.paint-tabs-dropdown-item:hover {
+    background: rgba(15, 23, 42, 0.06);
+    color: rgba(15, 23, 42, 0.92);
+}
+
+.paint-tabs-dropdown-item.active {
+    background: rgba(195, 25, 189, 0.12);
+    color: #0f172a;
+}
+
+/* Show dropdown when tabs overflow (detected by JS) */
+.paint-toolbar.tabs-overflow .paint-tabs {
+    display: none;
+}
+
+.paint-toolbar.tabs-overflow .paint-tabs-dropdown {
+    display: block;
+}
+
+/* Also show dropdown on very narrow screens as fallback */
+@media (max-width: 400px) {
+    .paint-tabs {
+        display: none !important;
+    }
+    .paint-tabs-dropdown {
+        display: block !important;
+    }
 }
 
 .paint-tab {

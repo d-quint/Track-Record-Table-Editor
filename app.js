@@ -614,6 +614,15 @@ function setupEventListeners() {
         if (activeDropdown && !e.target.closest('.placement-dropdown') && !e.target.closest('.placement-cell')) {
             closeDropdown();
         }
+        // Close paint-tabs dropdown on outside click
+        if (!e.target.closest('.paint-tabs-dropdown')) {
+            const openDropdown = document.querySelector('.paint-tabs-dropdown.open');
+            if (openDropdown) {
+                openDropdown.classList.remove('open');
+                const toggle = openDropdown.querySelector('.paint-tabs-dropdown-toggle');
+                if (toggle) toggle.setAttribute('aria-expanded', 'false');
+            }
+        }
     });
 
     // Paint interactions (palette + click/drag painting)
@@ -1476,10 +1485,53 @@ function renderTable() {
         newScrollContainer.scrollTop = scrollTop;
     }
 
+    // Check if tabs overflow and toggle dropdown mode
+    checkPaintTabsOverflow();
+
     setupTableContestantDragDrop();
 
     updatePaintCursor();
 }
+
+function checkPaintTabsOverflow() {
+    const toolbar = document.querySelector('.paint-toolbar');
+    const tabs = document.querySelector('.paint-tabs');
+    const dropdown = document.querySelector('.paint-tabs-dropdown');
+    if (!toolbar || !tabs || !dropdown) return;
+
+    // Temporarily show tabs to measure
+    tabs.style.display = 'flex';
+    dropdown.style.display = 'none';
+    toolbar.classList.remove('tabs-overflow');
+
+    // Check if tabs wrap (height increases) or overflow container
+    const tabsRect = tabs.getBoundingClientRect();
+    const firstTab = tabs.querySelector('.paint-tab');
+    const lastTab = tabs.querySelector('.paint-tab:last-child');
+    
+    if (firstTab && lastTab) {
+        const firstRect = firstTab.getBoundingClientRect();
+        const lastRect = lastTab.getBoundingClientRect();
+        // If last tab's top is below first tab's top, tabs have wrapped
+        const hasWrapped = lastRect.top > firstRect.top + 2;
+        // Or if tabs overflow their container
+        const toolbarTop = toolbar.querySelector('.paint-toolbar-top');
+        const hasOverflow = toolbarTop && tabs.scrollWidth > toolbarTop.clientWidth * 0.7;
+        
+        if (hasWrapped || hasOverflow) {
+            toolbar.classList.add('tabs-overflow');
+        }
+    }
+
+    // Let CSS handle visibility based on class
+    tabs.style.display = '';
+    dropdown.style.display = '';
+}
+
+// Re-check on window resize
+window.addEventListener('resize', () => {
+    checkPaintTabsOverflow();
+});
 
 function updatePaintCursor() {
     const tableOnly = document.getElementById('tableOnly');
@@ -3003,6 +3055,9 @@ function renderPaintPalette(rootIds) {
         paintUiState.activeSectionKey = sections[0]?.key || null;
     }
 
+    const activeSection = sections.find(s => s.key === paintUiState.activeSectionKey);
+    const activeSectionTitle = activeSection ? escapeHtml(activeSection.title) : '';
+
     return `
         <div class="paint-toolbar" role="toolbar" aria-label="Placements">
             <div class="paint-toolbar-top">
@@ -3015,6 +3070,24 @@ function renderPaintPalette(rootIds) {
                             </button>
                         `;
                     }).join('')}
+                </div>
+                <div class="paint-tabs-dropdown">
+                    <button type="button" class="paint-tabs-dropdown-toggle" data-action="toggle-tabs-dropdown" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="paint-tabs-dropdown-label">${activeSectionTitle}</span>
+                        <svg class="paint-tabs-dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="paint-tabs-dropdown-menu" role="listbox">
+                        ${sections.map(s => {
+                            const isActive = s.key === paintUiState.activeSectionKey;
+                            return `
+                                <button type="button" class="paint-tabs-dropdown-item ${isActive ? 'active' : ''}" role="option" aria-selected="${isActive ? 'true' : 'false'}" data-action="tab" data-tab="${escapeHtml(s.key)}">
+                                    ${escapeHtml(s.title)}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
                 </div>
                 <div class="paint-toolbar-actions" aria-label="History">
                     <button type="button" class="paint-action" data-action="undo" ${undoDisabled} title="Undo (Ctrl+Z)" aria-label="Undo">
@@ -3199,6 +3272,26 @@ function handlePreviewClick(e) {
     if (actionBtn && actionBtn.dataset.action) {
         if (actionBtn.dataset.action === 'undo') undo();
         if (actionBtn.dataset.action === 'redo') redo();
+        return;
+    }
+
+    // Handle dropdown toggle
+    const dropdownToggle = e.target.closest('.paint-tabs-dropdown-toggle');
+    if (dropdownToggle) {
+        const dropdown = dropdownToggle.closest('.paint-tabs-dropdown');
+        dropdown.classList.toggle('open');
+        dropdownToggle.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+        return;
+    }
+
+    // Handle dropdown item click
+    const dropdownItem = e.target.closest('.paint-tabs-dropdown-item');
+    if (dropdownItem && dropdownItem.dataset.tab) {
+        paintUiState.openMenuIds.clear();
+        paintUiState.activeSectionKey = dropdownItem.dataset.tab;
+        const dropdown = dropdownItem.closest('.paint-tabs-dropdown');
+        if (dropdown) dropdown.classList.remove('open');
+        renderTable();
         return;
     }
 
