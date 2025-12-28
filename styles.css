@@ -482,6 +482,19 @@ header h1 {
     font-size: 0.875rem;
 }
 
+/* Style select dropdown options */
+.form-control option {
+    background: #1a1f35;
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
+.form-control option:hover,
+.form-control option:checked {
+    background: var(--accent);
+    color: #fff;
+}
+
 .form-control:focus {
     outline: none;
     border-color: var(--accent);
@@ -1061,7 +1074,7 @@ input[type="color"]::-moz-color-swatch {
 .track-record-table th {
     background: #eaecf0;
     color: #000;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .track-record-table .header-row th {
@@ -1079,7 +1092,7 @@ input[type="color"]::-moz-color-swatch {
 }
 
 .track-record-table .contestant-name-cell {
-    font-weight: bold;
+    font-weight: 500;
     min-width: 100px;
 }
 
@@ -1110,7 +1123,7 @@ input[type="color"]::-moz-color-swatch {
 
 .track-record-table .placement-cell {
     cursor: inherit;
-    font-weight: bold;
+    font-weight: 450;
     min-width: 55px;
     position: relative;
 }
