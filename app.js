@@ -1575,7 +1575,13 @@ function renderTable() {
     const newScrollContainer = document.getElementById('tableScroll');
     if (newScrollContainer) {
         newScrollContainer.scrollLeft = scrollLeft;
-        newScrollContainer.scrollTop = scrollTop;
+        // Since container is flipped with scaleY(-1), scrollTop 0 appears at bottom visually
+        // If no saved position, start at max scroll (which appears as top visually)
+        if (scrollTop === 0 && !existingScrollContainer) {
+            newScrollContainer.scrollTop = newScrollContainer.scrollHeight;
+        } else {
+            newScrollContainer.scrollTop = scrollTop;
+        }
         
         // Invert vertical scroll since container is flipped with scaleY(-1) for top scrollbar
         // Skip when Ctrl is held - that's used for horizontal scrolling
