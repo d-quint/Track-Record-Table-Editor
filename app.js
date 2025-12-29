@@ -79,6 +79,46 @@ const DEFAULT_PLACEMENTS_MERGED = [...DEFAULT_PLACEMENTS, ...LALAPARUZA_PLACEMEN
 const DEFAULT_PLACEMENT_IDS = new Set(DEFAULT_PLACEMENTS_MERGED.map(p => p.id));
 const DEFAULT_PLACEMENTS_BY_ID = Object.fromEntries(DEFAULT_PLACEMENTS_MERGED.map(p => [p.id, p]));
 
+// ===== TERMINAL PLACEMENTS =====
+// Centralized sets of placements that mark a contestant as "done competing"
+// Used for: auto-fill OUT, rank calculation (TBA vs actual rank), tie grouping
+
+// Elimination/exit placements - trigger auto-fill OUT for remaining episodes
+const ELIMINATION_PLACEMENTS = new Set([
+    'ELIM',
+    'FELIM',
+    'DELIM',
+    'ELIM_R1',
+    'EXTM',
+    'QUIT',
+    'DISQ',
+    'DEPT',
+    'CUT',
+    'HIGH_CUT',
+    'OUT_EVENT'
+]);
+
+// Finale placements - contestant finished the competition (doesn't trigger OUT)
+const FINALE_PLACEMENTS = new Set([
+    'WINNER',
+    'RUNNERUP',
+    'MISSCON',
+    'FIN_TOP3',
+    'FIN_TOP4',
+    'LSFTC',
+    'LSFTC_L1',
+    'LSFTC_L2',
+    'LSFTC_L3',
+    'LPRZW',
+    'LPRZ_L1',
+    'LPRZ_L2',
+    'LPRZ_L3',
+    'LPRZ_L4'
+]);
+
+// All terminal placements combined - used for rank TBA logic
+const TERMINAL_PLACEMENTS = new Set([...ELIMINATION_PLACEMENTS, ...FINALE_PLACEMENTS]);
+
 // Concise hover guidance for placements (shown as tooltips in palette/dropdown/list).
 // Keep these short and action-oriented (how to use in track record tables).
 const PLACEMENT_HELP = {
@@ -175,6 +215,17 @@ function getPlacementTooltipText(id, fallbackLabel) {
         const label = String(fallbackLabel || (baseLabel ? `${baseLabel} + DISQ` : placementId) || placementId).trim();
         if (!baseHelp) return label;
         return `${label} — ${baseHelp} then disqualified.`;
+    }
+
+    // Dynamic DEPT combinations (DEPT_<BASE>): reuse base placement help. Shows as BASE + DEPT.
+    if (!help && isDeptComboId(placementId)) {
+        const baseId = getDeptComboBaseId(placementId);
+        const base = baseId ? getPlacementById(canonicalizePlacementId(baseId)) : null;
+        const baseLabel = (base?.name || baseId || '').replace(/<br>/g, ' ').trim();
+        const baseHelp = baseId ? (PLACEMENT_HELP[String(canonicalizePlacementId(baseId))] || '') : '';
+        const label = String(fallbackLabel || (baseLabel ? `${baseLabel} + DEPT` : placementId) || placementId).trim();
+        if (!baseHelp) return label;
+        return `${label} — ${baseHelp} then departed.`;
     }
 
     if (!help) return String(fallbackLabel || id || '');
@@ -1650,6 +1701,21 @@ function renderPlacementCell(contestantId, epIdx, placementId, episodeCountMap, 
             textColor: disqPlacement?.textColor || '#ffffff',
             isOut: false
         };
+    } else if (isDeptComboId(canonicalId)) {
+        // DEPT combos show as BASE + DEPT and use DEPT's colors
+        const deptPlacement = getPlacementById('DEPT');
+        const baseId = placement?.basePlacementId || getDeptComboBaseId(canonicalId);
+        const baseCanonical = canonicalizePlacementId(baseId);
+        const basePlacement = getPlacementById(baseCanonical) || getPlacementById('EMPTY');
+        const effectiveBase = getEffectivePlacementForEpisodeColumn(basePlacement, baseCanonical, episodeCountMap);
+        const baseName = effectiveBase?.name || basePlacement?.name || baseCanonical || '';
+        effectivePlacement = {
+            ...effectiveBase,
+            name: `${baseName}<br>+<br>DEPT`,
+            bgColor: deptPlacement?.bgColor || 'plum',
+            textColor: deptPlacement?.textColor || '#000000',
+            isOut: false
+        };
     } else {
         effectivePlacement = getEffectivePlacementForEpisodeColumn(placement, canonicalId, episodeCountMap);
     }
@@ -1720,6 +1786,18 @@ function renderPlacementCell(contestantId, epIdx, placementId, episodeCountMap, 
         const basePart = effectiveBase?.bold ? `<b>${baseName}</b>` : baseName;
         const disqPart = disqPlacement?.bold ? '<b>DISQ</b>' : 'DISQ';
         content = `${basePart}<br>+<br>${disqPart}`;
+    } else if (isDeptComboId(canonicalId)) {
+        // BASE + DEPT combo: apply bold to each part independently
+        const deptPlacement = getPlacementById('DEPT');
+        const baseId = placement?.basePlacementId || getDeptComboBaseId(canonicalId);
+        const baseCanonical = canonicalizePlacementId(baseId);
+        const basePlacement = getPlacementById(baseCanonical) || getPlacementById('EMPTY');
+        const effectiveBase = getEffectivePlacementForEpisodeColumn(basePlacement, baseCanonical, episodeCountMap);
+        const baseName = effectiveBase?.name || basePlacement?.name || baseCanonical || '';
+        
+        const basePart = effectiveBase?.bold ? `<b>${baseName}</b>` : baseName;
+        const deptPart = deptPlacement?.bold ? '<b>DEPT</b>' : 'DEPT';
+        content = `${basePart}<br>+<br>${deptPart}`;
     } else if (canonicalId === 'HIGH_CUT') {
         // HIGH + CUT combo: apply bold to each part independently
         const highPlacement = getPlacementById('HIGH');
@@ -1841,6 +1919,13 @@ function applyPlacementToContestantInternal(contestantId, epIdx, placementId, op
         ensureDisqComboPlacement(comboId);
         placementId = comboId;
     }
+
+    // DEPT combo: painting another placement on DEPT creates DEPT_<BASE>
+    if (!historyState.isApplying && before === 'DEPT' && placementId !== 'EMPTY' && placementId !== 'DEPT') {
+        const comboId = `DEPT_${placementId}`;
+        ensureDeptComboPlacement(comboId);
+        placementId = comboId;
+    }
     
     contestant.placements[epIdx] = placementId;
     changes.push({ contestantId, epIdx, from: before, to: placementId });
@@ -1855,25 +1940,13 @@ function applyPlacementToContestantInternal(contestantId, epIdx, placementId, op
     } else if (isDisqComboId(placementId)) {
         // DISQ combos are always terminal (DISQ itself is terminal)
         autoOutId = 'DISQ';
+    } else if (isDeptComboId(placementId)) {
+        // DEPT combos are always terminal (DEPT itself is terminal)
+        autoOutId = 'DEPT';
     }
 
-    const nonCompetingPlacements = new Set([
-        // Main elim variants
-        'ELIM',
-        'FELIM',
-        'DELIM',
-        'ELIM_R1',
-        // Other formats / terminal statuses
-        'EXTM',
-        'QUIT',
-        'DISQ',
-        'DEPT',
-        // All Stars terminal statuses
-        'CUT',
-        'HIGH_CUT'
-    ]);
-
-    const shouldAutoFillOut = nonCompetingPlacements.has(autoOutId) || nonCompetingPlacements.has(canonicalizePlacementId(autoOutId));
+    // Use centralized ELIMINATION_PLACEMENTS for auto-fill OUT logic
+    const shouldAutoFillOut = ELIMINATION_PLACEMENTS.has(autoOutId) || ELIMINATION_PLACEMENTS.has(canonicalizePlacementId(autoOutId));
 
     if (state.autoFillOut && shouldAutoFillOut) {
         for (let i = epIdx + 1; i < state.episodes.length; i++) {
@@ -2134,6 +2207,9 @@ function addEpisode() {
             } else if (isDisqComboId(canonId)) {
                 // DISQ combos are terminal
                 baseId = 'DISQ';
+            } else if (isDeptComboId(canonId)) {
+                // DEPT combos are terminal
+                baseId = 'DEPT';
             }
             return outPlacements.has(baseId);
         });
@@ -3131,6 +3207,8 @@ function normalizePlacementsFromLoadedState() {
                 ensureQuitComboPlacement(id);
             } else if (isDisqComboId(id)) {
                 ensureDisqComboPlacement(id);
+            } else if (isDeptComboId(id)) {
+                ensureDeptComboPlacement(id);
             }
         }
     }
@@ -3318,6 +3396,56 @@ function ensureDisqComboPlacement(comboId) {
     }
 }
 
+// ===== DEPT COMBO HELPERS =====
+function isDeptComboId(id) {
+    return typeof id === 'string' && id.startsWith('DEPT_') && id.length > 'DEPT_'.length;
+}
+
+function getDeptComboBaseId(comboId) {
+    if (!isDeptComboId(comboId)) return '';
+    return comboId.slice('DEPT_'.length);
+}
+
+function ensureDeptComboPlacement(comboId) {
+    if (!isDeptComboId(comboId)) return;
+    if (!state.placementsById) return;
+
+    const baseId = getDeptComboBaseId(comboId);
+    const baseCanonical = canonicalizePlacementId(baseId);
+    const base = getPlacementById(baseCanonical);
+    if (!base) return;
+
+    const deptPlacement = getPlacementById('DEPT');
+
+    if (!state.placementsById[comboId]) {
+        // DEPT combos show as BASE + DEPT and use DEPT's colors
+        state.placementsById[comboId] = {
+            id: comboId,
+            name: `${base.name || baseCanonical || baseId}<br>+<br>DEPT`,
+            bgColor: deptPlacement?.bgColor || 'plum',
+            textColor: deptPlacement?.textColor || '#000000',
+            bold: deptPlacement?.bold ?? true,
+            isOut: false,
+            hidden: false,
+            children: [],
+            collapsed: false,
+            basePlacementId: baseCanonical
+        };
+    } else {
+        // Old saves may have these as hidden prebuilt variants; unhide and normalize.
+        state.placementsById[comboId].hidden = false;
+        state.placementsById[comboId].basePlacementId = state.placementsById[comboId].basePlacementId || baseCanonical;
+        if (!Array.isArray(state.placementsById[comboId].children)) state.placementsById[comboId].children = [];
+        if (typeof state.placementsById[comboId].collapsed !== 'boolean') state.placementsById[comboId].collapsed = false;
+    }
+
+    const dept = state.placementsById.DEPT;
+    if (dept) {
+        if (!Array.isArray(dept.children)) dept.children = [];
+        if (!dept.children.includes(comboId)) dept.children.push(comboId);
+    }
+}
+
 function isWinVariant(id) {
     // All WIN variants should count as WIN for TOP auto-numbering
     return id === 'WIN' || (typeof id === 'string' && id.startsWith('WIN_'));
@@ -3328,6 +3456,7 @@ function getPlacementIdForCounts(rawId) {
     if (isRtrnComboId(id)) return canonicalizePlacementId(getRtrnComboBaseId(id));
     if (isQuitComboId(id)) return canonicalizePlacementId(getQuitComboBaseId(id));
     if (isDisqComboId(id)) return canonicalizePlacementId(getDisqComboBaseId(id));
+    if (isDeptComboId(id)) return canonicalizePlacementId(getDeptComboBaseId(id));
     // Map all WIN variants to 'WIN' for counting purposes (TOP auto-numbering)
     if (isWinVariant(id)) return 'WIN';
     return id;
@@ -3553,7 +3682,7 @@ function buildPaintSections(rootIds) {
     const other = ['OUT', 'EMPTY'];
     const performance = ['WIN', 'TOP', 'HIGH', 'SAFE', 'LOW', 'BTM', 'ELIM', ...other];
     const finale = ['WINNER', 'RUNNERUP', 'GUEST', 'MISSCON', 'FIN_TOP3', 'FIN_TOP4', 'LSFTC', 'FAME'];
-    const events = ['RUN', 'LPRZW', 'SMACK_LOSS', 'DEPT', 'CUT', 'BLOCK', 'OUT_EVENT', 'RTRN', 'QUIT', 'DISQ'];
+    const events = ['RUN', 'LPRZW', 'SMACK_LOSS', 'CUT', 'BLOCK', 'OUT_EVENT', 'RTRN', 'QUIT', 'DISQ', 'DEPT'];
 
     // Only show true roots in the palette (never show an ID both as a root chip and as a submenu item).
     const childIds = new Set();
@@ -3964,6 +4093,14 @@ function computeRankLabelsForCurrentOrder() {
 
     for (let idx = 0; idx < state.contestants.length; idx++) {
         const c = state.contestants[idx];
+        
+        // Check if contestant has hit any terminal placement
+        const hasTerminalPlacement = contestantHasTerminalPlacement(c);
+        if (!hasTerminalPlacement) {
+            labels[idx] = 'TBA';
+            continue;
+        }
+        
         const key = getContestantTieKey(c);
         if (!key) continue;
         const arr = tieGroups.get(key) || [];
@@ -3980,6 +4117,30 @@ function computeRankLabelsForCurrentOrder() {
     }
 
     return labels;
+}
+
+// Check if a contestant has any terminal placement (elimination or finale)
+function contestantHasTerminalPlacement(contestant) {
+    if (!contestant || !Array.isArray(contestant.placements)) return false;
+    
+    for (const p of contestant.placements) {
+        const raw = canonicalizePlacementId(p || 'EMPTY');
+        
+        // Handle combo placements (RTRN_, QUIT_, DISQ_)
+        let baseId = raw;
+        if (isRtrnComboId(raw)) {
+            baseId = canonicalizePlacementId(getRtrnComboBaseId(raw));
+        } else if (isQuitComboId(raw)) {
+            baseId = 'QUIT'; // QUIT combos are terminal
+        } else if (isDisqComboId(raw)) {
+            baseId = 'DISQ'; // DISQ combos are terminal
+        } else if (isDeptComboId(raw)) {
+            baseId = 'DEPT'; // DEPT combos are terminal
+        }
+        
+        if (TERMINAL_PLACEMENTS.has(baseId)) return true;
+    }
+    return false;
 }
 
 function getContestantTieKey(contestant) {
@@ -4005,22 +4166,22 @@ function getContestantTieKey(contestant) {
 
     // Group together contestants who stop competing in the same episode.
     // This covers double eliminations, multiple finale eliminations, etc.
-    const nonCompeting = new Set([
-        'ELIM',
-        'FELIM',
-        'DELIM',
-        'ELIM_R1',
-        'EXTM',
-        'QUIT',
-        'DISQ',
-        'DEPT',
-        'OUT_EVENT'
-    ]);
-
     for (let epIdx = 0; epIdx < placements.length; epIdx++) {
         const raw = placements[epIdx] || 'EMPTY';
-        const base = isRtrnComboId(raw) ? canonicalizePlacementId(getRtrnComboBaseId(raw)) : raw;
-        if (nonCompeting.has(base)) return `EXIT:${epIdx}`;
+        
+        // Handle combo placements
+        let baseId = raw;
+        if (isRtrnComboId(raw)) {
+            baseId = canonicalizePlacementId(getRtrnComboBaseId(raw));
+        } else if (isQuitComboId(raw)) {
+            baseId = 'QUIT';
+        } else if (isDisqComboId(raw)) {
+            baseId = 'DISQ';
+        } else if (isDeptComboId(raw)) {
+            baseId = 'DEPT';
+        }
+        
+        if (ELIMINATION_PLACEMENTS.has(baseId)) return `EXIT:${epIdx}`;
     }
 
     return null;
