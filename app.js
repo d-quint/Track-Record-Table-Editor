@@ -1576,6 +1576,15 @@ function renderTable() {
     if (newScrollContainer) {
         newScrollContainer.scrollLeft = scrollLeft;
         newScrollContainer.scrollTop = scrollTop;
+        
+        // Invert vertical scroll since container is flipped with scaleY(-1) for top scrollbar
+        // Skip when Ctrl is held - that's used for horizontal scrolling
+        newScrollContainer.addEventListener('wheel', (e) => {
+            if (e.deltaY !== 0 && !e.ctrlKey) {
+                e.preventDefault();
+                newScrollContainer.scrollTop -= e.deltaY;
+            }
+        }, { passive: false });
     }
 
     // Check if tabs overflow and toggle dropdown mode

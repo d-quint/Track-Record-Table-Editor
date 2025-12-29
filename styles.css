@@ -391,6 +391,13 @@ header h1 {
     overflow-y: auto;
     max-width: 100%;
     max-height: calc(100vh - 220px);
+    /* Flip the container to move horizontal scrollbar to top */
+    transform: scaleY(-1);
+}
+
+/* Flip the content back so it displays correctly */
+.table-scroll > .table-stage {
+    transform: scaleY(-1);
 }
 
 /* ===== BUTTONS ===== */
