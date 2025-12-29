@@ -87,6 +87,14 @@
                 </span>
                 <span class="app-title-full">Track Record Table Editor</span>
                 <span class="app-title-short">TR Editor</span>
+                <button class="version-badge" id="showChangelog" title="What's new in v1.2">
+                    <span class="version-text">v1.2</span>
+                    <svg class="version-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4"/>
+                        <path d="M12 8h.01"/>
+                    </svg>
+                </button>
             </h1>
             <div class="header-actions">
                 <button class="btn btn-secondary" id="saveProject">
@@ -410,6 +418,82 @@
                 </a>
             </p>
         </footer>
+    </div>
+
+    <!-- Changelog Modal -->
+    <div class="modal-overlay" id="changelogModal">
+        <div class="modal changelog-modal">
+            <div class="modal-header">
+                <h2>✨ What's New</h2>
+                <button class="modal-close" onclick="closeChangelogModal()">&times;</button>
+            </div>
+            <div class="changelog-content">
+                <div class="changelog-version">
+                    <div class="changelog-version-header">
+                        <span class="changelog-version-tag">v1.2</span>
+                        <span class="changelog-date">December 2024</span>
+                    </div>
+                    
+                    <div class="changelog-section">
+                        <h4>🎭 New: QUIT &amp; DISQ Combo Placements</h4>
+                        <ul>
+                            <li><strong>QUIT + combos</strong> — Paint any placement on top of a QUIT cell to create combos like <em>WIN + QUIT</em>. The cell keeps QUIT's pink color so it's clear they left.</li>
+                            <li><strong>DISQ + combos</strong> — Same idea! Paint on a DISQ cell to create combos like <em>HIGH + DISQ</em>. Keeps the black DISQ background.</li>
+                        </ul>
+                        <p class="changelog-tip">💡 Try it: Paint QUIT on a cell (find it in <strong>Events tab</strong>), then paint WIN on top!</p>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>⭐ New: All Stars WIN Variants</h4>
+                        <p class="changelog-intro">3 new placements added for Lip Sync Assassin format seasons:</p>
+                        <ul>
+                            <li><strong>WIN (LS Win)</strong> — Top All Star won the lip sync alongside the Assassin (darkblue)</li>
+                            <li><strong>WIN (LS Loss)</strong> — Top All Star lost to the Assassin (light blue)</li>
+                            <li><strong>WIN (LS Tie)</strong> — Tie in group voting, still had elimination power (steelblue)</li>
+                        </ul>
+                        <p class="changelog-tip">📍 Find them: <strong>Placements tab</strong> → click the ▸ arrow next to <strong>WIN</strong> to expand</p>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>💃 New: Rudemption Smackdown Placements</h4>
+                        <p class="changelog-intro">3 new placements for Rudemption Lip Sync Smackdown episodes:</p>
+                        <ul>
+                            <li><strong>LOSS</strong> — Lost the smackdown and didn't continue (pink/red)</li>
+                            <li><strong>WIN</strong> — Won the smackdown and advanced (light blue)</li>
+                            <li><strong>SOLO</strong> — Performed solo when opponent sat out (light green)</li>
+                        </ul>
+                        <p class="changelog-tip">📍 Find them: <strong>Events tab</strong> → <strong>LOSS</strong> chip → click ▸ to expand</p>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>🔧 Improvements</h4>
+                        <ul>
+                            <li><strong>Smarter TOP numbering</strong> — All WIN variants (including the new All Stars ones) now count toward TOP2/TOP3 auto-numbering</li>
+                            <li><strong>Better bold handling</strong> — Combo placements now respect each part's bold setting separately</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="changelog-version">
+                    <div class="changelog-version-header">
+                        <span class="changelog-version-tag">v1.1</span>
+                        <span class="changelog-date">November 2024</span>
+                    </div>
+                    
+                    <div class="changelog-section">
+                        <h4>🚀 Launch Features</h4>
+                        <ul>
+                            <li>Paint placements with click-and-drag</li>
+                            <li>Auto-numbering for TOP/BTM placements</li>
+                            <li>Border overlays (Immunity, Chocolate Bar, etc.)</li>
+                            <li>Subtext labels for mini challenge wins</li>
+                            <li>Export to HTML or PNG</li>
+                            <li>Save and load projects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Export Modal -->

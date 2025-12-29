@@ -793,6 +793,10 @@ function setupEventListeners() {
     document.getElementById('newBlankProject').addEventListener('click', newBlankProject);
     document.getElementById('resetProject').addEventListener('click', resetProject);
 
+    // Changelog modal
+    const changelogBtn = document.getElementById('showChangelog');
+    if (changelogBtn) changelogBtn.addEventListener('click', showChangelogModal);
+
     // Episode label editing (sync both checkboxes)
     const customEpisodeLabels = document.getElementById('customEpisodeLabels');
     const customEpisodeLabelsSettings = document.getElementById('customEpisodeLabelsSettings');
@@ -2833,7 +2837,24 @@ function showExportModal(html) {
 }
 
 function closeModal() {
-    document.querySelector('.modal-overlay').classList.remove('active');
+    document.querySelector('.modal-overlay.active')?.classList.remove('active');
+}
+
+// ===== CHANGELOG MODAL =====
+function showChangelogModal() {
+    const modal = document.getElementById('changelogModal');
+    if (modal) {
+        modal.classList.add('active');
+        // Close on overlay click
+        modal.onclick = (e) => {
+            if (e.target === modal) closeChangelogModal();
+        };
+    }
+}
+
+function closeChangelogModal() {
+    const modal = document.getElementById('changelogModal');
+    if (modal) modal.classList.remove('active');
 }
 
 function copyHtmlToClipboard() {
