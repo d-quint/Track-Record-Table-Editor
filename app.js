@@ -46,7 +46,7 @@ const DEFAULT_PLACEMENTS = [
     { id: 'SMACK_LOSS', name: 'LOSS', bgColor: '#ff9e9e', textColor: '#000000', bold: false },
     { id: 'SMACK_WIN', name: 'WIN', bgColor: 'lightskyblue', textColor: '#000000', bold: false },
     { id: 'SMACK_SOLO', name: 'SOLO', bgColor: 'lightgreen', textColor: '#000000', bold: false },
-    { id: 'FAME', name: 'FAME GAMES WINNER', bgColor: '#C7DDB5', textColor: '#000000', bold: false },
+    { id: 'FAME', name: 'FAME GAMES WINNER', bgColor: '#C7DDB5', textColor: '#000000', bold: true },
     { id: 'RUN', name: 'RUN', bgColor: '#D3FFB5', textColor: '#000000', bold: true },
     { id: 'GUEST', name: 'GUEST', bgColor: 'gainsboro', textColor: '#000000', bold: false },
     { id: 'DEPT', name: 'DEPT', bgColor: 'plum', textColor: '#000000', bold: true },
