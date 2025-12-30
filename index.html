@@ -87,8 +87,8 @@
                 </span>
                 <span class="app-title-full">Track Record Table Editor</span>
                 <span class="app-title-short">TR Editor</span>
-                <button class="version-badge" id="showChangelog" title="What's new in v1.2.1">
-                    <span class="version-text">v1.2.1</span>
+                <button class="version-badge" id="showChangelog" title="What's new in v1.3">
+                    <span class="version-text">v1.3</span>
                     <svg class="version-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/>
                         <path d="M12 16v-4"/>
@@ -504,6 +504,18 @@
                     </div>
 
                     <div class="changelog-section">
+                        <h4>🌍 Global Mode</h4>
+                        <p class="changelog-intro">Show country flags beside contestant names (like Global All Stars):</p>
+                        <ul>
+                            <li><strong>Enable Global Mode</strong> — Go to Settings → check "Global Mode" to add a flag column</li>
+                            <li><strong>Set flags in sidebar</strong> — Use the flag dropdown next to each contestant's name to pick their country</li>
+                            <li><strong>Set flags in table</strong> — Click directly on a flag cell in the table to change it</li>
+                            <li><strong>Stacked flags</strong> — Some options like "Down Under" show multiple flags stacked together</li>
+                        </ul>
+                        <p class="changelog-tip">💡 Flags export correctly in both PNG and HTML!</p>
+                    </div>
+
+                    <div class="changelog-section">
                         <h4>💾 Saving &amp; Exporting</h4>
                         <ul>
                             <li><strong>Save Project</strong> — Downloads a .json file with all your work (queens, episodes, placements)</li>
@@ -526,6 +538,34 @@
                 <button class="modal-close" onclick="closeChangelogModal()">&times;</button>
             </div>
             <div class="changelog-content">
+                <div class="changelog-version">
+                    <div class="changelog-version-header">
+                        <span class="changelog-version-tag">v1.3</span>
+                        <span class="changelog-date">December 31, 2025</span>
+                    </div>
+                    
+                    <div class="changelog-section">
+                        <h4>🌍 New: Global Mode</h4>
+                        <p class="changelog-intro">Show country flags beside contestant names, just like global season tables!</p>
+                        <ul>
+                            <li><strong>Flag column</strong> — Enable in Settings → "Global Mode" to add a flag column next to contestant names</li>
+                            <li><strong>Easy selection</strong> — Pick flags from the dropdown in the sidebar, or click directly on flag cells in the table</li>
+                            <li><strong>All franchises</strong> — Includes flags for all Drag Race franchises with their in-show names (Italia, Sverige, Belgique, etc.)</li>
+                            <li><strong>Stacked flags</strong> — "Down Under" shows both Australia and New Zealand flags stacked together</li>
+                        </ul>
+                        <p class="changelog-tip">📍 Find it: Settings panel → check "Global Mode"</p>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>🔧 Fixes</h4>
+                        <ul>
+                            <li><strong>RTRN + ELIM combos</strong> — Queens who returned and got eliminated in the same episode now correctly show a rank instead of TBA</li>
+                            <li><strong>Export text wrapping</strong> — Fixed text wrapping issues in exported PNG images</li>
+                            <li><strong>Export stacked flags</strong> — Stacked flags now render correctly in exported images</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="changelog-version">
                     <div class="changelog-version-header">
                         <span class="changelog-version-tag">v1.2.1</span>
