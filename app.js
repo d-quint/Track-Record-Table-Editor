@@ -4142,49 +4142,160 @@ function formatRankRange(minPos, maxPos) {
 }
 
 function computeRankLabelsForCurrentOrder() {
-    const labels = state.contestants.map((_, idx) => getRank(idx));
-    const tieGroups = new Map();
-
+    const labels = state.contestants.map(() => 'TBA');
+    const totalContestants = state.contestants.length;
+    
+    // Collect contestants with terminal placements and their exit info
+    const rankedContestants = [];
+    
     for (let idx = 0; idx < state.contestants.length; idx++) {
         const c = state.contestants[idx];
         
-        // Check if contestant has hit any terminal placement
+        // Check if contestant has hit any terminal placement (and hasn't returned since)
         const hasTerminalPlacement = contestantHasTerminalPlacement(c);
         if (!hasTerminalPlacement) {
             labels[idx] = 'TBA';
             continue;
         }
         
-        const key = getContestantTieKey(c);
-        if (!key) continue;
+        const exitInfo = getContestantExitInfo(c);
+        rankedContestants.push({ idx, exitInfo });
+    }
+    
+    // Sort by exit priority (lower = eliminated earlier = worse rank = higher number)
+    // Finale placements have high priority (1000+), regular exits have episode number
+    rankedContestants.sort((a, b) => {
+        const aPriority = a.exitInfo.priority;
+        const bPriority = b.exitInfo.priority;
+        
+        // Higher priority = better rank (lower number)
+        if (aPriority !== bPriority) return aPriority - bPriority;
+        
+        // Same priority - they tie
+        return 0;
+    });
+    
+    // Group ties by tieKey
+    const tieGroups = new Map();
+    for (const { idx, exitInfo } of rankedContestants) {
+        const key = exitInfo.tieKey;
         const arr = tieGroups.get(key) || [];
         arr.push(idx);
         tieGroups.set(key, arr);
     }
-
-    for (const indices of tieGroups.values()) {
-        if (!indices || indices.length < 2) continue;
-        const minIdx = Math.min(...indices);
-        const maxIdx = Math.max(...indices);
-        const label = formatRankRange(minIdx + 1, maxIdx + 1);
-        for (const i of indices) labels[i] = label;
+    
+    // Assign ranks from the bottom up
+    // First eliminated = last place (total queens), last eliminated = best rank among eliminated
+    // Number of TBA queens at elimination determines rank
+    let eliminatedSoFar = 0;
+    const processedKeys = new Set();
+    
+    for (const { exitInfo } of rankedContestants) {
+        const key = exitInfo.tieKey;
+        if (processedKeys.has(key)) continue;
+        processedKeys.add(key);
+        
+        const indices = tieGroups.get(key) || [];
+        // Rank = total contestants - number eliminated before this group
+        const rankStart = totalContestants - eliminatedSoFar;
+        const rankEnd = rankStart - indices.length + 1;
+        
+        if (indices.length === 1) {
+            labels[indices[0]] = getRank(rankStart - 1); // getRank is 0-indexed
+        } else {
+            // Tied contestants share a range (e.g., "5th-6th")
+            const label = formatRankRange(rankEnd, rankStart);
+            for (const i of indices) labels[i] = label;
+        }
+        eliminatedSoFar += indices.length;
     }
 
     return labels;
 }
 
+// Get exit information for ranking purposes
+function getContestantExitInfo(contestant) {
+    if (!contestant || !Array.isArray(contestant.placements)) {
+        return { priority: -1000, tieKey: 'UNKNOWN' };
+    }
+
+    const placements = contestant.placements.map(p => canonicalizePlacementId(p || 'EMPTY'));
+    const numEpisodes = placements.length;
+
+    // Finale placements get highest priority
+    if (placements.includes('WINNER')) {
+        return { priority: numEpisodes + 1000, tieKey: 'FINAL:WINNER' };
+    }
+    if (placements.includes('RUNNERUP')) {
+        return { priority: numEpisodes + 999, tieKey: 'FINAL:RUNNERUP' };
+    }
+
+    // LSFTC losers
+    const lsftcEarlyRounds = ['LSFTC_L1', 'LSFTC_L2'];
+    for (let epIdx = 0; epIdx < placements.length; epIdx++) {
+        const p = placements[epIdx];
+        if (lsftcEarlyRounds.includes(p)) {
+            return { priority: numEpisodes + 998, tieKey: `FINAL:LSFTC_EP${epIdx}` };
+        }
+    }
+    if (placements.includes('LSFTC_L3')) {
+        return { priority: numEpisodes + 997, tieKey: 'FINAL:LSFTC_L3' };
+    }
+
+    // Find the LAST terminal placement episode (after any returns)
+    let lastTerminalEpisode = -1;
+    let lastReturnEpisode = -1;
+    
+    for (let epIdx = 0; epIdx < placements.length; epIdx++) {
+        const raw = placements[epIdx];
+        
+        if (raw === 'RTRN' || isRtrnComboId(raw)) {
+            lastReturnEpisode = epIdx;
+            continue;
+        }
+        
+        let baseId = raw;
+        if (isQuitComboId(raw)) baseId = 'QUIT';
+        else if (isDisqComboId(raw)) baseId = 'DISQ';
+        else if (isDeptComboId(raw)) baseId = 'DEPT';
+        
+        if (ELIMINATION_PLACEMENTS.has(baseId)) {
+            // Only count if after last return
+            if (epIdx > lastReturnEpisode) {
+                lastTerminalEpisode = epIdx;
+            }
+        }
+    }
+
+    if (lastTerminalEpisode >= 0) {
+        // Priority = episode number (later = higher priority = better rank)
+        return { priority: lastTerminalEpisode, tieKey: `EXIT:${lastTerminalEpisode}` };
+    }
+
+    return { priority: -1000, tieKey: 'UNKNOWN' };
+}
+
 // Check if a contestant has any terminal placement (elimination or finale)
+// Returns false if they returned to the competition after being eliminated
 function contestantHasTerminalPlacement(contestant) {
     if (!contestant || !Array.isArray(contestant.placements)) return false;
     
-    for (const p of contestant.placements) {
+    let lastTerminalEpisode = -1;
+    let lastReturnEpisode = -1;
+    
+    for (let epIdx = 0; epIdx < contestant.placements.length; epIdx++) {
+        const p = contestant.placements[epIdx];
         const raw = canonicalizePlacementId(p || 'EMPTY');
         
-        // Handle combo placements (RTRN_, QUIT_, DISQ_)
+        // Check if this is a RTRN or RTRN combo (they returned to competition)
+        if (raw === 'RTRN' || isRtrnComboId(raw)) {
+            lastReturnEpisode = epIdx;
+            continue;
+        }
+        
+        // Handle combo placements (QUIT_, DISQ_, DEPT_)
         let baseId = raw;
-        if (isRtrnComboId(raw)) {
-            baseId = canonicalizePlacementId(getRtrnComboBaseId(raw));
-        } else if (isQuitComboId(raw)) {
+        if (isQuitComboId(raw)) {
             baseId = 'QUIT'; // QUIT combos are terminal
         } else if (isDisqComboId(raw)) {
             baseId = 'DISQ'; // DISQ combos are terminal
@@ -4192,9 +4303,18 @@ function contestantHasTerminalPlacement(contestant) {
             baseId = 'DEPT'; // DEPT combos are terminal
         }
         
-        if (TERMINAL_PLACEMENTS.has(baseId)) return true;
+        if (TERMINAL_PLACEMENTS.has(baseId)) {
+            lastTerminalEpisode = epIdx;
+        }
     }
-    return false;
+    
+    // If they returned AFTER their last terminal placement, they're back in competition (TBA)
+    if (lastReturnEpisode > lastTerminalEpisode) {
+        return false;
+    }
+    
+    // They have a terminal placement and haven't returned since
+    return lastTerminalEpisode >= 0;
 }
 
 function getContestantTieKey(contestant) {
