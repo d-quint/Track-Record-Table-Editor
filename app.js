@@ -76,6 +76,30 @@ const LALAPARUZA_PLACEMENTS = [
 // Merge LaLaPaRUZa placements into DEFAULT_PLACEMENTS
 const DEFAULT_PLACEMENTS_MERGED = [...DEFAULT_PLACEMENTS, ...LALAPARUZA_PLACEMENTS];
 
+// ===== GLOBAL FLAGS =====
+// Country flags for Global Mode (similar to Global All Stars format)
+// urls is an array to support stacked flags (like Down Under = Australia + New Zealand)
+const GLOBAL_FLAGS = [
+    { id: 'NONE', name: 'No Flag', urls: [] },
+    { id: 'USA', name: 'USA', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/6/62/USA_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180116'] },
+    { id: 'UK', name: 'UK', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b6/UK_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180115'] },
+    { id: 'CANADA', name: 'Canada', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/55/Canada_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180117'] },
+    { id: 'DOWN_UNDER', name: 'Australia/New Zealand (Down Under)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b0/Australia_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180112', 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/1/18/New_Zealand_Flag.png/revision/latest/scale-to-width-down/40?cb=20210303195242'] },
+    { id: 'FRANCE', name: 'France', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/57/France_Flag.png/revision/latest/scale-to-width-down/40?cb=20220630143255'] },
+    { id: 'SPAIN', name: 'Spain (España)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/8/89/Spain_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180116'] },
+    { id: 'ITALY', name: 'Italy (Italia)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/7/7a/Italy_Flag.png/revision/latest/scale-to-width-down/40?cb=20210306124828'] },
+    { id: 'GERMANY', name: 'Germany', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/52/Germany_Flag.png/revision/latest/scale-to-width-down/40?cb=20210324154610'] },
+    { id: 'BELGIUM', name: 'Belgium (Belgique)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/3/32/Belgium_Flag.png/revision/latest/scale-to-width-down/40?cb=20221019202342'] },
+    { id: 'NETHERLANDS', name: 'Netherlands (Holland)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/d/d8/Netherlands_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180113'] },
+    { id: 'SWEDEN', name: 'Sweden (Sverige)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/f/fa/Sweden_Flag.png/revision/latest/scale-to-width-down/40?cb=20220405125426'] },
+    { id: 'MEXICO', name: 'Mexico (México)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b1/Mexico_Flag.png/revision/latest/scale-to-width-down/40?cb=20220106021120'] },
+    { id: 'BRAZIL', name: 'Brazil (Brasil)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/0/07/Brazil_Flag.png/revision/latest/scale-to-width-down/40?cb=20210605175730'] },
+    { id: 'PHILIPPINES', name: 'Philippines', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/56/Philippines_Flag.png/revision/latest/scale-to-width-down/40?cb=20210816162235'] },
+    { id: 'THAILAND', name: 'Thailand', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/e/e6/Thailand_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180113'] }
+];
+
+const GLOBAL_FLAGS_BY_ID = Object.fromEntries(GLOBAL_FLAGS.map(f => [f.id, f]));
+
 const DEFAULT_PLACEMENT_IDS = new Set(DEFAULT_PLACEMENTS_MERGED.map(p => p.id));
 const DEFAULT_PLACEMENTS_BY_ID = Object.fromEntries(DEFAULT_PLACEMENTS_MERGED.map(p => [p.id, p]));
 
@@ -315,6 +339,7 @@ let state = {
     showAge: true,
     showLocation: true,
     allStarsMode: false,
+    globalMode: false,
     customEpisodeLabels: false,
     groupsEnabled: false,
     groups: DEFAULT_GROUPS.map(g => ({ ...g })),
@@ -382,7 +407,8 @@ function syncSettingsUI() {
         photoSize: document.getElementById('photoSize'),
         photoSizeValue: document.getElementById('photoSizeValue'),
         autoFillOut: document.getElementById('autoFillOut'),
-        showRankColumn: document.getElementById('showRankColumn')
+        showRankColumn: document.getElementById('showRankColumn'),
+        globalMode: document.getElementById('globalMode')
     };
 
     if (els.tableTitle) els.tableTitle.value = state.title || 'Season 1 Track Record';
@@ -390,6 +416,7 @@ function syncSettingsUI() {
     if (els.showAge) els.showAge.checked = !!state.showAge;
     if (els.showLocation) els.showLocation.checked = !!state.showLocation;
     if (els.allStarsMode) els.allStarsMode.checked = !!state.allStarsMode;
+    if (els.globalMode) els.globalMode.checked = !!state.globalMode;
     if (els.enableGroups) els.enableGroups.checked = !!state.groupsEnabled;
     if (els.enableGroupsSettings) els.enableGroupsSettings.checked = !!state.groupsEnabled;
     if (els.customEpisodeLabels) els.customEpisodeLabels.checked = !!state.customEpisodeLabels;
@@ -430,6 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.autoFillOut === undefined) state.autoFillOut = true;
     if (state.showRankColumn === undefined) state.showRankColumn = true;
     if (state.allStarsMode === undefined) state.allStarsMode = false;
+    if (state.globalMode === undefined) state.globalMode = false;
     syncSettingsUI();
     initTabs();
     renderAll();
@@ -804,6 +832,12 @@ function setupEventListeners() {
         renderTable();
     });
 
+    document.getElementById('globalMode').addEventListener('change', (e) => {
+        state.globalMode = e.target.checked;
+        renderContestantsList();
+        renderTable();
+    });
+
     // Title input (record undo/redo on blur to avoid spamming history)
     const tableTitleInput = document.getElementById('tableTitle');
     let titleEditStart = null;
@@ -1114,6 +1148,14 @@ function renderContestantsList() {
                         ${(state.groups || []).map(g => `<option value="${escapeHtml(g.id)}" ${c.groupId === g.id ? 'selected' : ''}>${escapeHtml(g.name)}</option>`).join('')}
                     </select>
                 ` : ''}
+                ${state.globalMode ? `
+                    <div class="contestant-flag-row">
+                        <div class="contestant-flag-preview">${getFlagHtmlSmall(c.flagId)}</div>
+                        <select class="form-control contestant-flag-select" onchange="updateContestant(${c.id}, 'flagId', this.value)" title="Country Flag">
+                            ${GLOBAL_FLAGS.map(f => `<option value="${escapeHtml(f.id)}" ${(c.flagId || 'NONE') === f.id ? 'selected' : ''}>${escapeHtml(f.name)}</option>`).join('')}
+                        </select>
+                    </div>
+                ` : ''}
                 ${state.allStarsMode ? `
                 <div style="display: flex; gap: 4px;">
                     <input type="text" class="form-control" style="flex: 1" value="${escapeHtml(c.originalSeason || '')}" 
@@ -1140,6 +1182,74 @@ function renderContestantsList() {
 
 let imageInputMenuState = null;
 let armedImagePaste = null;
+let flagMenuState = null;
+
+// ===== FLAG MENU =====
+function closeFlagMenu() {
+    if (!flagMenuState) return;
+    const { menuEl, onDocPointerDown } = flagMenuState;
+    if (menuEl && menuEl.parentNode) menuEl.parentNode.removeChild(menuEl);
+    document.removeEventListener('pointerdown', onDocPointerDown, true);
+    flagMenuState = null;
+}
+
+function openFlagMenu(event, contestantId) {
+    event.stopPropagation();
+    closeFlagMenu();
+    closeImageInputMenu();
+
+    const anchorEl = event.currentTarget;
+    const contestant = state.contestants.find(c => c.id === contestantId);
+    if (!contestant) return;
+
+    const menuEl = document.createElement('div');
+    menuEl.className = 'flag-menu';
+    menuEl.setAttribute('role', 'menu');
+    menuEl.innerHTML = GLOBAL_FLAGS.map(f => `
+        <button type="button" class="flag-menu-item ${(contestant.flagId || 'NONE') === f.id ? 'selected' : ''}" data-flag-id="${escapeHtml(f.id)}">
+            ${f.urls && f.urls.length > 0 ? f.urls.map(url => `<img src="${escapeHtml(url)}" alt="" class="flag-menu-img">`).join('') : '<span class="flag-menu-none">✕</span>'}
+            <span class="flag-menu-name">${escapeHtml(f.name)}</span>
+        </button>
+    `).join('');
+    document.body.appendChild(menuEl);
+
+    // Position menu
+    const rect = anchorEl.getBoundingClientRect();
+    const margin = 6;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const menuW = menuEl.offsetWidth || 200;
+    const menuH = menuEl.offsetHeight || 300;
+    let left = rect.left;
+    let top = rect.bottom + margin;
+    left = Math.max(margin, Math.min(left, vw - menuW - margin));
+    if (top + menuH > vh - margin) {
+        top = rect.top - menuH - margin;
+    }
+    top = Math.max(margin, top);
+    menuEl.style.left = `${Math.round(left)}px`;
+    menuEl.style.top = `${Math.round(top)}px`;
+
+    // Handle flag selection
+    menuEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('.flag-menu-item');
+        if (!btn) return;
+        const flagId = btn.dataset.flagId;
+        updateContestant(contestantId, 'flagId', flagId);
+        closeFlagMenu();
+        renderTable();
+    });
+
+    // Close on outside click
+    const onDocPointerDown = (e) => {
+        if (!menuEl.contains(e.target)) {
+            closeFlagMenu();
+        }
+    };
+    setTimeout(() => document.addEventListener('pointerdown', onDocPointerDown, true), 0);
+
+    flagMenuState = { menuEl, onDocPointerDown };
+}
 
 function getImageFileFromClipboardData(clipboardData) {
     const items = clipboardData?.items;
@@ -1526,7 +1636,7 @@ function renderTable() {
             <tbody>
                 <tr class="header-row" style="padding:${0.5 * padding}em;">
                     ${state.showRankColumn ? '<th rowspan="2">Rank</th>' : ''}
-                    <th rowspan="2" style="width:100px;">Contestant</th>
+                    <th rowspan="2" ${state.globalMode ? 'colspan="2"' : ''} style="width:100px;">Contestant</th>
                     ${state.showPhotos ? '<th rowspan="2">Photo</th>' : ''}
                     ${state.allStarsMode ? '<th rowspan="2">Original<br>Season(s)</th>' : (state.showAge ? '<th rowspan="2">Age</th>' : '')}
                     ${state.allStarsMode ? '<th rowspan="2">Original<br>Rank(s)</th>' : (state.showLocation ? '<th rowspan="2" style="width:100px;">Location</th>' : '')}
@@ -1556,6 +1666,7 @@ function renderTable() {
         tableHtml += `
             <tr class="table-contestant-row" data-id="${contestant.id}">
                 ${state.showRankColumn ? `<td class="rank-cell" ${cellPaddingStyle}>${rank}</td>` : ''}
+                ${state.globalMode ? `<td class="flag-cell" ${cellPaddingStyle} onclick="openFlagMenu(event, ${contestant.id})" title="Click to select country flag">${getFlagHtml(contestant.flagId)}</td>` : ''}
                 <td class="contestant-name-cell" ${groupStyle}>
                     <span class="inline-edit" contenteditable="true" data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="name"><b>${escapeHtml(contestant.name)}</b></span>${groupLabel}
                 </td>
@@ -1583,7 +1694,7 @@ function renderTable() {
     // Add row with button to add new contestant
     tableHtml += `
         <tr class="add-contestant-row">
-            <td colspan="${(state.showRankColumn ? 1 : 0) + 1 + (state.showPhotos ? 1 : 0) + (state.allStarsMode ? 2 : ((state.showAge ? 1 : 0) + (state.showLocation ? 1 : 0))) + state.episodes.length}" style="padding:0.75rem; border:none; background:transparent;">
+            <td colspan="${(state.showRankColumn ? 1 : 0) + (state.globalMode ? 1 : 0) + 1 + (state.showPhotos ? 1 : 0) + (state.allStarsMode ? 2 : ((state.showAge ? 1 : 0) + (state.showLocation ? 1 : 0))) + state.episodes.length}" style="padding:0.75rem; border:none; background:transparent;">
                 <button class="table-add-btn" onclick="addContestant()" title="Add contestant">+</button>
             </td>
             <td style="padding:0; border:none; background:transparent;"></td>
@@ -3120,11 +3231,13 @@ function loadProject(e) {
                 if (state.autoFillOut === undefined) state.autoFillOut = true;
                 if (state.showRankColumn === undefined) state.showRankColumn = true;
                 if (state.allStarsMode === undefined) state.allStarsMode = false;
+                if (state.globalMode === undefined) state.globalMode = false;
                 
-                // Ensure contestants have All Stars properties
+                // Ensure contestants have All Stars and Global Mode properties
                 state.contestants.forEach(c => {
                     if (c.originalSeason === undefined) c.originalSeason = '';
                     if (c.originalRank === undefined) c.originalRank = '';
+                    if (c.flagId === undefined) c.flagId = 'NONE';
                 });
 
                 // Update UI
@@ -3149,6 +3262,7 @@ function newBlankProject() {
             showAge: true,
             showLocation: true,
             allStarsMode: false,
+            globalMode: false,
             customEpisodeLabels: false,
             groupsEnabled: false,
             groups: DEFAULT_GROUPS.map(g => ({ ...g })),
@@ -3191,6 +3305,7 @@ function resetProject() {
             showAge: true,
             showLocation: true,
             allStarsMode: false,
+            globalMode: false,
             customEpisodeLabels: false,
             groupsEnabled: false,
             groups: DEFAULT_GROUPS.map(g => ({ ...g })),
@@ -4140,6 +4255,26 @@ function escapeHtml(str) {
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+}
+
+function getFlagHtml(flagId) {
+    if (!flagId || flagId === 'NONE') return '';
+    const flag = GLOBAL_FLAGS_BY_ID[flagId];
+    if (!flag || !flag.urls || flag.urls.length === 0) return '';
+    // Support multiple stacked flags (like Australia + New Zealand)
+    return flag.urls.map(url => 
+        `<img src="${escapeHtml(url)}" alt="${escapeHtml(flag.name)} Flag" class="contestant-flag" loading="lazy">`
+    ).join('');
+}
+
+function getFlagHtmlSmall(flagId) {
+    if (!flagId || flagId === 'NONE') return '<span class="flag-placeholder">🏳</span>';
+    const flag = GLOBAL_FLAGS_BY_ID[flagId];
+    if (!flag || !flag.urls || flag.urls.length === 0) return '<span class="flag-placeholder">🏳</span>';
+    // Support multiple stacked flags (like Down Under)
+    return flag.urls.map(url => 
+        `<img src="${escapeHtml(url)}" alt="${escapeHtml(flag.name)}" class="contestant-flag-small" loading="lazy">`
+    ).join('');
 }
 
 function getRank(index) {
