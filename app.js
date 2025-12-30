@@ -1237,7 +1237,6 @@ function openFlagMenu(event, contestantId) {
         const flagId = btn.dataset.flagId;
         updateContestant(contestantId, 'flagId', flagId);
         closeFlagMenu();
-        renderTable();
     });
 
     // Close on outside click
@@ -2226,6 +2225,10 @@ function updateContestant(id, field, value) {
             });
         }
         renderTable();
+        // Also update sidebar when changing flag (to sync preview and dropdown)
+        if (field === 'flagId') {
+            renderContestantsList();
+        }
     }
 }
 
