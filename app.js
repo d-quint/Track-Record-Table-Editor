@@ -39,9 +39,9 @@ const DEFAULT_PLACEMENTS = [
     { id: 'LSFTC_L2', name: 'LOST<br>2ND<br>ROUND', bgColor: '#ffae00', textColor: '#000000', bold: true },
     { id: 'LSFTC_L3', name: 'LOST<br>3RD<br>ROUND', bgColor: '#ffd100', textColor: '#000000', bold: true },
     // Lip Sync Smackdown round placements (Season 14 Episode 11)
-    { id: 'SAFE_R1', name: 'SAFE<br><small><small>(Round 1)</small></small>', bgColor: 'lightcoral', textColor: '#ffffff', bold: false },
-    { id: 'SAFE_R2', name: 'SAFE<br><small><small>(Round 2)</small></small>', bgColor: 'indianred', textColor: '#ffffff', bold: false },
-    { id: 'SAFE_R3', name: 'SAFE<br><small><small>(Round 3)</small></small>', bgColor: 'crimson', textColor: '#ffffff', bold: false },
+    { id: 'SAFE_R1', name: 'SAFE<br><small>(Round 1)</small>', bgColor: 'lightcoral', textColor: '#ffffff', bold: false },
+    { id: 'SAFE_R2', name: 'SAFE<br><small>(Round 2)</small>', bgColor: 'indianred', textColor: '#ffffff', bold: false },
+    { id: 'SAFE_R3', name: 'SAFE<br><small>(Round 3)</small>', bgColor: 'crimson', textColor: '#ffffff', bold: false },
     // Rudemption Lip Sync Smackdown placements
     { id: 'SMACK_LOSS', name: 'LOSS', bgColor: '#ff9e9e', textColor: '#000000', bold: false },
     { id: 'SMACK_WIN', name: 'WIN', bgColor: 'lightskyblue', textColor: '#000000', bold: false },
@@ -84,7 +84,7 @@ const GLOBAL_FLAGS = [
     { id: 'USA', name: 'USA', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/6/62/USA_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180116'] },
     { id: 'UK', name: 'UK', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b6/UK_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180115'] },
     { id: 'CANADA', name: 'Canada', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/55/Canada_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180117'] },
-    { id: 'DOWN_UNDER', name: 'Australia/New Zealand (Down Under)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b0/Australia_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180112', 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/1/18/New_Zealand_Flag.png/revision/latest/scale-to-width-down/40?cb=20210303195242'] },
+    { id: 'DOWN_UNDER', name: 'Australia/NZ (Down Under)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b0/Australia_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180112', 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/1/18/New_Zealand_Flag.png/revision/latest/scale-to-width-down/40?cb=20210303195242'] },
     { id: 'FRANCE', name: 'France', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/57/France_Flag.png/revision/latest/scale-to-width-down/40?cb=20220630143255'] },
     { id: 'SPAIN', name: 'Spain (España)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/8/89/Spain_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180116'] },
     { id: 'ITALY', name: 'Italy (Italia)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/7/7a/Italy_Flag.png/revision/latest/scale-to-width-down/40?cb=20210306124828'] },
@@ -2979,13 +2979,15 @@ function inlineExportStyles(table) {
         const isEpisodeHeader = th.classList.contains('episode-header');
         
         let headerPadding = `padding:${0.5 * padding}em;`;
+        let extraStyles = '';
         if (isEpisodeHeader) {
             headerPadding = `padding:${0.125 * padding}em ${0.25 * padding}em;`;
+            extraStyles = 'line-height:1.1;';
         } else if (isHeaderRow) {
             headerPadding = `padding:${0.5 * padding}em;`;
         }
         
-        th.setAttribute('style', `${baseCellStyle} background:#eaecf0; font-weight:600; ${headerPadding} ${existingStyle}`);
+        th.setAttribute('style', `${baseCellStyle} background:#eaecf0; font-weight:600; ${headerPadding} ${extraStyles} ${existingStyle}`);
     });
 
     // Episode header spans (challenge names)
@@ -3003,7 +3005,7 @@ function inlineExportStyles(table) {
     // Text cells (age, location, original season/rank)
     table.querySelectorAll('.text-cell').forEach(cell => {
         const existingStyle = cell.getAttribute('style') || '';
-        cell.setAttribute('style', `${baseCellStyle} padding:${0.4 * padding}em ${0.75 * padding}em; ${existingStyle}`);
+        cell.setAttribute('style', `${baseCellStyle} padding:${0.4 * padding}em ${0.75 * padding}em; max-width:100px; word-wrap:break-word; overflow-wrap:break-word; white-space:pre-wrap; ${existingStyle}`);
     });
 
     // Photo cells
@@ -3020,6 +3022,22 @@ function inlineExportStyles(table) {
     table.querySelectorAll('.rank-cell').forEach(cell => {
         const existingStyle = cell.getAttribute('style') || '';
         cell.setAttribute('style', `${baseCellStyle} min-width:60px; padding:${0.25 * padding}em ${0.5 * padding}em; ${existingStyle}`);
+    });
+
+    // Flag cells (Global Mode)
+    table.querySelectorAll('.flag-cell').forEach(cell => {
+        const existingStyle = cell.getAttribute('style') || '';
+        cell.setAttribute('style', `${baseCellStyle} vertical-align:middle; text-align:center; min-width:45px; padding:${0.25 * padding}em 0.3em; ${existingStyle}`);
+    });
+    // Flag images inside flag cells - must be block to stack vertically
+    table.querySelectorAll('.flag-cell .contestant-flag').forEach(img => {
+        const existingStyle = img.getAttribute('style') || '';
+        img.setAttribute('style', `width:40px; height:auto; display:block; margin:0 auto 2px auto; ${existingStyle}`);
+    });
+    // Last flag image - no bottom margin
+    table.querySelectorAll('.flag-cell .contestant-flag:last-child').forEach(img => {
+        const existingStyle = img.getAttribute('style') || '';
+        img.setAttribute('style', `width:40px; height:auto; display:block; margin:0 auto; ${existingStyle}`);
     });
 
     // Placement cells (already have inline bg/color, add font-weight and border)
@@ -4446,9 +4464,20 @@ function contestantHasTerminalPlacement(contestant) {
         const p = contestant.placements[epIdx];
         const raw = canonicalizePlacementId(p || 'EMPTY');
         
-        // Check if this is a RTRN or RTRN combo (they returned to competition)
-        if (raw === 'RTRN' || isRtrnComboId(raw)) {
+        // Check if this is a plain RTRN (they returned to competition)
+        if (raw === 'RTRN') {
             lastReturnEpisode = epIdx;
+            continue;
+        }
+        
+        // Check if this is a RTRN combo (e.g., RTRN_ELIM = returned AND eliminated same episode)
+        if (isRtrnComboId(raw)) {
+            lastReturnEpisode = epIdx;
+            // Also check if the base placement is terminal (RTRN_ELIM, RTRN_QUIT, etc.)
+            const rtrnBase = canonicalizePlacementId(getRtrnComboBaseId(raw));
+            if (TERMINAL_PLACEMENTS.has(rtrnBase)) {
+                lastTerminalEpisode = epIdx; // They returned but also left terminally
+            }
             continue;
         }
         
