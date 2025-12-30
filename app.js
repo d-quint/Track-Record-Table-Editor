@@ -1569,29 +1569,17 @@ function renderTable() {
     tableHtml += '</tbody></table>';
 
     const paletteHtml = renderPaintPalette(state.placementRoots);
-    container.innerHTML = `${paletteHtml}<div class="table-scroll" id="tableScroll"><div class="table-stage"><div id="tableGutter" class="table-gutter" aria-hidden="true"></div><div id="tableOnly">${tableHtml}</div></div></div>`;
+    container.innerHTML = `${paletteHtml}<div class="table-top-scrollbar" id="tableTopScrollbar"><div class="table-top-scrollbar-inner" id="tableTopScrollbarInner"></div></div><div class="table-scroll" id="tableScroll"><div class="table-stage"><div id="tableGutter" class="table-gutter" aria-hidden="true"></div><div id="tableOnly">${tableHtml}</div></div></div>`;
 
     // Restore scroll position after re-render
     const newScrollContainer = document.getElementById('tableScroll');
     if (newScrollContainer) {
         newScrollContainer.scrollLeft = scrollLeft;
-        // Since container is flipped with scaleY(-1), scrollTop 0 appears at bottom visually
-        // If no saved position, start at max scroll (which appears as top visually)
-        if (scrollTop === 0 && !existingScrollContainer) {
-            newScrollContainer.scrollTop = newScrollContainer.scrollHeight;
-        } else {
-            newScrollContainer.scrollTop = scrollTop;
-        }
-        
-        // Invert vertical scroll since container is flipped with scaleY(-1) for top scrollbar
-        // Skip when Ctrl is held - that's used for horizontal scrolling
-        newScrollContainer.addEventListener('wheel', (e) => {
-            if (e.deltaY !== 0 && !e.ctrlKey) {
-                e.preventDefault();
-                newScrollContainer.scrollTop -= e.deltaY;
-            }
-        }, { passive: false });
+        newScrollContainer.scrollTop = scrollTop;
     }
+    
+    // Setup top scrollbar sync
+    setupTopScrollbar();
 
     // Check if tabs overflow and toggle dropdown mode
     checkPaintTabsOverflow();
@@ -1599,6 +1587,36 @@ function renderTable() {
     setupTableContestantDragDrop();
 
     updatePaintCursor();
+}
+
+function setupTopScrollbar() {
+    const topScrollbar = document.getElementById('tableTopScrollbar');
+    const topScrollbarInner = document.getElementById('tableTopScrollbarInner');
+    const mainScroll = document.getElementById('tableScroll');
+    const tableStage = mainScroll?.querySelector('.table-stage');
+    
+    if (!topScrollbar || !topScrollbarInner || !mainScroll || !tableStage) return;
+    
+    // Set the inner width to match the table's scrollable width
+    topScrollbarInner.style.width = `${tableStage.scrollWidth}px`;
+    
+    let isSyncing = false;
+    
+    // Sync top scrollbar -> main scroll
+    topScrollbar.addEventListener('scroll', () => {
+        if (isSyncing) return;
+        isSyncing = true;
+        mainScroll.scrollLeft = topScrollbar.scrollLeft;
+        isSyncing = false;
+    });
+    
+    // Sync main scroll -> top scrollbar
+    mainScroll.addEventListener('scroll', () => {
+        if (isSyncing) return;
+        isSyncing = true;
+        topScrollbar.scrollLeft = mainScroll.scrollLeft;
+        isSyncing = false;
+    });
 }
 
 function checkPaintTabsOverflow() {
@@ -2611,6 +2629,7 @@ function setupContestantDragDrop() {
 function setupTableContestantDragDrop() {
     // Drag starts from the left gutter grip, but drop targets include both the full row
     // and the left gutter area (for a forgiving UX).
+    // rebuildTableGutterHandles now also attaches the grip event listeners
     rebuildTableGutterHandles();
 
     const tableScroll = document.getElementById('tableScroll');
@@ -2627,14 +2646,7 @@ function setupTableContestantDragDrop() {
         }, { passive: false });
     }
 
-    const grips = document.querySelectorAll('#tableGutter .table-row-grip');
-    grips.forEach(grip => {
-        grip.addEventListener('dragstart', handleDragStart);
-        grip.addEventListener('dragover', handleDragOver);
-        grip.addEventListener('drop', (e) => handleDrop(e, 'contestants'));
-        grip.addEventListener('dragend', handleDragEnd);
-    });
-
+    // Row drop targets (grips are handled in rebuildTableGutterHandles)
     const rows = document.querySelectorAll('#tableOnly tr.table-contestant-row');
     rows.forEach(row => {
         row.addEventListener('dragover', handleDragOver);
@@ -2648,11 +2660,13 @@ function rebuildTableGutterHandles() {
 
     const rows = Array.from(document.querySelectorAll('#tableOnly tr.table-contestant-row'));
     const gutterRect = gutter.getBoundingClientRect();
+    
     gutter.innerHTML = rows
         .map(r => `<div class="table-row-grip" draggable="true" data-id="${escapeHtml(r.dataset.id || '')}" title="Drag to reorder"></div>`)
         .join('');
 
     const grips = Array.from(gutter.querySelectorAll('.table-row-grip'));
+    
     rows.forEach((row, idx) => {
         const g = grips[idx];
         if (!g) return;
@@ -2660,6 +2674,14 @@ function rebuildTableGutterHandles() {
         const top = rowRect.top - gutterRect.top;
         g.style.top = `${top}px`;
         g.style.height = `${rowRect.height}px`;
+    });
+    
+    // Attach event listeners to the newly created grips (must be done here since innerHTML destroys old listeners)
+    grips.forEach(grip => {
+        grip.addEventListener('dragstart', handleDragStart);
+        grip.addEventListener('dragover', handleDragOver);
+        grip.addEventListener('drop', (e) => handleDrop(e, 'contestants'));
+        grip.addEventListener('dragend', handleDragEnd);
     });
 }
 

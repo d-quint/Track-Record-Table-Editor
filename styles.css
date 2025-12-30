@@ -391,13 +391,39 @@ header h1 {
     overflow-y: auto;
     max-width: 100%;
     max-height: calc(100vh - 220px);
-    /* Flip the container to move horizontal scrollbar to top */
-    transform: scaleY(-1);
 }
 
-/* Flip the content back so it displays correctly */
-.table-scroll > .table-stage {
-    transform: scaleY(-1);
+/* Custom top scrollbar that syncs with the main scroll container */
+.table-top-scrollbar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 8px;
+    margin-bottom: 4px;
+    background: #ffffff;
+    border-radius: 6px;
+}
+
+.table-top-scrollbar-inner {
+    height: 1px;
+}
+
+/* Scrollbar styling for the top scrollbar */
+.table-top-scrollbar::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-top-scrollbar::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 6px;
+}
+
+.table-top-scrollbar::-webkit-scrollbar-thumb {
+    background: #bdc0c5;
+    border-radius: 6px;
+}
+
+.table-top-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #9fa4ae;
 }
 
 /* ===== BUTTONS ===== */
