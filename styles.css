@@ -149,6 +149,23 @@ header h1 {
     flex-shrink: 0;
 }
 
+.footer-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+}
+
+.footer-btn-icon {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+}
+
 /* ===== SIDEBAR ===== */
 .sidebar-wrapper {
     display: flex;

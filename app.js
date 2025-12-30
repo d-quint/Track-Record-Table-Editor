@@ -2970,6 +2970,23 @@ function closeChangelogModal() {
     if (modal) modal.classList.remove('active');
 }
 
+// ===== HELP MODAL =====
+function openHelpModal() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.classList.add('active');
+        // Close on overlay click
+        modal.onclick = (e) => {
+            if (e.target === modal) closeHelpModal();
+        };
+    }
+}
+
+function closeHelpModal() {
+    const modal = document.getElementById('helpModal');
+    if (modal) modal.classList.remove('active');
+}
+
 function copyHtmlToClipboard() {
     const html = generateExportHtml();
     navigator.clipboard.writeText(html).then(() => {

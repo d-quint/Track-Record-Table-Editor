@@ -403,6 +403,15 @@
         <!-- Footer -->
         <footer class="footer" aria-label="Attribution">
             <p class="footer-text">
+                <button class="footer-link footer-btn" onclick="openHelpModal()" title="How to Use It">
+                    <svg class="footer-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    How to Use
+                </button>
+                <span class="footer-separator" aria-hidden="true">·</span>
                 Built with <span class="footer-heart" aria-hidden="true">♥</span> by
                 <a href="https://github.com/d-quint/" target="_blank" rel="noopener noreferrer" class="footer-link">d-quint</a>
                 <span class="footer-separator" aria-hidden="true">·</span>
@@ -418,6 +427,91 @@
                 </a>
             </p>
         </footer>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal changelog-modal">
+            <div class="modal-header">
+                <h2>📖 How to Use</h2>
+                <button class="modal-close" onclick="closeHelpModal()">&times;</button>
+            </div>
+            <div class="changelog-content">
+                <div class="changelog-version">
+                    <div class="changelog-section">
+                        <h4>🎨 Painting Basics</h4>
+                        <p class="changelog-intro">The palette on the left has everything you need to build your table:</p>
+                        <ul>
+                            <li><strong>Placements</strong> — The main cell content (WIN, HIGH, SAFE, BTM, ELIM, etc.). Click a chip, then click or drag across cells to paint.</li>
+                            <li><strong>Borders</strong> — Visual overlays around cells (Immunity ⭐, Chocolate Bar 🍫, etc.). Paint them on top of any placement.</li>
+                            <li><strong>Subtexts</strong> — Small labels below the placement (Mini Win 🏆, Gifted Badge, etc.). You can stack multiple subtexts on the same cell!</li>
+                        </ul>
+                        <p class="changelog-tip">💡 Hover over any chip in the palette to see what it means!</p>
+                        <p class="changelog-tip">💡 Click and drag to paint multiple cells at once!</p>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>🔢 Smart Auto-Numbering</h4>
+                        <ul>
+                            <li><strong>TOP placements</strong> — Automatically become TOP2, TOP3, etc. based on how many WINs and TOPs are in that episode</li>
+                            <li><strong>BTM placements</strong> — Automatically become BTM2, BTM3, etc. based on how many BTMs and ELIMs are in that episode</li>
+                            <li><strong>HIGH/LOW</strong> — These don't auto-number; use them for critique-only queens</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>🔄 Combo Placements</h4>
+                        <p class="changelog-intro">Some placements can combine with others:</p>
+                        <ul>
+                            <li><strong>RTRN combos</strong> — Paint a placement on top of RTRN to show what the returning queen got (e.g., RTRN + SAFE)</li>
+                            <li><strong>QUIT/DISQ/DEPT combos</strong> — Paint QUIT, DISQ, or DEPT first, then paint another placement on top to show their last result before leaving (e.g., WIN + QUIT)</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>✏️ Editing the Table</h4>
+                        <ul>
+                            <li><strong>Queen names &amp; ages</strong> — Click directly on them to edit</li>
+                            <li><strong>Queen photos</strong> — Click the image to upload, or paste from clipboard</li>
+                            <li><strong>Episode headers</strong> — Click to rename episodes</li>
+                            <li><strong>Reorder queens</strong> — Drag the grip handle (|) on the left side of each row</li>
+                            <li><strong>Reorder episodes</strong> — Drag episodes in the sidebar list</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>⚙️ Custom Placements</h4>
+                        <p class="changelog-intro">Need something not in the palette? Create your own!</p>
+                        <ul>
+                            <li>Look for the <strong>+</strong> button in the Placements, Borders, or Subtexts section of the sidebar</li>
+                            <li>Choose a name, colors, and other settings</li>
+                            <li>Your custom items appear in the palette ready to use</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>⌨️ Keyboard Shortcuts</h4>
+                        <ul>
+                            <li><strong>Ctrl+Z</strong> — Undo your last action</li>
+                            <li><strong>Ctrl+Shift+Z</strong> or <strong>Ctrl+Y</strong> — Redo</li>
+                            <li><strong>Ctrl+Scroll</strong> — Scroll the table horizontally</li>
+                            <li><strong>Esc</strong> — Close menus and dropdowns</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>💾 Saving &amp; Exporting</h4>
+                        <ul>
+                            <li><strong>Save Project</strong> — Downloads a .json file with all your work (queens, episodes, placements)</li>
+                            <li><strong>Load Project</strong> — Open a previously saved .json file to continue editing</li>
+                            <li><strong>Export HTML</strong> — Get the table code to paste into wikis or websites</li>
+                            <li><strong>Export PNG</strong> — Download the table as an image</li>
+                        </ul>
+                        <p class="changelog-tip">💡 Save often! Your work isn't automatically saved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Changelog Modal -->
