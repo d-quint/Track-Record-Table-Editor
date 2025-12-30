@@ -81,21 +81,21 @@ const DEFAULT_PLACEMENTS_MERGED = [...DEFAULT_PLACEMENTS, ...LALAPARUZA_PLACEMEN
 // urls is an array to support stacked flags (like Down Under = Australia + New Zealand)
 const GLOBAL_FLAGS = [
     { id: 'NONE', name: 'No Flag', urls: [] },
-    { id: 'USA', name: 'USA', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/6/62/USA_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180116'] },
-    { id: 'UK', name: 'UK', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b6/UK_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180115'] },
-    { id: 'CANADA', name: 'Canada', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/55/Canada_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180117'] },
-    { id: 'DOWN_UNDER', name: 'Australia/NZ (Down Under)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b0/Australia_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180112', 'https://static.wikia.nocookie.net/logosrupaulsdragrace/images/1/18/New_Zealand_Flag.png/revision/latest/scale-to-width-down/40?cb=20210303195242'] },
-    { id: 'FRANCE', name: 'France', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/57/France_Flag.png/revision/latest/scale-to-width-down/40?cb=20220630143255'] },
-    { id: 'SPAIN', name: 'Spain (España)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/8/89/Spain_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180116'] },
-    { id: 'ITALY', name: 'Italy (Italia)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/7/7a/Italy_Flag.png/revision/latest/scale-to-width-down/40?cb=20210306124828'] },
-    { id: 'GERMANY', name: 'Germany', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/52/Germany_Flag.png/revision/latest/scale-to-width-down/40?cb=20210324154610'] },
-    { id: 'BELGIUM', name: 'Belgium (Belgique)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/3/32/Belgium_Flag.png/revision/latest/scale-to-width-down/40?cb=20221019202342'] },
-    { id: 'NETHERLANDS', name: 'Netherlands (Holland)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/d/d8/Netherlands_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180113'] },
-    { id: 'SWEDEN', name: 'Sweden (Sverige)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/f/fa/Sweden_Flag.png/revision/latest/scale-to-width-down/40?cb=20220405125426'] },
-    { id: 'MEXICO', name: 'Mexico (México)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/b/b1/Mexico_Flag.png/revision/latest/scale-to-width-down/40?cb=20220106021120'] },
-    { id: 'BRAZIL', name: 'Brazil (Brasil)', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/0/07/Brazil_Flag.png/revision/latest/scale-to-width-down/40?cb=20210605175730'] },
-    { id: 'PHILIPPINES', name: 'Philippines', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/5/56/Philippines_Flag.png/revision/latest/scale-to-width-down/40?cb=20210816162235'] },
-    { id: 'THAILAND', name: 'Thailand', urls: ['https://static.wikia.nocookie.net/logosrupaulsdragrace/images/e/e6/Thailand_Flag.png/revision/latest/scale-to-width-down/40?cb=20210113180113'] }
+    { id: 'USA', name: 'USA', urls: ['https://flagpedia.net/data/flags/w40/us.png'] },
+    { id: 'UK', name: 'UK', urls: ['https://flagpedia.net/data/flags/w40/gb.png'] },
+    { id: 'CANADA', name: 'Canada', urls: ['https://flagpedia.net/data/flags/w40/ca.png'] },
+    { id: 'DOWN_UNDER', name: 'Australia/NZ (Down Under)', urls: ['https://flagpedia.net/data/flags/w40/au.png', 'https://flagpedia.net/data/flags/w40/nz.png'] },
+    { id: 'FRANCE', name: 'France', urls: ['https://flagpedia.net/data/flags/w40/fr.png'] },
+    { id: 'SPAIN', name: 'Spain (España)', urls: ['https://flagpedia.net/data/flags/w40/es.png'] },
+    { id: 'ITALY', name: 'Italy (Italia)', urls: ['https://flagpedia.net/data/flags/w40/it.png'] },
+    { id: 'GERMANY', name: 'Germany', urls: ['https://flagpedia.net/data/flags/w40/de.png'] },
+    { id: 'BELGIUM', name: 'Belgium (Belgique)', urls: ['https://flagpedia.net/data/flags/w40/be.png'] },
+    { id: 'NETHERLANDS', name: 'Netherlands (Holland)', urls: ['https://flagpedia.net/data/flags/w40/nl.png'] },
+    { id: 'SWEDEN', name: 'Sweden (Sverige)', urls: ['https://flagpedia.net/data/flags/w40/se.png'] },
+    { id: 'MEXICO', name: 'Mexico (México)', urls: ['https://flagpedia.net/data/flags/w40/mx.png'] },
+    { id: 'BRAZIL', name: 'Brazil (Brasil)', urls: ['https://flagpedia.net/data/flags/w40/br.png'] },
+    { id: 'PHILIPPINES', name: 'Philippines', urls: ['https://flagpedia.net/data/flags/w40/ph.png'] },
+    { id: 'THAILAND', name: 'Thailand', urls: ['https://flagpedia.net/data/flags/w40/th.png'] }
 ];
 
 const GLOBAL_FLAGS_BY_ID = Object.fromEntries(GLOBAL_FLAGS.map(f => [f.id, f]));
