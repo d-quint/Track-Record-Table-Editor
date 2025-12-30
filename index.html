@@ -551,7 +551,7 @@
                             <li><strong>Flag column</strong> — Enable in Settings → "Global Mode" to add a flag column next to contestant names</li>
                             <li><strong>Easy selection</strong> — Pick flags from the dropdown in the sidebar, or click directly on flag cells in the table</li>
                             <li><strong>All franchises</strong> — Includes flags for all Drag Race franchises with their in-show names (Italia, Sverige, Belgique, etc.)</li>
-                            <li><strong>Stacked flags</strong> — "Down Under" shows both Australia and New Zealand flags stacked together</li>
+                            <li><strong>Any country</strong> — Select "Other..." to search and pick from 250+ countries worldwide</li>
                         </ul>
                         <p class="changelog-tip">📍 Find it: Settings panel → check "Global Mode"</p>
                     </div>
@@ -691,6 +691,20 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Country Picker Modal -->
+    <div class="modal-overlay" id="countryModal">
+        <div class="modal country-modal">
+            <div class="modal-header">
+                <h2>🌍 Select Country</h2>
+                <button class="modal-close" onclick="closeCountryModal()">&times;</button>
+            </div>
+            <div class="country-search-wrapper">
+                <input type="text" class="form-control country-search" id="countrySearch" placeholder="Search countries..." autocomplete="off">
+            </div>
+            <div class="country-list" id="countryList"></div>
         </div>
     </div>
 

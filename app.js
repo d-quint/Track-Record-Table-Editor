@@ -95,7 +95,260 @@ const GLOBAL_FLAGS = [
     { id: 'MEXICO', name: 'Mexico (México)', urls: ['https://flagpedia.net/data/flags/w40/mx.png'] },
     { id: 'BRAZIL', name: 'Brazil (Brasil)', urls: ['https://flagpedia.net/data/flags/w40/br.png'] },
     { id: 'PHILIPPINES', name: 'Philippines', urls: ['https://flagpedia.net/data/flags/w40/ph.png'] },
-    { id: 'THAILAND', name: 'Thailand', urls: ['https://flagpedia.net/data/flags/w40/th.png'] }
+    { id: 'THAILAND', name: 'Thailand', urls: ['https://flagpedia.net/data/flags/w40/th.png'] },
+    { id: 'OTHER', name: 'Other...', urls: [], isOther: true }
+];
+
+// All countries with ISO alpha-2 codes for the "Other" country picker
+const ALL_COUNTRIES = [
+    { code: 'AF', name: 'Afghanistan' },
+    { code: 'AL', name: 'Albania' },
+    { code: 'DZ', name: 'Algeria' },
+    { code: 'AS', name: 'American Samoa' },
+    { code: 'AD', name: 'Andorra' },
+    { code: 'AO', name: 'Angola' },
+    { code: 'AI', name: 'Anguilla' },
+    { code: 'AQ', name: 'Antarctica' },
+    { code: 'AG', name: 'Antigua and Barbuda' },
+    { code: 'AR', name: 'Argentina' },
+    { code: 'AM', name: 'Armenia' },
+    { code: 'AW', name: 'Aruba' },
+    { code: 'AU', name: 'Australia' },
+    { code: 'AT', name: 'Austria' },
+    { code: 'AZ', name: 'Azerbaijan' },
+    { code: 'BS', name: 'Bahamas' },
+    { code: 'BH', name: 'Bahrain' },
+    { code: 'BD', name: 'Bangladesh' },
+    { code: 'BB', name: 'Barbados' },
+    { code: 'BY', name: 'Belarus' },
+    { code: 'BE', name: 'Belgium' },
+    { code: 'BZ', name: 'Belize' },
+    { code: 'BJ', name: 'Benin' },
+    { code: 'BM', name: 'Bermuda' },
+    { code: 'BT', name: 'Bhutan' },
+    { code: 'BO', name: 'Bolivia' },
+    { code: 'BQ', name: 'Bonaire' },
+    { code: 'BA', name: 'Bosnia and Herzegovina' },
+    { code: 'BW', name: 'Botswana' },
+    { code: 'BR', name: 'Brazil' },
+    { code: 'IO', name: 'British Indian Ocean Territory' },
+    { code: 'BN', name: 'Brunei' },
+    { code: 'BG', name: 'Bulgaria' },
+    { code: 'BF', name: 'Burkina Faso' },
+    { code: 'BI', name: 'Burundi' },
+    { code: 'CV', name: 'Cabo Verde' },
+    { code: 'KH', name: 'Cambodia' },
+    { code: 'CM', name: 'Cameroon' },
+    { code: 'CA', name: 'Canada' },
+    { code: 'KY', name: 'Cayman Islands' },
+    { code: 'CF', name: 'Central African Republic' },
+    { code: 'TD', name: 'Chad' },
+    { code: 'CL', name: 'Chile' },
+    { code: 'CN', name: 'China' },
+    { code: 'CX', name: 'Christmas Island' },
+    { code: 'CC', name: 'Cocos Islands' },
+    { code: 'CO', name: 'Colombia' },
+    { code: 'KM', name: 'Comoros' },
+    { code: 'CD', name: 'Congo (DRC)' },
+    { code: 'CG', name: 'Congo' },
+    { code: 'CK', name: 'Cook Islands' },
+    { code: 'CR', name: 'Costa Rica' },
+    { code: 'HR', name: 'Croatia' },
+    { code: 'CU', name: 'Cuba' },
+    { code: 'CW', name: 'Curaçao' },
+    { code: 'CY', name: 'Cyprus' },
+    { code: 'CZ', name: 'Czechia' },
+    { code: 'CI', name: "Côte d'Ivoire" },
+    { code: 'DK', name: 'Denmark' },
+    { code: 'DJ', name: 'Djibouti' },
+    { code: 'DM', name: 'Dominica' },
+    { code: 'DO', name: 'Dominican Republic' },
+    { code: 'EC', name: 'Ecuador' },
+    { code: 'EG', name: 'Egypt' },
+    { code: 'SV', name: 'El Salvador' },
+    { code: 'GQ', name: 'Equatorial Guinea' },
+    { code: 'ER', name: 'Eritrea' },
+    { code: 'EE', name: 'Estonia' },
+    { code: 'SZ', name: 'Eswatini' },
+    { code: 'ET', name: 'Ethiopia' },
+    { code: 'FK', name: 'Falkland Islands' },
+    { code: 'FO', name: 'Faroe Islands' },
+    { code: 'FJ', name: 'Fiji' },
+    { code: 'FI', name: 'Finland' },
+    { code: 'FR', name: 'France' },
+    { code: 'GF', name: 'French Guiana' },
+    { code: 'PF', name: 'French Polynesia' },
+    { code: 'TF', name: 'French Southern Territories' },
+    { code: 'GA', name: 'Gabon' },
+    { code: 'GM', name: 'Gambia' },
+    { code: 'GE', name: 'Georgia' },
+    { code: 'DE', name: 'Germany' },
+    { code: 'GH', name: 'Ghana' },
+    { code: 'GI', name: 'Gibraltar' },
+    { code: 'GR', name: 'Greece' },
+    { code: 'GL', name: 'Greenland' },
+    { code: 'GD', name: 'Grenada' },
+    { code: 'GP', name: 'Guadeloupe' },
+    { code: 'GU', name: 'Guam' },
+    { code: 'GT', name: 'Guatemala' },
+    { code: 'GG', name: 'Guernsey' },
+    { code: 'GN', name: 'Guinea' },
+    { code: 'GW', name: 'Guinea-Bissau' },
+    { code: 'GY', name: 'Guyana' },
+    { code: 'HT', name: 'Haiti' },
+    { code: 'HM', name: 'Heard Island' },
+    { code: 'VA', name: 'Holy See' },
+    { code: 'HN', name: 'Honduras' },
+    { code: 'HK', name: 'Hong Kong' },
+    { code: 'HU', name: 'Hungary' },
+    { code: 'IS', name: 'Iceland' },
+    { code: 'IN', name: 'India' },
+    { code: 'ID', name: 'Indonesia' },
+    { code: 'IR', name: 'Iran' },
+    { code: 'IQ', name: 'Iraq' },
+    { code: 'IE', name: 'Ireland' },
+    { code: 'IM', name: 'Isle of Man' },
+    { code: 'IL', name: 'Israel' },
+    { code: 'IT', name: 'Italy' },
+    { code: 'JM', name: 'Jamaica' },
+    { code: 'JP', name: 'Japan' },
+    { code: 'JE', name: 'Jersey' },
+    { code: 'JO', name: 'Jordan' },
+    { code: 'KZ', name: 'Kazakhstan' },
+    { code: 'KE', name: 'Kenya' },
+    { code: 'KI', name: 'Kiribati' },
+    { code: 'KP', name: 'North Korea' },
+    { code: 'KR', name: 'South Korea' },
+    { code: 'KW', name: 'Kuwait' },
+    { code: 'KG', name: 'Kyrgyzstan' },
+    { code: 'LA', name: 'Laos' },
+    { code: 'LV', name: 'Latvia' },
+    { code: 'LB', name: 'Lebanon' },
+    { code: 'LS', name: 'Lesotho' },
+    { code: 'LR', name: 'Liberia' },
+    { code: 'LY', name: 'Libya' },
+    { code: 'LI', name: 'Liechtenstein' },
+    { code: 'LT', name: 'Lithuania' },
+    { code: 'LU', name: 'Luxembourg' },
+    { code: 'MO', name: 'Macao' },
+    { code: 'MG', name: 'Madagascar' },
+    { code: 'MW', name: 'Malawi' },
+    { code: 'MY', name: 'Malaysia' },
+    { code: 'MV', name: 'Maldives' },
+    { code: 'ML', name: 'Mali' },
+    { code: 'MT', name: 'Malta' },
+    { code: 'MH', name: 'Marshall Islands' },
+    { code: 'MQ', name: 'Martinique' },
+    { code: 'MR', name: 'Mauritania' },
+    { code: 'MU', name: 'Mauritius' },
+    { code: 'YT', name: 'Mayotte' },
+    { code: 'MX', name: 'Mexico' },
+    { code: 'FM', name: 'Micronesia' },
+    { code: 'MD', name: 'Moldova' },
+    { code: 'MC', name: 'Monaco' },
+    { code: 'MN', name: 'Mongolia' },
+    { code: 'ME', name: 'Montenegro' },
+    { code: 'MS', name: 'Montserrat' },
+    { code: 'MA', name: 'Morocco' },
+    { code: 'MZ', name: 'Mozambique' },
+    { code: 'MM', name: 'Myanmar' },
+    { code: 'NA', name: 'Namibia' },
+    { code: 'NR', name: 'Nauru' },
+    { code: 'NP', name: 'Nepal' },
+    { code: 'NL', name: 'Netherlands' },
+    { code: 'NC', name: 'New Caledonia' },
+    { code: 'NZ', name: 'New Zealand' },
+    { code: 'NI', name: 'Nicaragua' },
+    { code: 'NE', name: 'Niger' },
+    { code: 'NG', name: 'Nigeria' },
+    { code: 'NU', name: 'Niue' },
+    { code: 'NF', name: 'Norfolk Island' },
+    { code: 'MP', name: 'Northern Mariana Islands' },
+    { code: 'NO', name: 'Norway' },
+    { code: 'OM', name: 'Oman' },
+    { code: 'PK', name: 'Pakistan' },
+    { code: 'PW', name: 'Palau' },
+    { code: 'PS', name: 'Palestine' },
+    { code: 'PA', name: 'Panama' },
+    { code: 'PG', name: 'Papua New Guinea' },
+    { code: 'PY', name: 'Paraguay' },
+    { code: 'PE', name: 'Peru' },
+    { code: 'PH', name: 'Philippines' },
+    { code: 'PN', name: 'Pitcairn' },
+    { code: 'PL', name: 'Poland' },
+    { code: 'PT', name: 'Portugal' },
+    { code: 'PR', name: 'Puerto Rico' },
+    { code: 'QA', name: 'Qatar' },
+    { code: 'MK', name: 'North Macedonia' },
+    { code: 'RO', name: 'Romania' },
+    { code: 'RU', name: 'Russia' },
+    { code: 'RW', name: 'Rwanda' },
+    { code: 'RE', name: 'Réunion' },
+    { code: 'BL', name: 'Saint Barthélemy' },
+    { code: 'SH', name: 'Saint Helena' },
+    { code: 'KN', name: 'Saint Kitts and Nevis' },
+    { code: 'LC', name: 'Saint Lucia' },
+    { code: 'MF', name: 'Saint Martin' },
+    { code: 'PM', name: 'Saint Pierre and Miquelon' },
+    { code: 'VC', name: 'Saint Vincent and the Grenadines' },
+    { code: 'WS', name: 'Samoa' },
+    { code: 'SM', name: 'San Marino' },
+    { code: 'ST', name: 'Sao Tome and Principe' },
+    { code: 'SA', name: 'Saudi Arabia' },
+    { code: 'SN', name: 'Senegal' },
+    { code: 'RS', name: 'Serbia' },
+    { code: 'SC', name: 'Seychelles' },
+    { code: 'SL', name: 'Sierra Leone' },
+    { code: 'SG', name: 'Singapore' },
+    { code: 'SX', name: 'Sint Maarten' },
+    { code: 'SK', name: 'Slovakia' },
+    { code: 'SI', name: 'Slovenia' },
+    { code: 'SB', name: 'Solomon Islands' },
+    { code: 'SO', name: 'Somalia' },
+    { code: 'ZA', name: 'South Africa' },
+    { code: 'GS', name: 'South Georgia' },
+    { code: 'SS', name: 'South Sudan' },
+    { code: 'ES', name: 'Spain' },
+    { code: 'LK', name: 'Sri Lanka' },
+    { code: 'SD', name: 'Sudan' },
+    { code: 'SR', name: 'Suriname' },
+    { code: 'SJ', name: 'Svalbard and Jan Mayen' },
+    { code: 'SE', name: 'Sweden' },
+    { code: 'CH', name: 'Switzerland' },
+    { code: 'SY', name: 'Syria' },
+    { code: 'TW', name: 'Taiwan' },
+    { code: 'TJ', name: 'Tajikistan' },
+    { code: 'TZ', name: 'Tanzania' },
+    { code: 'TH', name: 'Thailand' },
+    { code: 'TL', name: 'Timor-Leste' },
+    { code: 'TG', name: 'Togo' },
+    { code: 'TK', name: 'Tokelau' },
+    { code: 'TO', name: 'Tonga' },
+    { code: 'TT', name: 'Trinidad and Tobago' },
+    { code: 'TN', name: 'Tunisia' },
+    { code: 'TR', name: 'Turkey' },
+    { code: 'TM', name: 'Turkmenistan' },
+    { code: 'TC', name: 'Turks and Caicos Islands' },
+    { code: 'TV', name: 'Tuvalu' },
+    { code: 'UG', name: 'Uganda' },
+    { code: 'UA', name: 'Ukraine' },
+    { code: 'AE', name: 'United Arab Emirates' },
+    { code: 'GB', name: 'United Kingdom' },
+    { code: 'UM', name: 'US Minor Outlying Islands' },
+    { code: 'US', name: 'United States' },
+    { code: 'UY', name: 'Uruguay' },
+    { code: 'UZ', name: 'Uzbekistan' },
+    { code: 'VU', name: 'Vanuatu' },
+    { code: 'VE', name: 'Venezuela' },
+    { code: 'VN', name: 'Vietnam' },
+    { code: 'VG', name: 'British Virgin Islands' },
+    { code: 'VI', name: 'US Virgin Islands' },
+    { code: 'WF', name: 'Wallis and Futuna' },
+    { code: 'EH', name: 'Western Sahara' },
+    { code: 'YE', name: 'Yemen' },
+    { code: 'ZM', name: 'Zambia' },
+    { code: 'ZW', name: 'Zimbabwe' },
+    { code: 'AX', name: 'Åland Islands' }
 ];
 
 const GLOBAL_FLAGS_BY_ID = Object.fromEntries(GLOBAL_FLAGS.map(f => [f.id, f]));
@@ -1151,7 +1404,7 @@ function renderContestantsList() {
                 ${state.globalMode ? `
                     <div class="contestant-flag-row">
                         <div class="contestant-flag-preview">${getFlagHtmlSmall(c.flagId)}</div>
-                        <select class="form-control contestant-flag-select" onchange="updateContestant(${c.id}, 'flagId', this.value)" title="Country Flag">
+                        <select class="form-control contestant-flag-select" onchange="handleFlagSelect(${c.id}, this.value, this)" title="Country Flag">
                             ${GLOBAL_FLAGS.map(f => `<option value="${escapeHtml(f.id)}" ${(c.flagId || 'NONE') === f.id ? 'selected' : ''}>${escapeHtml(f.name)}</option>`).join('')}
                         </select>
                     </div>
@@ -1206,8 +1459,8 @@ function openFlagMenu(event, contestantId) {
     menuEl.className = 'flag-menu';
     menuEl.setAttribute('role', 'menu');
     menuEl.innerHTML = GLOBAL_FLAGS.map(f => `
-        <button type="button" class="flag-menu-item ${(contestant.flagId || 'NONE') === f.id ? 'selected' : ''}" data-flag-id="${escapeHtml(f.id)}">
-            ${f.urls && f.urls.length > 0 ? f.urls.map(url => `<img src="${escapeHtml(url)}" alt="" class="flag-menu-img">`).join('') : '<span class="flag-menu-none">✕</span>'}
+        <button type="button" class="flag-menu-item ${(contestant.flagId || 'NONE') === f.id ? 'selected' : ''}${f.isOther ? ' flag-menu-other' : ''}" data-flag-id="${escapeHtml(f.id)}">
+            ${f.isOther ? '<span class="flag-menu-search">🔍</span>' : (f.urls && f.urls.length > 0 ? f.urls.map(url => `<img src="${escapeHtml(url)}" alt="" class="flag-menu-img">`).join('') : '<span class="flag-menu-none">✕</span>')}
             <span class="flag-menu-name">${escapeHtml(f.name)}</span>
         </button>
     `).join('');
@@ -1235,6 +1488,14 @@ function openFlagMenu(event, contestantId) {
         const btn = e.target.closest('.flag-menu-item');
         if (!btn) return;
         const flagId = btn.dataset.flagId;
+        
+        // If "Other" selected, open country picker modal
+        if (flagId === 'OTHER') {
+            closeFlagMenu();
+            openCountryModal(contestantId);
+            return;
+        }
+        
         updateContestant(contestantId, 'flagId', flagId);
         closeFlagMenu();
     });
@@ -3143,6 +3404,137 @@ function closeHelpModal() {
     if (modal) modal.classList.remove('active');
 }
 
+// ===== COUNTRY PICKER MODAL =====
+let countryModalState = { contestantId: null };
+
+function openCountryModal(contestantId) {
+    countryModalState.contestantId = contestantId;
+    const modal = document.getElementById('countryModal');
+    const searchInput = document.getElementById('countrySearch');
+    const listEl = document.getElementById('countryList');
+    
+    if (!modal || !searchInput || !listEl) return;
+    
+    searchInput.value = '';
+    renderCountryList('');
+    modal.classList.add('active');
+    
+    // Focus search input
+    setTimeout(() => searchInput.focus(), 50);
+    
+    // Setup search handler
+    searchInput.oninput = () => renderCountryList(searchInput.value);
+    
+    // Close on overlay click
+    modal.onclick = (e) => {
+        if (e.target === modal) closeCountryModal();
+    };
+}
+
+function closeCountryModal() {
+    const modal = document.getElementById('countryModal');
+    if (modal) modal.classList.remove('active');
+    countryModalState.contestantId = null;
+}
+
+function renderCountryList(query) {
+    const listEl = document.getElementById('countryList');
+    if (!listEl) return;
+    
+    const q = (query || '').toLowerCase().trim();
+    const filtered = q 
+        ? ALL_COUNTRIES.filter(c => c.name.toLowerCase().includes(q) || c.code.toLowerCase() === q)
+        : ALL_COUNTRIES;
+    
+    if (filtered.length === 0) {
+        listEl.innerHTML = '<div class="country-no-results">No countries found</div>';
+        return;
+    }
+    
+    listEl.innerHTML = filtered.map(c => `
+        <button type="button" class="country-item" data-code="${escapeHtml(c.code)}" data-name="${escapeHtml(c.name)}">
+            <img src="https://flagpedia.net/data/flags/w40/${c.code.toLowerCase()}.png" alt="${escapeHtml(c.name)} flag">
+            <span class="country-item-name">${escapeHtml(c.name)}</span>
+        </button>
+    `).join('');
+    
+    // Handle selection
+    listEl.onclick = (e) => {
+        const btn = e.target.closest('.country-item');
+        if (!btn) return;
+        const code = btn.dataset.code;
+        const name = btn.dataset.name;
+        selectCountryFromModal(code, name);
+    };
+}
+
+function selectCountryFromModal(code, name) {
+    const contestantId = countryModalState.contestantId;
+    if (!contestantId) return;
+    
+    // Create a custom flag ID for this country
+    const customFlagId = `CUSTOM_${code.toUpperCase()}`;
+    const flagUrl = `https://flagpedia.net/data/flags/w40/${code.toLowerCase()}.png`;
+    
+    // Add to GLOBAL_FLAGS if not already there (dynamically)
+    if (!GLOBAL_FLAGS_BY_ID[customFlagId]) {
+        const customFlag = { id: customFlagId, name: name, urls: [flagUrl], isCustom: true };
+        // Insert before OTHER
+        const otherIdx = GLOBAL_FLAGS.findIndex(f => f.id === 'OTHER');
+        if (otherIdx >= 0) {
+            GLOBAL_FLAGS.splice(otherIdx, 0, customFlag);
+        } else {
+            GLOBAL_FLAGS.push(customFlag);
+        }
+        GLOBAL_FLAGS_BY_ID[customFlagId] = customFlag;
+    }
+    
+    updateContestant(contestantId, 'flagId', customFlagId);
+    closeCountryModal();
+    closeFlagMenu();
+}
+
+// Wrapper for sidebar flag dropdown to handle "Other" option
+function handleFlagSelect(contestantId, flagId, selectEl) {
+    if (flagId === 'OTHER') {
+        // Reset select to previous value to avoid showing "Other..." as selected
+        const contestant = state.contestants.find(c => c.id === contestantId);
+        if (selectEl && contestant) {
+            selectEl.value = contestant.flagId || 'NONE';
+        }
+        openCountryModal(contestantId);
+        return;
+    }
+    updateContestant(contestantId, 'flagId', flagId);
+}
+
+// Restore custom flags from loaded project data
+function restoreCustomFlagsFromContestants() {
+    if (!state.contestants) return;
+    
+    for (const c of state.contestants) {
+        if (!c.flagId) continue;
+        // Check if it's a custom flag (CUSTOM_XX format)
+        if (c.flagId.startsWith('CUSTOM_') && !GLOBAL_FLAGS_BY_ID[c.flagId]) {
+            const code = c.flagId.slice('CUSTOM_'.length).toLowerCase();
+            // Find country name from ALL_COUNTRIES
+            const country = ALL_COUNTRIES.find(x => x.code.toLowerCase() === code);
+            const name = country ? country.name : code.toUpperCase();
+            const flagUrl = `https://flagpedia.net/data/flags/w40/${code}.png`;
+            
+            const customFlag = { id: c.flagId, name: name, urls: [flagUrl], isCustom: true };
+            // Insert before OTHER
+            const otherIdx = GLOBAL_FLAGS.findIndex(f => f.id === 'OTHER');
+            if (otherIdx >= 0) {
+                GLOBAL_FLAGS.splice(otherIdx, 0, customFlag);
+            } else {
+                GLOBAL_FLAGS.push(customFlag);
+            }
+            GLOBAL_FLAGS_BY_ID[c.flagId] = customFlag;
+        }
+    }
+}
+
 function copyHtmlToClipboard() {
     const html = generateExportHtml();
     navigator.clipboard.writeText(html).then(() => {
@@ -3235,6 +3627,7 @@ function loadProject(e) {
                 initGroupsState();
                 normalizeDeprecatedPlacementIdsInContestants();
                 migrateBorderAddonsFromPlacements();
+                restoreCustomFlagsFromContestants();
                 
                 // Update IDs
                 nextContestantId = Math.max(...state.contestants.map(c => c.id)) + 1;
@@ -4279,9 +4672,9 @@ function escapeHtml(str) {
 }
 
 function getFlagHtml(flagId) {
-    if (!flagId || flagId === 'NONE') return '';
+    if (!flagId || flagId === 'NONE') return '<img src="./flagplaceholder.png" alt="No flag" class="contestant-flag flag-placeholder-cell">';
     const flag = GLOBAL_FLAGS_BY_ID[flagId];
-    if (!flag || !flag.urls || flag.urls.length === 0) return '';
+    if (!flag || !flag.urls || flag.urls.length === 0) return '<img src="./flagplaceholder.png" alt="No flag" class="contestant-flag flag-placeholder-cell">';
     // Support multiple stacked flags (like Australia + New Zealand)
     return flag.urls.map(url => 
         `<img src="${escapeHtml(url)}" alt="${escapeHtml(flag.name)} Flag" class="contestant-flag" loading="lazy">`
@@ -4289,9 +4682,9 @@ function getFlagHtml(flagId) {
 }
 
 function getFlagHtmlSmall(flagId) {
-    if (!flagId || flagId === 'NONE') return '<span class="flag-placeholder">🏳</span>';
+    if (!flagId || flagId === 'NONE') return '<img src="./flagplaceholder.png" alt="No flag" class="contestant-flag-small flag-placeholder">';
     const flag = GLOBAL_FLAGS_BY_ID[flagId];
-    if (!flag || !flag.urls || flag.urls.length === 0) return '<span class="flag-placeholder">🏳</span>';
+    if (!flag || !flag.urls || flag.urls.length === 0) return '<img src="./flagplaceholder.png" alt="No flag" class="contestant-flag-small flag-placeholder">';
     // Support multiple stacked flags (like Down Under)
     return flag.urls.map(url => 
         `<img src="${escapeHtml(url)}" alt="${escapeHtml(flag.name)}" class="contestant-flag-small" loading="lazy">`

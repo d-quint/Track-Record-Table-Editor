@@ -359,6 +359,13 @@ header h1 {
     opacity: 0.5;
 }
 
+.flag-placeholder-cell {
+    font-size: 16px;
+    opacity: 0.35;
+    display: block;
+    text-align: center;
+}
+
 .panel-help {
     font-size: 0.875rem;
     color: var(--text-secondary);
@@ -1278,6 +1285,18 @@ input[type="color"]::-moz-color-swatch {
 .flag-menu-name {
     flex: 1;
     color: inherit;
+}
+
+.flag-menu-search {
+    width: 24px;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.flag-menu-other {
+    border-top: 1px solid rgba(15, 23, 42, 0.1);
+    margin-top: 4px;
+    padding-top: 8px;
 }
 
 .track-record-table [contenteditable="true"] {
@@ -2679,5 +2698,95 @@ input[type="color"]::-moz-color-swatch {
     
     .btn-success:active {
         background: rgba(34, 197, 94, 0.32);
+    }
+}
+
+/* ===== COUNTRY PICKER MODAL ===== */
+.country-modal {
+    width: 320px;
+    max-width: 90vw;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.country-modal .modal-header {
+    margin-bottom: 0.75rem;
+}
+
+.country-modal .modal-header h2 {
+    font-size: 1rem;
+}
+
+.country-search-wrapper {
+    margin-bottom: 0.5rem;
+}
+
+.country-search {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.country-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 350px;
+}
+
+.country-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+}
+
+.country-item:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--accent);
+}
+
+.country-item img {
+    width: 24px;
+    height: auto;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.country-item-name {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.country-no-results {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 1rem;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 480px) {
+    .country-modal {
+        width: 100%;
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 12px 12px 0 0;
+        margin-top: auto;
+    }
+    
+    .country-list {
+        max-height: 50vh;
     }
 }
