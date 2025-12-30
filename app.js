@@ -753,6 +753,30 @@ function setupEventListeners() {
     if (tablePreview) {
         tablePreview.addEventListener('focusin', handleLiveTableEditFocusIn, true);
         tablePreview.addEventListener('focusout', handleLiveTableEditFocusOut, true);
+        
+        // Shift+Enter inserts a line break in contenteditable cells
+        tablePreview.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.shiftKey) {
+                const el = e.target?.closest?.('[contenteditable="true"]');
+                if (el) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Insert <br> at cursor position
+                    const selection = window.getSelection();
+                    if (selection.rangeCount > 0) {
+                        const range = selection.getRangeAt(0);
+                        range.deleteContents();
+                        const br = document.createElement('br');
+                        range.insertNode(br);
+                        // Move cursor after the <br>
+                        range.setStartAfter(br);
+                        range.setEndAfter(br);
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                }
+            }
+        }, true);
     }
 
     // Allow "Paste from clipboard" flow for image menus (Ctrl+V after clicking Paste).

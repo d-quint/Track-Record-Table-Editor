@@ -1150,6 +1150,10 @@ input[type="color"]::-moz-color-swatch {
 
 .track-record-table .text-cell {
     padding: 0.4em 0.75em;
+    max-width: 100px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .track-record-table .photo-cell img {
