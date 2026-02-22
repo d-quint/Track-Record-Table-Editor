@@ -291,6 +291,10 @@
                                     <span>Rank column</span>
                                 </label>
                                 <label class="settings-option">
+                                    <input type="checkbox" id="autoRanking" checked>
+                                    <span>Auto-rank (uncheck to edit ranks manually)</span>
+                                </label>
+                                <label class="settings-option">
                                     <input type="checkbox" id="allStarsMode">
                                     <span>All Stars mode (Original Season/Rank)</span>
                                 </label>
@@ -480,6 +484,7 @@
                             <li><strong>Episode headers</strong> — Click to rename episodes</li>
                             <li><strong>Reorder queens</strong> — Drag the grip handle (|) on the left side of each row</li>
                             <li><strong>Reorder episodes</strong> — Drag episodes in the sidebar list</li>
+                            <li><strong>Custom ranks</strong> — Uncheck "Auto-rank" in Settings to manually type ranks in the table</li>
                         </ul>
                     </div>
 
@@ -545,10 +550,19 @@
                     </div>
                     
                     <div class="changelog-section">
+                        <h4>⚙️ New: Editable Ranks</h4>
+                        <ul>
+                            <li><strong>Disable auto-ranking</strong> — Uncheck "Auto-rank" in Settings to manually edit rank cells directly in the table, just like contestant names</li>
+                        </ul>
+                        <p class="changelog-tip">📍 Find it: Settings panel → uncheck "Auto-rank"</p>
+                    </div>
+
+                    <div class="changelog-section">
                         <h4>🔧 Fixes</h4>
                         <ul>
                             <li><strong>Flag export rendering</strong> — Flags were appearing blank in exported PNG images; switched to a CORS-compatible CDN so flags now render correctly in exports</li>
                             <li><strong>Multi-line contestant names</strong> — Breaking a long name into multiple lines no longer discards everything after the first line when the table updates</li>
+                            <li><strong>LSFTC ranking</strong> — Queens who lost the same round of Lip Sync for the Crown now correctly share a rank, and the queen who lost the final round is ranked 2nd</li>
                         </ul>
                     </div>
                 </div>

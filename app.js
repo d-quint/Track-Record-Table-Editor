@@ -607,6 +607,7 @@ let state = {
     photoSize: 100,
     autoFillOut: true,
     showRankColumn: true,
+    autoRanking: true,
     placementsById: {},
     placementRoots: [],
     bordersById: {},
@@ -661,6 +662,7 @@ function syncSettingsUI() {
         photoSizeValue: document.getElementById('photoSizeValue'),
         autoFillOut: document.getElementById('autoFillOut'),
         showRankColumn: document.getElementById('showRankColumn'),
+        autoRanking: document.getElementById('autoRanking'),
         globalMode: document.getElementById('globalMode')
     };
 
@@ -690,6 +692,7 @@ function syncSettingsUI() {
     if (els.photoSizeValue) els.photoSizeValue.textContent = `${photoS}%`;
     if (els.autoFillOut) els.autoFillOut.checked = state.autoFillOut !== false;
     if (els.showRankColumn) els.showRankColumn.checked = state.showRankColumn !== false;
+    if (els.autoRanking) els.autoRanking.checked = state.autoRanking !== false;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -709,6 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.photoSize === undefined) state.photoSize = 100;
     if (state.autoFillOut === undefined) state.autoFillOut = true;
     if (state.showRankColumn === undefined) state.showRankColumn = true;
+    if (state.autoRanking === undefined) state.autoRanking = true;
     if (state.allStarsMode === undefined) state.allStarsMode = false;
     if (state.globalMode === undefined) state.globalMode = false;
     syncSettingsUI();
@@ -1253,6 +1257,14 @@ function setupEventListeners() {
     if (showRankColumn) {
         showRankColumn.addEventListener('change', (e) => {
             state.showRankColumn = e.target.checked;
+            renderTable();
+        });
+    }
+
+    const autoRanking = document.getElementById('autoRanking');
+    if (autoRanking) {
+        autoRanking.addEventListener('change', (e) => {
+            state.autoRanking = e.target.checked;
             renderTable();
         });
     }
@@ -1914,10 +1926,11 @@ function renderTable() {
                 </tr>
     `;
 
-    const rankLabels = state.showRankColumn ? computeRankLabelsForCurrentOrder() : null;
+    const useAutoRanking = state.autoRanking !== false;
+    const rankLabels = (state.showRankColumn && useAutoRanking) ? computeRankLabelsForCurrentOrder() : null;
 
     state.contestants.forEach((contestant, cIdx) => {
-        const rank = rankLabels ? (rankLabels[cIdx] || getRank(cIdx)) : getRank(cIdx);
+        const rank = rankLabels ? (rankLabels[cIdx] || getRank(cIdx)) : (useAutoRanking ? getRank(cIdx) : (contestant.customRank || ''));
         const group = state.groupsEnabled ? getGroupById(contestant.groupId) : null;
         const groupStyle = group ? ` style="background:${group.bgColor};color:${group.textColor};padding:${0.4 * padding}em ${0.75 * padding}em;"` : ` style="padding:${0.4 * padding}em ${0.75 * padding}em;"`;
         const groupLabel = group ? `<br><small contenteditable="false">(${escapeHtml(group.name)})</small>` : '';
@@ -1925,7 +1938,7 @@ function renderTable() {
         const textCellPaddingStyle = `style="padding:${0.4 * padding}em ${0.75 * padding}em;"`;
         tableHtml += `
             <tr class="table-contestant-row" data-id="${contestant.id}">
-                ${state.showRankColumn ? `<td class="rank-cell" ${cellPaddingStyle}>${rank}</td>` : ''}
+                ${state.showRankColumn ? (useAutoRanking ? `<td class="rank-cell" ${cellPaddingStyle}>${rank}</td>` : `<td class="rank-cell" contenteditable="true" data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="customRank" ${cellPaddingStyle}>${escapeHtml(rank)}</td>`) : ''}
                 ${state.globalMode ? `<td class="flag-cell" ${cellPaddingStyle} onclick="openFlagMenu(event, ${contestant.id})" title="Click to select country flag">${getFlagHtml(contestant.flagId)}</td>` : ''}
                 <td class="contestant-name-cell" ${groupStyle}>
                     <span class="inline-edit" contenteditable="true" data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="name"><b>${escapeHtml(contestant.name).replace(/\n/g, '<br>')}</b></span>${groupLabel}
@@ -4804,16 +4817,12 @@ function getContestantExitInfo(contestant) {
         return { priority: numEpisodes + 999, tieKey: 'FINAL:RUNNERUP' };
     }
 
-    // LSFTC losers
-    const lsftcEarlyRounds = ['LSFTC_L1', 'LSFTC_L2'];
-    for (let epIdx = 0; epIdx < placements.length; epIdx++) {
-        const p = placements[epIdx];
-        if (lsftcEarlyRounds.includes(p)) {
-            return { priority: numEpisodes + 998, tieKey: `FINAL:LSFTC_EP${epIdx}` };
-        }
-    }
+    // LSFTC losers: L3 = runner-up (2nd), L1 & L2 = semifinalists (tied 3rd/4th)
     if (placements.includes('LSFTC_L3')) {
-        return { priority: numEpisodes + 997, tieKey: 'FINAL:LSFTC_L3' };
+        return { priority: numEpisodes + 998, tieKey: 'FINAL:LSFTC_L3' };
+    }
+    if (placements.includes('LSFTC_L2') || placements.includes('LSFTC_L1')) {
+        return { priority: numEpisodes + 997, tieKey: 'FINAL:LSFTC_SEMI' };
     }
 
     // Find the LAST terminal placement episode (after any returns)
@@ -4911,17 +4920,9 @@ function getContestantTieKey(contestant) {
     if (placements.includes('WINNER')) return 'FINAL:WINNER';
     if (placements.includes('RUNNERUP')) return 'FINAL:RUNNERUP';
 
-    // LSFTC losers: LOST 1ST and LOST 2ND in the same EPISODE (column) share a rank,
-    // since they lost at the same bracket level. LOST 3RD is separate (they're runner-up).
-    const lsftcEarlyRounds = ['LSFTC_L1', 'LSFTC_L2'];
-    for (let epIdx = 0; epIdx < placements.length; epIdx++) {
-        const p = placements[epIdx];
-        if (lsftcEarlyRounds.includes(p)) {
-            return `FINAL:LSFTC_EP${epIdx}`;
-        }
-    }
-    // LOST 3RD gets its own tie group (runner-up level)
+    // LSFTC losers: L3 = runner-up (2nd), L1 & L2 = semifinalists (tied)
     if (placements.includes('LSFTC_L3')) return 'FINAL:LSFTC_L3';
+    if (placements.includes('LSFTC_L2') || placements.includes('LSFTC_L1')) return 'FINAL:LSFTC_SEMI';
 
     // Group together contestants who stop competing in the same episode.
     // This covers double eliminations, multiple finale eliminations, etc.
