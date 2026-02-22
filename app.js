@@ -4825,6 +4825,14 @@ function getContestantExitInfo(contestant) {
         return { priority: numEpisodes + 997, tieKey: 'FINAL:LSFTC_SEMI' };
     }
 
+    // Other finale placements (LSFTC parent, FIN_TOP3, FIN_TOP4, MISSCON, LPRZ variants, etc.)
+    // Rank them above regular exits but below the specific LSFTC round checks
+    for (const p of placements) {
+        if (FINALE_PLACEMENTS.has(p)) {
+            return { priority: numEpisodes + 996, tieKey: `FINAL:${p}` };
+        }
+    }
+
     // Find the LAST terminal placement episode (after any returns)
     let lastTerminalEpisode = -1;
     let lastReturnEpisode = -1;
@@ -4923,6 +4931,11 @@ function getContestantTieKey(contestant) {
     // LSFTC losers: L3 = runner-up (2nd), L1 & L2 = semifinalists (tied)
     if (placements.includes('LSFTC_L3')) return 'FINAL:LSFTC_L3';
     if (placements.includes('LSFTC_L2') || placements.includes('LSFTC_L1')) return 'FINAL:LSFTC_SEMI';
+
+    // Other finale placements (LSFTC parent, FIN_TOP3, FIN_TOP4, MISSCON, LPRZ variants, etc.)
+    for (const p of placements) {
+        if (FINALE_PLACEMENTS.has(p)) return `FINAL:${p}`;
+    }
 
     // Group together contestants who stop competing in the same episode.
     // This covers double eliminations, multiple finale eliminations, etc.
