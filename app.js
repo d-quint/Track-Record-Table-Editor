@@ -81,21 +81,21 @@ const DEFAULT_PLACEMENTS_MERGED = [...DEFAULT_PLACEMENTS, ...LALAPARUZA_PLACEMEN
 // urls is an array to support stacked flags (like Down Under = Australia + New Zealand)
 const GLOBAL_FLAGS = [
     { id: 'NONE', name: 'No Flag', urls: [] },
-    { id: 'USA', name: 'USA', urls: ['https://flagpedia.net/data/flags/w40/us.png'] },
-    { id: 'UK', name: 'UK', urls: ['https://flagpedia.net/data/flags/w40/gb.png'] },
-    { id: 'CANADA', name: 'Canada', urls: ['https://flagpedia.net/data/flags/w40/ca.png'] },
-    { id: 'DOWN_UNDER', name: 'Australia/NZ (Down Under)', urls: ['https://flagpedia.net/data/flags/w40/au.png', 'https://flagpedia.net/data/flags/w40/nz.png'] },
-    { id: 'FRANCE', name: 'France', urls: ['https://flagpedia.net/data/flags/w40/fr.png'] },
-    { id: 'SPAIN', name: 'Spain (España)', urls: ['https://flagpedia.net/data/flags/w40/es.png'] },
-    { id: 'ITALY', name: 'Italy (Italia)', urls: ['https://flagpedia.net/data/flags/w40/it.png'] },
-    { id: 'GERMANY', name: 'Germany', urls: ['https://flagpedia.net/data/flags/w40/de.png'] },
-    { id: 'BELGIUM', name: 'Belgium (Belgique)', urls: ['https://flagpedia.net/data/flags/w40/be.png'] },
-    { id: 'NETHERLANDS', name: 'Netherlands (Holland)', urls: ['https://flagpedia.net/data/flags/w40/nl.png'] },
-    { id: 'SWEDEN', name: 'Sweden (Sverige)', urls: ['https://flagpedia.net/data/flags/w40/se.png'] },
-    { id: 'MEXICO', name: 'Mexico (México)', urls: ['https://flagpedia.net/data/flags/w40/mx.png'] },
-    { id: 'BRAZIL', name: 'Brazil (Brasil)', urls: ['https://flagpedia.net/data/flags/w40/br.png'] },
-    { id: 'PHILIPPINES', name: 'Philippines', urls: ['https://flagpedia.net/data/flags/w40/ph.png'] },
-    { id: 'THAILAND', name: 'Thailand', urls: ['https://flagpedia.net/data/flags/w40/th.png'] },
+    { id: 'USA', name: 'USA', urls: ['https://flagcdn.com/w40/us.png'] },
+    { id: 'UK', name: 'UK', urls: ['https://flagcdn.com/w40/gb.png'] },
+    { id: 'CANADA', name: 'Canada', urls: ['https://flagcdn.com/w40/ca.png'] },
+    { id: 'DOWN_UNDER', name: 'Australia/NZ (Down Under)', urls: ['https://flagcdn.com/w40/au.png', 'https://flagcdn.com/w40/nz.png'] },
+    { id: 'FRANCE', name: 'France', urls: ['https://flagcdn.com/w40/fr.png'] },
+    { id: 'SPAIN', name: 'Spain (España)', urls: ['https://flagcdn.com/w40/es.png'] },
+    { id: 'ITALY', name: 'Italy (Italia)', urls: ['https://flagcdn.com/w40/it.png'] },
+    { id: 'GERMANY', name: 'Germany', urls: ['https://flagcdn.com/w40/de.png'] },
+    { id: 'BELGIUM', name: 'Belgium (Belgique)', urls: ['https://flagcdn.com/w40/be.png'] },
+    { id: 'NETHERLANDS', name: 'Netherlands (Holland)', urls: ['https://flagcdn.com/w40/nl.png'] },
+    { id: 'SWEDEN', name: 'Sweden (Sverige)', urls: ['https://flagcdn.com/w40/se.png'] },
+    { id: 'MEXICO', name: 'Mexico (México)', urls: ['https://flagcdn.com/w40/mx.png'] },
+    { id: 'BRAZIL', name: 'Brazil (Brasil)', urls: ['https://flagcdn.com/w40/br.png'] },
+    { id: 'PHILIPPINES', name: 'Philippines', urls: ['https://flagcdn.com/w40/ph.png'] },
+    { id: 'THAILAND', name: 'Thailand', urls: ['https://flagcdn.com/w40/th.png'] },
     { id: 'OTHER', name: 'Other...', urls: [], isOther: true }
 ];
 
@@ -1270,7 +1270,7 @@ function normalizeLiveEditValue(scope, field, raw) {
     if (raw === null || raw === undefined) raw = '';
     const s = String(raw);
     if (scope === 'contestant' && field === 'name') {
-        return s.split(/\r?\n/)[0].trim();
+        return s.replace(/^\s+|\s+$/g, '');
     }
     if (scope === 'episode' && field === 'challenge') {
         return s;
@@ -1928,7 +1928,7 @@ function renderTable() {
                 ${state.showRankColumn ? `<td class="rank-cell" ${cellPaddingStyle}>${rank}</td>` : ''}
                 ${state.globalMode ? `<td class="flag-cell" ${cellPaddingStyle} onclick="openFlagMenu(event, ${contestant.id})" title="Click to select country flag">${getFlagHtml(contestant.flagId)}</td>` : ''}
                 <td class="contestant-name-cell" ${groupStyle}>
-                    <span class="inline-edit" contenteditable="true" data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="name"><b>${escapeHtml(contestant.name)}</b></span>${groupLabel}
+                    <span class="inline-edit" contenteditable="true" data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="name"><b>${escapeHtml(contestant.name).replace(/\n/g, '<br>')}</b></span>${groupLabel}
                 </td>
                 ${state.showPhotos ? `
                     <td class="photo-cell" ${cellPaddingStyle}>
@@ -3291,7 +3291,7 @@ function inlineExportStyles(table) {
     // Flag cells (Global Mode)
     table.querySelectorAll('.flag-cell').forEach(cell => {
         const existingStyle = cell.getAttribute('style') || '';
-        cell.setAttribute('style', `${baseCellStyle} vertical-align:middle; text-align:center; min-width:45px; padding:${0.25 * padding}em 0.3em; ${existingStyle}`);
+        cell.setAttribute('style', `${baseCellStyle} vertical-align:middle; text-align:center; width:50px; min-width:50px; max-width:50px; padding:${0.25 * padding}em 0.3em; ${existingStyle}`);
     });
     // Flag images inside flag cells - must be block to stack vertically
     table.querySelectorAll('.flag-cell .contestant-flag').forEach(img => {
@@ -3453,7 +3453,7 @@ function renderCountryList(query) {
     
     listEl.innerHTML = filtered.map(c => `
         <button type="button" class="country-item" data-code="${escapeHtml(c.code)}" data-name="${escapeHtml(c.name)}">
-            <img src="https://flagpedia.net/data/flags/w40/${c.code.toLowerCase()}.png" alt="${escapeHtml(c.name)} flag">
+            <img src="https://flagcdn.com/w40/${c.code.toLowerCase()}.png" alt="${escapeHtml(c.name)} flag">
             <span class="country-item-name">${escapeHtml(c.name)}</span>
         </button>
     `).join('');
@@ -3474,7 +3474,7 @@ function selectCountryFromModal(code, name) {
     
     // Create a custom flag ID for this country
     const customFlagId = `CUSTOM_${code.toUpperCase()}`;
-    const flagUrl = `https://flagpedia.net/data/flags/w40/${code.toLowerCase()}.png`;
+    const flagUrl = `https://flagcdn.com/w40/${code.toLowerCase()}.png`;
     
     // Add to GLOBAL_FLAGS if not already there (dynamically)
     if (!GLOBAL_FLAGS_BY_ID[customFlagId]) {
@@ -3520,7 +3520,7 @@ function restoreCustomFlagsFromContestants() {
             // Find country name from ALL_COUNTRIES
             const country = ALL_COUNTRIES.find(x => x.code.toLowerCase() === code);
             const name = country ? country.name : code.toUpperCase();
-            const flagUrl = `https://flagpedia.net/data/flags/w40/${code}.png`;
+            const flagUrl = `https://flagcdn.com/w40/${code}.png`;
             
             const customFlag = { id: c.flagId, name: name, urls: [flagUrl], isCustom: true };
             // Insert before OTHER
@@ -3578,6 +3578,7 @@ async function captureTableAsImage() {
             backgroundColor: '#ffffff',
             scale: exportScale,
             useCORS: true,
+            allowTaint: false,
             logging: false
         });
 

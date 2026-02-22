@@ -87,8 +87,8 @@
                 </span>
                 <span class="app-title-full">Track Record Table Editor</span>
                 <span class="app-title-short">TR Editor</span>
-                <button class="version-badge" id="showChangelog" title="What's new in v1.3">
-                    <span class="version-text">v1.3</span>
+                <button class="version-badge" id="showChangelog" title="What's new in v1.3.1">
+                    <span class="version-text">v1.3.1</span>
                     <svg class="version-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/>
                         <path d="M12 16v-4"/>
@@ -538,6 +538,21 @@
                 <button class="modal-close" onclick="closeChangelogModal()">&times;</button>
             </div>
             <div class="changelog-content">
+                <div class="changelog-version">
+                    <div class="changelog-version-header">
+                        <span class="changelog-version-tag">v1.3.1</span>
+                        <span class="changelog-date">February 23, 2026</span>
+                    </div>
+                    
+                    <div class="changelog-section">
+                        <h4>🔧 Fixes</h4>
+                        <ul>
+                            <li><strong>Flag export rendering</strong> — Flags were appearing blank in exported PNG images; switched to a CORS-compatible CDN so flags now render correctly in exports</li>
+                            <li><strong>Multi-line contestant names</strong> — Breaking a long name into multiple lines no longer discards everything after the first line when the table updates</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="changelog-version">
                     <div class="changelog-version-header">
                         <span class="changelog-version-tag">v1.3</span>
