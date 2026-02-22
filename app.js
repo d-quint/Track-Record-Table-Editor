@@ -4825,16 +4825,10 @@ function getContestantExitInfo(contestant) {
         return { priority: numEpisodes + 997, tieKey: 'FINAL:LSFTC_SEMI' };
     }
 
-    // Other finale placements (LSFTC parent, FIN_TOP3, FIN_TOP4, MISSCON, LPRZ variants, etc.)
-    // Rank them above regular exits but below the specific LSFTC round checks
-    for (const p of placements) {
-        if (FINALE_PLACEMENTS.has(p)) {
-            return { priority: numEpisodes + 996, tieKey: `FINAL:${p}` };
-        }
-    }
-
-    // Find the LAST terminal placement episode (after any returns)
-    let lastTerminalEpisode = -1;
+    // Find the actual elimination episode (after any returns)
+    // Track elimination placements and non-special finale placements separately
+    let lastElimEpisode = -1;
+    let lastFinaleEpisode = -1;
     let lastReturnEpisode = -1;
     
     for (let epIdx = 0; epIdx < placements.length; epIdx++) {
@@ -4850,17 +4844,19 @@ function getContestantExitInfo(contestant) {
         else if (isDisqComboId(raw)) baseId = 'DISQ';
         else if (isDeptComboId(raw)) baseId = 'DEPT';
         
-        if (ELIMINATION_PLACEMENTS.has(baseId)) {
-            // Only count if after last return
-            if (epIdx > lastReturnEpisode) {
-                lastTerminalEpisode = epIdx;
+        if (epIdx > lastReturnEpisode) {
+            if (ELIMINATION_PLACEMENTS.has(baseId)) {
+                lastElimEpisode = epIdx;
+            } else if (FINALE_PLACEMENTS.has(baseId)) {
+                lastFinaleEpisode = epIdx;
             }
         }
     }
 
-    if (lastTerminalEpisode >= 0) {
-        // Priority = episode number (later = higher priority = better rank)
-        return { priority: lastTerminalEpisode, tieKey: `EXIT:${lastTerminalEpisode}` };
+    // Rank by elimination episode; fall back to finale episode for queens with no ELIM
+    const exitEpisode = lastElimEpisode >= 0 ? lastElimEpisode : lastFinaleEpisode;
+    if (exitEpisode >= 0) {
+        return { priority: exitEpisode, tieKey: `EXIT:${exitEpisode}` };
     }
 
     return { priority: -1000, tieKey: 'UNKNOWN' };
@@ -4932,17 +4928,13 @@ function getContestantTieKey(contestant) {
     if (placements.includes('LSFTC_L3')) return 'FINAL:LSFTC_L3';
     if (placements.includes('LSFTC_L2') || placements.includes('LSFTC_L1')) return 'FINAL:LSFTC_SEMI';
 
-    // Other finale placements (LSFTC parent, FIN_TOP3, FIN_TOP4, MISSCON, LPRZ variants, etc.)
-    for (const p of placements) {
-        if (FINALE_PLACEMENTS.has(p)) return `FINAL:${p}`;
-    }
-
-    // Group together contestants who stop competing in the same episode.
-    // This covers double eliminations, multiple finale eliminations, etc.
+    // Find the actual elimination episode
+    // Track elimination and non-special finale placements separately
+    let elimEpIdx = -1;
+    let finaleEpIdx = -1;
     for (let epIdx = 0; epIdx < placements.length; epIdx++) {
         const raw = placements[epIdx] || 'EMPTY';
         
-        // Handle combo placements
         let baseId = raw;
         if (isRtrnComboId(raw)) {
             baseId = canonicalizePlacementId(getRtrnComboBaseId(raw));
@@ -4954,8 +4946,13 @@ function getContestantTieKey(contestant) {
             baseId = 'DEPT';
         }
         
-        if (ELIMINATION_PLACEMENTS.has(baseId)) return `EXIT:${epIdx}`;
+        if (ELIMINATION_PLACEMENTS.has(baseId)) { elimEpIdx = epIdx; }
+        else if (FINALE_PLACEMENTS.has(baseId)) { finaleEpIdx = epIdx; }
     }
+
+    // Rank by elimination episode; fall back to finale episode for queens with no ELIM
+    const exitEp = elimEpIdx >= 0 ? elimEpIdx : finaleEpIdx;
+    if (exitEp >= 0) return `EXIT:${exitEp}`;
 
     return null;
 }
