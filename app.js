@@ -1910,8 +1910,8 @@ function renderTable() {
                     ${state.showRankColumn ? '<th rowspan="2">Rank</th>' : ''}
                     <th rowspan="2" ${state.globalMode ? 'colspan="2"' : ''} style="width:100px;">Contestant</th>
                     ${state.showPhotos ? '<th rowspan="2">Photo</th>' : ''}
-                    ${state.allStarsMode ? '<th rowspan="2">Original<br>Season(s)</th>' : (state.showAge ? '<th rowspan="2">Age</th>' : '')}
-                    ${state.allStarsMode ? '<th rowspan="2">Original<br>Rank(s)</th>' : (state.showLocation ? '<th rowspan="2" style="width:100px;">Location</th>' : '')}
+                    ${state.showAge ? (state.allStarsMode ? '<th rowspan="2">Original<br>Season(s)</th>' : '<th rowspan="2">Age</th>') : ''}
+                    ${state.showLocation ? (state.allStarsMode ? '<th rowspan="2">Original<br>Rank(s)</th>' : '<th rowspan="2" style="width:100px;">Location</th>') : ''}
                     ${episodeGroups.map(g => `<th style="width:17px;" colspan="${g.span}">${escapeHtml(g.label)}</th>`).join('')}
                 </tr>
                 <tr>
@@ -1954,8 +1954,8 @@ function renderTable() {
                         </div>
                     </td>
                 ` : ''}
-                ${state.allStarsMode ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="originalSeason">${escapeHtml(contestant.originalSeason || '')}</td>` : (state.showAge ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="age">${contestant.age || ''}</td>` : '')}
-                ${state.allStarsMode ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="originalRank">${escapeHtml(contestant.originalRank || '')}</td>` : (state.showLocation ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="location">${escapeHtml(contestant.location || '')}</td>` : '')}
+                ${state.showAge ? (state.allStarsMode ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="originalSeason">${escapeHtml(contestant.originalSeason || '')}</td>` : `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="age">${contestant.age || ''}</td>`) : ''}
+                ${state.showLocation ? (state.allStarsMode ? `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="originalRank">${escapeHtml(contestant.originalRank || '')}</td>` : `<td class="text-cell" contenteditable="true" ${textCellPaddingStyle} data-edit-scope="contestant" data-edit-id="${contestant.id}" data-edit-field="location">${escapeHtml(contestant.location || '')}</td>`) : ''}
                 ${state.episodes.map((ep, epIdx) => {
                     const placementId = contestant.placements[epIdx] || 'EMPTY';
                     return renderPlacementCell(contestant.id, epIdx, placementId, episodeCounts[epIdx], padding);
@@ -1967,7 +1967,7 @@ function renderTable() {
     // Add row with button to add new contestant
     tableHtml += `
         <tr class="add-contestant-row">
-            <td colspan="${(state.showRankColumn ? 1 : 0) + (state.globalMode ? 1 : 0) + 1 + (state.showPhotos ? 1 : 0) + (state.allStarsMode ? 2 : ((state.showAge ? 1 : 0) + (state.showLocation ? 1 : 0))) + state.episodes.length}" style="padding:0.75rem; border:none; background:transparent;">
+            <td colspan="${(state.showRankColumn ? 1 : 0) + (state.globalMode ? 1 : 0) + 1 + (state.showPhotos ? 1 : 0) + (state.showAge ? 1 : 0) + (state.showLocation ? 1 : 0) + state.episodes.length}" style="padding:0.75rem; border:none; background:transparent;">
                 <button class="table-add-btn" onclick="addContestant()" title="Add contestant">+</button>
             </td>
             <td style="padding:0; border:none; background:transparent;"></td>
