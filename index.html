@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Primary Meta Tags -->
     <title>Track Record Table Editor - Create Drag Race Style Tables</title>
     <meta name="title" content="Track Record Table Editor - Create Drag Race Style Tables">
-    <meta name="description" content="Free online track record table editor for RuPaul's Drag Race fans. Create, edit, and export beautiful wiki-style track record tables with placements, photos, and more. No sign-up required.">
-    <meta name="keywords" content="track record, track record maker, track record editor, track record creator, track record generator, track record table, drag race track record, rupauls drag race, drag race wiki, placement table, elimination chart, drag race table maker">
+    <meta name="description"
+        content="Free online track record table editor for RuPaul's Drag Race fans. Create, edit, and export beautiful wiki-style track record tables with placements, photos, and more. No sign-up required.">
+    <meta name="keywords"
+        content="track record, track record maker, track record editor, track record creator, track record generator, track record table, drag race track record, rupauls drag race, drag race wiki, placement table, elimination chart, drag race table maker">
     <meta name="author" content="d-quint">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://d-quint.github.io/trmaker/treditor/">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://d-quint.github.io/trmaker/treditor/">
     <meta property="og:title" content="Track Record Table Editor - Create Drag Race Style Tables">
-    <meta property="og:description" content="Free online track record table editor for RuPaul's Drag Race fans. Create beautiful wiki-style track record tables with placements, photos, and export to HTML or PNG.">
+    <meta property="og:description"
+        content="Free online track record table editor for RuPaul's Drag Race fans. Create beautiful wiki-style track record tables with placements, photos, and export to HTML or PNG.">
     <meta property="og:image" content="https://d-quint.github.io/trmaker/treditor/og-image.png">
     <meta property="og:site_name" content="Track Record Table Editor">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://d-quint.github.io/trmaker/treditor/">
     <meta property="twitter:title" content="Track Record Table Editor - Create Drag Race Style Tables">
-    <meta property="twitter:description" content="Free online track record table editor for RuPaul's Drag Race fans. Create beautiful wiki-style track record tables with placements, photos, and export to HTML or PNG.">
+    <meta property="twitter:description"
+        content="Free online track record table editor for RuPaul's Drag Race fans. Create beautiful wiki-style track record tables with placements, photos, and export to HTML or PNG.">
     <meta property="twitter:image" content="https://d-quint.github.io/trmaker/treditor/og-image.png">
-    
+
     <!-- Google Site Verification -->
     <meta name="google-site-verification" content="1_ERpckw7dP6A-Dg5CHlNH9UkvVW1SZZ-CWBg93YCOU" />
 
@@ -65,15 +70,18 @@
         ]
     }
     </script>
-    
+
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
 
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header -->
@@ -81,24 +89,28 @@
             <h1>
                 <span class="app-mark" aria-hidden="true">
                     <svg viewBox="0 0 256 256" fill="currentColor">
-                        <path d="M245.6,149.5c2.7-10.1-9.6-13.6-18.6-14.8c4,5.9,13.2,12.4,18.3,15.5C245.4,150,245.6,149.8,245.6,149.5z"/>
-                        <path d="M56.9,106.2c0.8,0,1.5,0.2,2.3,0.6c17,8.5,42.3,36,53,63.3c9.9,25.2,11.5,43.8,12.4,53.9l0.3,2.7c0.6,5.9,10.3,9.2,27.3,9.2c17.5,0,42.6-3.4,74.6-10.2c2-5.9,12.1-36.3,16.8-71.7c0,0,0,0-0.1,0c-4.4-2.7-17.5-11.1-21.4-19.6c-0.5-1.1-0.9-2.3-1-3.4c-0.5-3.7-9.4-6-23.2-6c-3.3,0-5.9,0.1-7.1,0.2c-2.3,2.1-10.9,9.1-23,9.1c-8.9,0-17.7-3.8-26-11.3C116.8,100,34.1,22.6,31.7,20.4c0,0-0.5-0.2-1.2-0.2c-1.3,0-4.7,1-8.2,10.3c-0.9,2.4-2,4.9-3.3,7.7c-6.9,15.7-16.5,37.3,0.6,61.1c19.6,27.2,14.6,115.7,13.6,130.9l11.1,0.3c-0.5-18.4-2.6-110.6,8.9-122.5C54.6,106.5,56,106.2,56.9,106.2z"/>
+                        <path
+                            d="M245.6,149.5c2.7-10.1-9.6-13.6-18.6-14.8c4,5.9,13.2,12.4,18.3,15.5C245.4,150,245.6,149.8,245.6,149.5z" />
+                        <path
+                            d="M56.9,106.2c0.8,0,1.5,0.2,2.3,0.6c17,8.5,42.3,36,53,63.3c9.9,25.2,11.5,43.8,12.4,53.9l0.3,2.7c0.6,5.9,10.3,9.2,27.3,9.2c17.5,0,42.6-3.4,74.6-10.2c2-5.9,12.1-36.3,16.8-71.7c0,0,0,0-0.1,0c-4.4-2.7-17.5-11.1-21.4-19.6c-0.5-1.1-0.9-2.3-1-3.4c-0.5-3.7-9.4-6-23.2-6c-3.3,0-5.9,0.1-7.1,0.2c-2.3,2.1-10.9,9.1-23,9.1c-8.9,0-17.7-3.8-26-11.3C116.8,100,34.1,22.6,31.7,20.4c0,0-0.5-0.2-1.2-0.2c-1.3,0-4.7,1-8.2,10.3c-0.9,2.4-2,4.9-3.3,7.7c-6.9,15.7-16.5,37.3,0.6,61.1c19.6,27.2,14.6,115.7,13.6,130.9l11.1,0.3c-0.5-18.4-2.6-110.6,8.9-122.5C54.6,106.5,56,106.2,56.9,106.2z" />
                     </svg>
                 </span>
                 <span class="app-title-full">Track Record Table Editor</span>
                 <span class="app-title-short">TR Editor</span>
-                <button class="version-badge" id="showChangelog" title="What's new in v1.3.1">
-                    <span class="version-text">v1.3.1</span>
-                    <svg class="version-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 16v-4"/>
-                        <path d="M12 8h.01"/>
+                <button class="version-badge" id="showChangelog" title="What's new in v1.3.2">
+                    <span class="version-text">v1.3.2</span>
+                    <svg class="version-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 16v-4" />
+                        <path d="M12 8h.01" />
                     </svg>
                 </button>
             </h1>
             <div class="header-actions">
                 <button class="btn btn-secondary" id="saveProject">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
                         <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" />
                         <path d="M17 21v-8H7v8" />
                         <path d="M7 3v5h8" />
@@ -106,7 +118,8 @@
                     Save Project
                 </button>
                 <button class="btn btn-secondary" id="loadProject">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
                         <path d="M3 7h5l2 2h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
                         <path d="M12 11v6" />
                         <path d="M9.5 14.5 12 17l2.5-2.5" />
@@ -115,7 +128,8 @@
                 </button>
                 <input type="file" id="loadProjectInput" accept=".json" style="display: none;">
                 <button class="btn btn-secondary" id="newBlankProject">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                         <path d="M14 2v6h6" />
                         <path d="M12 18v-6" />
@@ -124,7 +138,8 @@
                     New Blank
                 </button>
                 <button class="btn btn-danger" id="resetProject">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
                         <path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 6.36 2.64" />
                         <path d="M21 3v6h-6" />
                         <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-6.36-2.64" />
@@ -133,14 +148,16 @@
                     Reset
                 </button>
                 <button class="btn btn-success" id="copyHtml">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
                         <path d="M9 9h10v10H9z" />
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                     </svg>
                     Copy HTML
                 </button>
                 <button class="btn btn-primary" id="exportImage">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
                         <path d="M4 7a2 2 0 0 1 2-2h2l2-2h4l2 2h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
                         <path d="M12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
                     </svg>
@@ -154,248 +171,300 @@
             <div class="sidebar-wrapper">
                 <aside class="sidebar" id="sidebar">
                     <!-- Tabs -->
-                <div class="tabs">
-                    <div class="tab active" data-tab="tab-contestants">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                        </svg>
-                        <span class="tab-text">Contestants</span>
-                    </div>
-                    <div class="tab" data-tab="tab-episodes">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
-                            <polyline points="17 2 12 7 7 2"/>
-                        </svg>
-                        <span class="tab-text">Episodes</span>
-                    </div>
-                    <div class="tab" data-tab="tab-placements">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="7" height="7" rx="1"/>
-                            <rect x="14" y="3" width="7" height="7" rx="1"/>
-                            <rect x="3" y="14" width="7" height="7" rx="1"/>
-                            <rect x="14" y="14" width="7" height="7" rx="1"/>
-                        </svg>
-                        <span class="tab-text">Placements</span>
-                    </div>
-                    <div class="tab" data-tab="tab-settings">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                        </svg>
-                        <span class="tab-text">Settings</span>
-                    </div>
-                </div>
-
-                <!-- Contestants Tab -->
-                <div id="tab-contestants" class="tab-content active">
-                    <div class="sidebar-section">
-                        <div class="panel-header">
-                            <h3>Contestants</h3>
-                            <button class="btn btn-primary btn-sm" id="addContestant">+ Add</button>
+                    <div class="tabs">
+                        <div class="tab active" data-tab="tab-contestants">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                            <span class="tab-text">Contestants</span>
                         </div>
-                        <p class="panel-subtext">Drag to reorder. Click photo area to upload.</p>
-                        <div id="contestantsList" class="contestants-list"></div>
+                        <div class="tab" data-tab="tab-episodes">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="15" rx="2" ry="2" />
+                                <polyline points="17 2 12 7 7 2" />
+                            </svg>
+                            <span class="tab-text">Episodes</span>
+                        </div>
+                        <div class="tab" data-tab="tab-placements">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="3" width="7" height="7" rx="1" />
+                                <rect x="3" y="14" width="7" height="7" rx="1" />
+                                <rect x="14" y="14" width="7" height="7" rx="1" />
+                            </svg>
+                            <span class="tab-text">Placements</span>
+                        </div>
+                        <div class="tab" data-tab="tab-settings">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                            </svg>
+                            <span class="tab-text">Settings</span>
+                        </div>
                     </div>
 
-                    <div class="sidebar-section" id="groupsSection" hidden>
-                        <div class="panel-header">
-                            <h3>Groups</h3>
-                            <button class="btn btn-primary btn-sm" id="addGroup">+ Add</button>
-                        </div>
-                        <p class="panel-subtext">Assign contestants to colored groups and show a group label in the table.</p>
-
-                        <div id="groupsManager" class="groups-manager">
-                            <div class="groups-header">
-                                <div class="groups-title">Group list</div>
+                    <!-- Contestants Tab -->
+                    <div id="tab-contestants" class="tab-content active">
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Contestants</h3>
+                                <button class="btn btn-primary btn-sm" id="addContestant">+ Add</button>
                             </div>
-                            <div id="groupsList" class="groups-list"></div>
+                            <p class="panel-subtext">Drag to reorder. Click photo area to upload.</p>
+                            <div id="contestantsList" class="contestants-list"></div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Episodes Tab -->
-                <div id="tab-episodes" class="tab-content">
-                    <div class="sidebar-section">
-                        <div class="panel-header">
-                            <h3>Episodes</h3>
-                            <button class="btn btn-primary btn-sm" id="addEpisode">+ Add</button>
-                        </div>
-                        <p class="panel-subtext">Drag to reorder. Edit challenge text inline.</p>
-                        <div id="episodesList" class="episodes-list"></div>
-                    </div>
-                </div>
+                        <div class="sidebar-section" id="groupsSection" hidden>
+                            <div class="panel-header">
+                                <h3>Groups</h3>
+                                <button class="btn btn-primary btn-sm" id="addGroup">+ Add</button>
+                            </div>
+                            <p class="panel-subtext">Assign contestants to colored groups and show a group label in the
+                                table.</p>
 
-                <!-- Placements Tab -->
-                <div id="tab-placements" class="tab-content">
-                    <div class="sidebar-section">
-                        <div class="panel-header">
-                            <h3>Placements</h3>
-                            <button class="btn btn-primary btn-sm" id="addPlacement">+ Add Custom</button>
-                        </div>
-                        <p class="panel-subtext">Click colors to change. Edit labels inline.</p>
-                        <div id="placementsList" class="placements-list"></div>
-                    </div>
-
-                    <div class="sidebar-section">
-                        <div class="panel-header">
-                            <h3>Border Add-ons</h3>
-                            <button class="btn btn-primary btn-sm" id="addBorderAddon">+ Add Custom</button>
-                        </div>
-                        <p class="panel-subtext">These don’t replace placements; they only add a border (paint from the Borders tab above the table).</p>
-                        <div id="bordersList" class="borders-list"></div>
-                    </div>
-                    <div class="sidebar-section">
-                        <div class="panel-header">
-                            <h3>Subtext Add-ons</h3>
-                            <button class="btn btn-primary btn-sm" id="addSubtextAddon">+ Add Custom</button>
-                        </div>
-                        <p class="panel-subtext">These don't replace placements; they add small italic text below (paint from the Subtexts tab above the table).</p>
-                        <div id="subtextsList" class="subtexts-list"></div>
-                    </div>                </div>
-
-                <!-- Settings Tab -->
-                <div id="tab-settings" class="tab-content">
-                    <div class="sidebar-section">
-                        <div class="panel-header">
-                            <h3>Table Settings</h3>
-                        </div>
-                        <p class="panel-subtext">Adjust columns and title for the exported table.</p>
-
-                        <div class="panel-card">
-                            <div class="form-group" style="margin-bottom:0;">
-                                <label for="tableTitle">Table title</label>
-                                <input type="text" id="tableTitle" class="form-control" value="Season 1 Track Record">
+                            <div id="groupsManager" class="groups-manager">
+                                <div class="groups-header">
+                                    <div class="groups-title">Group list</div>
+                                </div>
+                                <div id="groupsList" class="groups-list"></div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="panel-card">
-                            <div class="settings-card-title">Columns</div>
-                            <div class="settings-options">
-                                <label class="settings-option">
-                                    <input type="checkbox" id="showPhotos" checked>
-                                    <span>Photo column</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="showAge" checked>
-                                    <span>Age column</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="showLocation" checked>
-                                    <span>Location column</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="showRankColumn" checked>
-                                    <span>Rank column</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="autoRanking" checked>
-                                    <span>Auto-rank (uncheck to edit ranks manually)</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="allStarsMode">
-                                    <span>All Stars mode (Original Season/Rank)</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="globalMode">
-                                    <span>Global mode (Country flags beside names)</span>
-                                </label>
+                    <!-- Episodes Tab -->
+                    <div id="tab-episodes" class="tab-content">
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Episodes</h3>
+                                <button class="btn btn-primary btn-sm" id="addEpisode">+ Add</button>
+                            </div>
+                            <p class="panel-subtext">Drag to reorder. Edit challenge text inline.</p>
+                            <div id="episodesList" class="episodes-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Placements Tab -->
+                    <div id="tab-placements" class="tab-content">
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Placements</h3>
+                                <button class="btn btn-primary btn-sm" id="addPlacement">+ Add Custom</button>
+                            </div>
+                            <p class="panel-subtext">Click colors to change. Edit labels inline.</p>
+                            <div id="placementsList" class="placements-list"></div>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Border Add-ons</h3>
+                                <button class="btn btn-primary btn-sm" id="addBorderAddon">+ Add Custom</button>
+                            </div>
+                            <p class="panel-subtext">These don’t replace placements; they only add a border (paint from
+                                the Borders tab above the table).</p>
+                            <div id="bordersList" class="borders-list"></div>
+                        </div>
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Subtext Add-ons</h3>
+                                <button class="btn btn-primary btn-sm" id="addSubtextAddon">+ Add Custom</button>
+                            </div>
+                            <p class="panel-subtext">These don't replace placements; they add small italic text below
+                                (paint from the Subtexts tab above the table).</p>
+                            <div id="subtextsList" class="subtexts-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div id="tab-settings" class="tab-content">
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>General</h3>
+                            </div>
+
+                            <div class="panel-card">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label for="tableTitle">Table title</label>
+                                    <input type="text" id="tableTitle" class="form-control"
+                                        value="Season 1 Track Record">
+                                </div>
                             </div>
                         </div>
 
-                        <div class="panel-card">
-                            <div class="settings-card-title">Features</div>
-                            <div class="settings-options">
-                                <label class="settings-option">
-                                    <input type="checkbox" id="enableGroupsSettings">
-                                    <span>Enable groups</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="customEpisodeLabelsSettings">
-                                    <span>Edit episode labels (merge columns)</span>
-                                </label>
-                                <label class="settings-option">
-                                    <input type="checkbox" id="autoFillOut" checked>
-                                    <span>Auto-fill "Out" after elimination</span>
-                                </label>
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Table Columns</h3>
+                            </div>
+                            <p class="panel-subtext">Choose which columns appear in the table.</p>
+
+                            <div class="panel-card">
+                                <div class="settings-options">
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="showPhotos" checked>
+                                        <span>Show photo column</span>
+                                    </label>
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="showAge" checked>
+                                        <span>Show age column</span>
+                                    </label>
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="showLocation" checked>
+                                        <span>Show location column</span>
+                                    </label>
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="showRankColumn" checked>
+                                        <span>Show rank column</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="panel-card">
-                            <div class="settings-card-title">Table appearance</div>
-                            <div class="panel-help" style="margin-bottom:0.75rem;">Adjust the overall size or fine-tune individual properties.</div>
-                            <div class="settings-appearance-grid">
-                                <div class="settings-slider settings-slider-primary">
-                                    <label for="tableScale">Overall scale</label>
-                                    <div class="slider-row">
-                                        <input type="range" id="tableScale" class="form-range" min="50" max="150" value="80" step="5">
-                                        <span class="slider-value" id="tableScaleValue">80%</span>
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Season Format</h3>
+                            </div>
+                            <p class="panel-subtext">Toggle special season formats and table modes.</p>
+
+                            <div class="panel-card">
+                                <div class="settings-options">
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="allStarsMode">
+                                        <span>All Stars mode</span>
+                                    </label>
+                                    <div class="settings-option-hint">Replaces Age/Location with Original Season &amp;
+                                        Rank columns.</div>
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="globalMode">
+                                        <span>Global mode</span>
+                                    </label>
+                                    <div class="settings-option-hint">Adds a country flag column beside contestant
+                                        names.</div>
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="enableGroupsSettings">
+                                        <span>Enable contestant groups</span>
+                                    </label>
+                                    <div class="settings-option-hint">Split contestants into colored groups (e.g.
+                                        premiere groups).</div>
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="customEpisodeLabelsSettings">
+                                        <span>Custom episode labels</span>
+                                    </label>
+                                    <div class="settings-option-hint">Edit top header row labels and merge episode
+                                        columns.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Automation</h3>
+                            </div>
+                            <p class="panel-subtext">Control automatic behavior while editing.</p>
+
+                            <div class="panel-card">
+                                <div class="settings-options">
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="autoRanking" checked>
+                                        <span>Auto-rank by elimination order</span>
+                                    </label>
+                                    <div class="settings-option-hint">Calculates rank from placement data. Uncheck to
+                                        type ranks manually.</div>
+                                    <label class="settings-option">
+                                        <input type="checkbox" id="autoFillOut" checked>
+                                        <span>Auto-fill OUT after elimination</span>
+                                    </label>
+                                    <div class="settings-option-hint">Empty cells after ELIM/QUIT/DEPT/DISQ
+                                        automatically become OUT.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Appearance</h3>
+                            </div>
+                            <p class="panel-subtext">Fine-tune the look of the exported table.</p>
+
+                            <div class="panel-card">
+                                <div class="settings-appearance-grid">
+                                    <div class="settings-slider settings-slider-primary">
+                                        <label for="tableScale">Overall scale</label>
+                                        <div class="slider-row">
+                                            <input type="range" id="tableScale" class="form-range" min="50" max="150"
+                                                value="80" step="5">
+                                            <span class="slider-value" id="tableScaleValue">80%</span>
+                                        </div>
+                                    </div>
+                                    <div class="settings-divider"></div>
+                                    <div class="settings-font-selector">
+                                        <label for="tableFont">Font family</label>
+                                        <select id="tableFont" class="form-control">
+                                            <option value="Geist, system-ui, sans-serif">Geist (Default)</option>
+                                            <option value="Rubik, system-ui, sans-serif">Rubik (Wiki Font)</option>
+                                            <option value="system-ui, sans-serif">System UI</option>
+                                            <option value="Arial, sans-serif">Arial</option>
+                                            <option value="'Courier New', monospace">Courier New</option>
+                                            <option value="Georgia, serif">Georgia</option>
+                                            <option value="'Times New Roman', serif">Times New Roman</option>
+                                            <option value="Verdana, sans-serif">Verdana</option>
+                                            <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                                        </select>
+                                    </div>
+                                    <div class="settings-slider">
+                                        <label for="tableFontSize">Font size</label>
+                                        <div class="slider-row">
+                                            <input type="range" id="tableFontSize" class="form-range" min="70" max="150"
+                                                value="100" step="5">
+                                            <span class="slider-value" id="tableFontSizeValue">100%</span>
+                                        </div>
+                                    </div>
+                                    <div class="settings-slider">
+                                        <label for="cellPadding">Cell padding</label>
+                                        <div class="slider-row">
+                                            <input type="range" id="cellPadding" class="form-range" min="50" max="200"
+                                                value="100" step="10">
+                                            <span class="slider-value" id="cellPaddingValue">100%</span>
+                                        </div>
+                                    </div>
+                                    <div class="settings-slider">
+                                        <label for="photoSize">Photo size</label>
+                                        <div class="slider-row">
+                                            <input type="range" id="photoSize" class="form-range" min="50" max="200"
+                                                value="100" step="10">
+                                            <span class="slider-value" id="photoSizeValue">100%</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="settings-divider"></div>
-                                <div class="settings-font-selector">
-                                    <label for="tableFont">Font family</label>
-                                    <select id="tableFont" class="form-control">
-                                        <option value="Geist, system-ui, sans-serif">Geist (Default)</option>
-                                        <option value="Rubik, system-ui, sans-serif">Rubik (Wiki Font)</option>
-                                        <option value="system-ui, sans-serif">System UI</option>
-                                        <option value="Arial, sans-serif">Arial</option>
-                                        <option value="'Courier New', monospace">Courier New</option>
-                                        <option value="Georgia, serif">Georgia</option>
-                                        <option value="'Times New Roman', serif">Times New Roman</option>
-                                        <option value="Verdana, sans-serif">Verdana</option>
-                                        <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
-                                    </select>
-                                </div>
-                                <div class="settings-slider">
-                                    <label for="tableFontSize">Font size</label>
-                                    <div class="slider-row">
-                                        <input type="range" id="tableFontSize" class="form-range" min="70" max="150" value="100" step="5">
-                                        <span class="slider-value" id="tableFontSizeValue">100%</span>
-                                    </div>
-                                </div>
-                                <div class="settings-slider">
-                                    <label for="cellPadding">Cell padding</label>
-                                    <div class="slider-row">
-                                        <input type="range" id="cellPadding" class="form-range" min="50" max="200" value="100" step="10">
-                                        <span class="slider-value" id="cellPaddingValue">100%</span>
-                                    </div>
-                                </div>
-                                <div class="settings-slider">
-                                    <label for="photoSize">Photo size</label>
-                                    <div class="slider-row">
-                                        <input type="range" id="photoSize" class="form-range" min="50" max="200" value="100" step="10">
-                                        <span class="slider-value" id="photoSizeValue">100%</span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="sidebar-section">
-                        <div class="panel-header">
-                            <h3>Quick Tips</h3>
+                        <div class="sidebar-section">
+                            <div class="panel-header">
+                                <h3>Quick Tips</h3>
+                            </div>
+                            <ul class="tips-list text-sm text-muted">
+                                <li><strong>Paint:</strong> Click or drag across cells to paint the selected placement
+                                </li>
+                                <li><strong>Auto-numbering:</strong> TOP/BTM auto-show as TOP2/BTM3 etc. per column</li>
+                                <li><strong>Combos:</strong> Paint over RTRN/QUIT/DISQ/DEPT to make combo cells</li>
+                                <li><strong>Reorder:</strong> Drag rows via ⋮⋮ handle or from the table gutter</li>
+                                <li><strong>Photos:</strong> Click photo area → Upload or Paste</li>
+                                <li><strong>Undo/Redo:</strong> Ctrl+Z / Ctrl+Y</li>
+                                <li><strong>Scroll:</strong> Ctrl + Mouse Wheel to scroll table horizontally</li>
+                            </ul>
                         </div>
-                        <p class="panel-subtext">Small reminders while editing.</p>
-                        <ul class="tips-list text-sm text-muted">
-                            <li><strong>Paint placements:</strong> Click or drag across cells to paint the selected placement</li>
-                            <li><strong>Auto-numbering:</strong> TOP/BTM auto-show as TOP2/BTM2 when multiple appear in a column</li>
-                            <li><strong>Auto-fill OUT:</strong> After ELIM/EXTM, later empty cells become "Out" automatically</li>
-                            <li><strong>Tie ranks:</strong> Multiple eliminations or LSFTC losers share the same rank automatically</li>
-                            <li><strong>Reorder:</strong> Drag contestants/episodes via the ⋮⋮ handle, or drag from the table's left gutter</li>
-                            <li><strong>Photos:</strong> Click a photo placeholder → Upload or Paste from clipboard</li>
-                            <li><strong>Undo/Redo:</strong> Ctrl+Z / Ctrl+Y works for placements, edits, and photo changes</li>
-                            <li><strong>Horizontal scroll:</strong> Hold Ctrl and scroll your mouse wheel to scroll the table horizontally</li>
-                            <li><strong>Borders &amp; Subtexts:</strong> Use separate palette tabs to add border overlays or mini-challenge labels</li>
-                            <li><strong>Export:</strong> Copy HTML or save as PNG for wiki/website use</li>
-                        </ul>
                     </div>
-                </div>
                 </aside>
                 <!-- Sidebar Toggle Handle -->
-                <button class="sidebar-handle" id="toggleSidebar" aria-controls="sidebar" aria-expanded="true" title="Toggle panel">
+                <button class="sidebar-handle" id="toggleSidebar" aria-controls="sidebar" aria-expanded="true"
+                    title="Toggle panel">
                     <span class="sidebar-handle-bar"></span>
                 </button>
             </div>
@@ -412,24 +481,37 @@
         <footer class="footer" aria-label="Attribution">
             <p class="footer-text">
                 <button class="footer-link footer-btn" onclick="openHelpModal()" title="How to Use It">
-                    <svg class="footer-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    <svg class="footer-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
                     </svg>
                     How to Use
                 </button>
                 <span class="footer-separator" aria-hidden="true">·</span>
-                Built with <span class="footer-heart" aria-hidden="true">♥</span> by
-                <a href="https://github.com/d-quint/" target="_blank" rel="noopener noreferrer" class="footer-link">d-quint</a>
+                <a href="https://forms.gle/ZoWXXfsngdv6MUhX6" target="_blank" rel="noopener noreferrer"
+                    class="footer-link footer-feedback" title="Report a bug or suggest a feature">
+                    <svg class="footer-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                    Feedback
+                </a>
                 <span class="footer-separator" aria-hidden="true">·</span>
-                <a href="https://buymeacoffee.com/danerossq" target="_blank" rel="noopener noreferrer" class="footer-link footer-coffee" title="Buy me a coffee">
-                    <svg class="coffee-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
-                        <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
-                        <line x1="6" y1="2" x2="6" y2="4"/>
-                        <line x1="10" y1="2" x2="10" y2="4"/>
-                        <line x1="14" y1="2" x2="14" y2="4"/>
+                Built with <span class="footer-heart" aria-hidden="true">♥</span> by
+                <a href="https://github.com/d-quint/" target="_blank" rel="noopener noreferrer"
+                    class="footer-link">d-quint</a>
+                <span class="footer-separator" aria-hidden="true">·</span>
+                <a href="https://buymeacoffee.com/danerossq" target="_blank" rel="noopener noreferrer"
+                    class="footer-link footer-coffee" title="Buy me a coffee">
+                    <svg class="coffee-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+                        <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+                        <line x1="6" y1="2" x2="6" y2="4" />
+                        <line x1="10" y1="2" x2="10" y2="4" />
+                        <line x1="14" y1="2" x2="14" y2="4" />
                     </svg>
                     Buy me a coffee
                 </a>
@@ -448,11 +530,15 @@
                 <div class="changelog-version">
                     <div class="changelog-section">
                         <h4>🎨 Painting Basics</h4>
-                        <p class="changelog-intro">The palette on the left has everything you need to build your table:</p>
+                        <p class="changelog-intro">The palette on the left has everything you need to build your table:
+                        </p>
                         <ul>
-                            <li><strong>Placements</strong> — The main cell content (WIN, HIGH, SAFE, BTM, ELIM, etc.). Click a chip, then click or drag across cells to paint.</li>
-                            <li><strong>Borders</strong> — Visual overlays around cells (Immunity ⭐, Chocolate Bar 🍫, etc.). Paint them on top of any placement.</li>
-                            <li><strong>Subtexts</strong> — Small labels below the placement (Mini Win 🏆, Gifted Badge, etc.). You can stack multiple subtexts on the same cell!</li>
+                            <li><strong>Placements</strong> — The main cell content (WIN, HIGH, SAFE, BTM, ELIM, etc.).
+                                Click a chip, then click or drag across cells to paint.</li>
+                            <li><strong>Borders</strong> — Visual overlays around cells (Immunity ⭐, Chocolate Bar 🍫,
+                                etc.). Paint them on top of any placement.</li>
+                            <li><strong>Subtexts</strong> — Small labels below the placement (Mini Win 🏆, Gifted Badge,
+                                etc.). You can stack multiple subtexts on the same cell!</li>
                         </ul>
                         <p class="changelog-tip">💡 Hover over any chip in the palette to see what it means!</p>
                         <p class="changelog-tip">💡 Click and drag to paint multiple cells at once!</p>
@@ -461,9 +547,12 @@
                     <div class="changelog-section">
                         <h4>🔢 Smart Auto-Numbering</h4>
                         <ul>
-                            <li><strong>TOP placements</strong> — Automatically become TOP2, TOP3, etc. based on how many WINs and TOPs are in that episode</li>
-                            <li><strong>BTM placements</strong> — Automatically become BTM2, BTM3, etc. based on how many BTMs and ELIMs are in that episode</li>
-                            <li><strong>HIGH/LOW</strong> — These don't auto-number; use them for critique-only queens</li>
+                            <li><strong>TOP placements</strong> — Automatically become TOP2, TOP3, etc. based on how
+                                many WINs and TOPs are in that episode</li>
+                            <li><strong>BTM placements</strong> — Automatically become BTM2, BTM3, etc. based on how
+                                many BTMs and ELIMs are in that episode</li>
+                            <li><strong>HIGH/LOW</strong> — These don't auto-number; use them for critique-only queens
+                            </li>
                         </ul>
                     </div>
 
@@ -471,8 +560,11 @@
                         <h4>🔄 Combo Placements</h4>
                         <p class="changelog-intro">Some placements can combine with others:</p>
                         <ul>
-                            <li><strong>RTRN combos</strong> — Paint a placement on top of RTRN to show what the returning queen got (e.g., RTRN + SAFE)</li>
-                            <li><strong>QUIT/DISQ/DEPT combos</strong> — Paint QUIT, DISQ, or DEPT first, then paint another placement on top to show their last result before leaving (e.g., WIN + QUIT)</li>
+                            <li><strong>RTRN combos</strong> — Paint a placement on top of RTRN to show what the
+                                returning queen got (e.g., RTRN + SAFE)</li>
+                            <li><strong>QUIT/DISQ/DEPT combos</strong> — Paint QUIT, DISQ, or DEPT first, then paint
+                                another placement on top to show their last result before leaving (e.g., WIN + QUIT)
+                            </li>
                         </ul>
                     </div>
 
@@ -482,9 +574,11 @@
                             <li><strong>Queen names &amp; ages</strong> — Click directly on them to edit</li>
                             <li><strong>Queen photos</strong> — Click the image to upload, or paste from clipboard</li>
                             <li><strong>Episode headers</strong> — Click to rename episodes</li>
-                            <li><strong>Reorder queens</strong> — Drag the grip handle (|) on the left side of each row</li>
+                            <li><strong>Reorder queens</strong> — Drag the grip handle (|) on the left side of each row
+                            </li>
                             <li><strong>Reorder episodes</strong> — Drag episodes in the sidebar list</li>
-                            <li><strong>Custom ranks</strong> — Uncheck "Auto-rank" in Settings to manually type ranks in the table</li>
+                            <li><strong>Custom ranks</strong> — Uncheck "Auto-rank" in Settings to manually type ranks
+                                in the table</li>
                         </ul>
                     </div>
 
@@ -492,7 +586,8 @@
                         <h4>⚙️ Custom Placements</h4>
                         <p class="changelog-intro">Need something not in the palette? Create your own!</p>
                         <ul>
-                            <li>Look for the <strong>+</strong> button in the Placements, Borders, or Subtexts section of the sidebar</li>
+                            <li>Look for the <strong>+</strong> button in the Placements, Borders, or Subtexts section
+                                of the sidebar</li>
                             <li>Choose a name, colors, and other settings</li>
                             <li>Your custom items appear in the palette ready to use</li>
                         </ul>
@@ -510,12 +605,17 @@
 
                     <div class="changelog-section">
                         <h4>🌍 Global Mode</h4>
-                        <p class="changelog-intro">Show country flags beside contestant names (like Global All Stars):</p>
+                        <p class="changelog-intro">Show country flags beside contestant names (like Global All Stars):
+                        </p>
                         <ul>
-                            <li><strong>Enable Global Mode</strong> — Go to Settings → check "Global Mode" to add a flag column</li>
-                            <li><strong>Set flags in sidebar</strong> — Use the flag dropdown next to each contestant's name to pick their country</li>
-                            <li><strong>Set flags in table</strong> — Click directly on a flag cell in the table to change it</li>
-                            <li><strong>Stacked flags</strong> — Some options like "Down Under" show multiple flags stacked together</li>
+                            <li><strong>Enable Global Mode</strong> — Go to Settings → check "Global Mode" to add a flag
+                                column</li>
+                            <li><strong>Set flags in sidebar</strong> — Use the flag dropdown next to each contestant's
+                                name to pick their country</li>
+                            <li><strong>Set flags in table</strong> — Click directly on a flag cell in the table to
+                                change it</li>
+                            <li><strong>Stacked flags</strong> — Some options like "Down Under" show multiple flags
+                                stacked together</li>
                         </ul>
                         <p class="changelog-tip">💡 Flags export correctly in both PNG and HTML!</p>
                     </div>
@@ -523,8 +623,10 @@
                     <div class="changelog-section">
                         <h4>💾 Saving &amp; Exporting</h4>
                         <ul>
-                            <li><strong>Save Project</strong> — Downloads a .json file with all your work (queens, episodes, placements)</li>
-                            <li><strong>Load Project</strong> — Open a previously saved .json file to continue editing</li>
+                            <li><strong>Save Project</strong> — Downloads a .json file with all your work (queens,
+                                episodes, placements)</li>
+                            <li><strong>Load Project</strong> — Open a previously saved .json file to continue editing
+                            </li>
                             <li><strong>Export HTML</strong> — Get the table code to paste into wikis or websites</li>
                             <li><strong>Export PNG</strong> — Download the table as an image</li>
                         </ul>
@@ -545,14 +647,42 @@
             <div class="changelog-content">
                 <div class="changelog-version">
                     <div class="changelog-version-header">
+                        <span class="changelog-version-tag">v1.3.2</span>
+                        <span class="changelog-date">May 10, 2026</span>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>🔧 Fixes</h4>
+                        <ul>
+                            <li><strong>Ranking precedence for returning queens</strong> — The first elimination now
+                                determines a queen's rank, not the last. If a queen is eliminated, returns (RTRN), and
+                                is eliminated again, her rank is based on her original elimination. RTRN properly
+                                nullifies the preceding elimination so only the final, non-nullified exit counts.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-section">
+                        <h4>✨ Improvements</h4>
+                        <ul>
+                            <li><strong>Reorganized settings panel</strong> — Settings are now grouped into clear
+                                sections: General, Table Columns, Season Format, Automation, and Appearance</li>
+                            <li><strong>Feedback link</strong> — Added a "Feedback" link in the footer to report bugs or
+                                suggest features</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="changelog-version">
+                    <div class="changelog-version-header">
                         <span class="changelog-version-tag">v1.3.1</span>
                         <span class="changelog-date">February 23, 2026</span>
                     </div>
-                    
+
                     <div class="changelog-section">
                         <h4>⚙️ New: Editable Ranks</h4>
                         <ul>
-                            <li><strong>Disable auto-ranking</strong> — Uncheck "Auto-rank" in Settings to manually edit rank cells directly in the table, just like contestant names</li>
+                            <li><strong>Disable auto-ranking</strong> — Uncheck "Auto-rank" in Settings to manually edit
+                                rank cells directly in the table, just like contestant names</li>
                         </ul>
                         <p class="changelog-tip">📍 Find it: Settings panel → uncheck "Auto-rank"</p>
                     </div>
@@ -560,9 +690,13 @@
                     <div class="changelog-section">
                         <h4>🔧 Fixes</h4>
                         <ul>
-                            <li><strong>Flag export rendering</strong> — Flags were appearing blank in exported PNG images; switched to a CORS-compatible CDN so flags now render correctly in exports</li>
-                            <li><strong>Multi-line contestant names</strong> — Breaking a long name into multiple lines no longer discards everything after the first line when the table updates</li>
-                            <li><strong>LSFTC ranking</strong> — Queens who lost the same round of Lip Sync for the Crown now correctly share a rank, and the queen who lost the final round is ranked 2nd</li>
+                            <li><strong>Flag export rendering</strong> — Flags were appearing blank in exported PNG
+                                images; switched to a CORS-compatible CDN so flags now render correctly in exports</li>
+                            <li><strong>Multi-line contestant names</strong> — Breaking a long name into multiple lines
+                                no longer discards everything after the first line when the table updates</li>
+                            <li><strong>LSFTC ranking</strong> — Queens who lost the same round of Lip Sync for the
+                                Crown now correctly share a rank, and the queen who lost the final round is ranked 2nd
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -572,15 +706,20 @@
                         <span class="changelog-version-tag">v1.3</span>
                         <span class="changelog-date">December 31, 2025</span>
                     </div>
-                    
+
                     <div class="changelog-section">
                         <h4>🌍 New: Global Mode</h4>
-                        <p class="changelog-intro">Show country flags beside contestant names, just like global season tables!</p>
+                        <p class="changelog-intro">Show country flags beside contestant names, just like global season
+                            tables!</p>
                         <ul>
-                            <li><strong>Flag column</strong> — Enable in Settings → "Global Mode" to add a flag column next to contestant names</li>
-                            <li><strong>Easy selection</strong> — Pick flags from the dropdown in the sidebar, or click directly on flag cells in the table</li>
-                            <li><strong>All franchises</strong> — Includes flags for all Drag Race franchises with their in-show names (Italia, Sverige, Belgique, etc.)</li>
-                            <li><strong>Any country</strong> — Select "Other..." to search and pick from 250+ countries worldwide</li>
+                            <li><strong>Flag column</strong> — Enable in Settings → "Global Mode" to add a flag column
+                                next to contestant names</li>
+                            <li><strong>Easy selection</strong> — Pick flags from the dropdown in the sidebar, or click
+                                directly on flag cells in the table</li>
+                            <li><strong>All franchises</strong> — Includes flags for all Drag Race franchises with their
+                                in-show names (Italia, Sverige, Belgique, etc.)</li>
+                            <li><strong>Any country</strong> — Select "Other..." to search and pick from 250+ countries
+                                worldwide</li>
                         </ul>
                         <p class="changelog-tip">📍 Find it: Settings panel → check "Global Mode"</p>
                     </div>
@@ -588,9 +727,12 @@
                     <div class="changelog-section">
                         <h4>🔧 Fixes</h4>
                         <ul>
-                            <li><strong>RTRN + ELIM combos</strong> — Queens who returned and got eliminated in the same episode now correctly show a rank instead of TBA</li>
-                            <li><strong>Export text wrapping</strong> — Fixed text wrapping issues in exported PNG images</li>
-                            <li><strong>Export stacked flags</strong> — Stacked flags now render correctly in exported images</li>
+                            <li><strong>RTRN + ELIM combos</strong> — Queens who returned and got eliminated in the same
+                                episode now correctly show a rank instead of TBA</li>
+                            <li><strong>Export text wrapping</strong> — Fixed text wrapping issues in exported PNG
+                                images</li>
+                            <li><strong>Export stacked flags</strong> — Stacked flags now render correctly in exported
+                                images</li>
                         </ul>
                     </div>
                 </div>
@@ -600,20 +742,25 @@
                         <span class="changelog-version-tag">v1.2.1</span>
                         <span class="changelog-date">December 30, 2025</span>
                     </div>
-                    
+
                     <div class="changelog-section">
                         <h4>🔧 Fixes</h4>
                         <ul>
-                            <li><strong>Horizontal scrollbar at top</strong> — The table's horizontal scrollbar now appears at the top, just below the palette, for easier navigation</li>
-                            <li><strong>Row reorder grip fixed</strong> — Fixed an issue where dragging contestant rows wasn't working properly</li>
-                            <li><strong>Returning queens show TBA</strong> — Queens who returned to the competition (RTRN) after being eliminated now correctly show "TBA" instead of a rank</li>
+                            <li><strong>Horizontal scrollbar at top</strong> — The table's horizontal scrollbar now
+                                appears at the top, just below the palette, for easier navigation</li>
+                            <li><strong>Row reorder grip fixed</strong> — Fixed an issue where dragging contestant rows
+                                wasn't working properly</li>
+                            <li><strong>Returning queens show TBA</strong> — Queens who returned to the competition
+                                (RTRN) after being eliminated now correctly show "TBA" instead of a rank</li>
                         </ul>
                     </div>
 
                     <div class="changelog-section">
                         <h4>✨ Improvements</h4>
                         <ul>
-                            <li><strong>Smarter ranking</strong> — Ranks are now calculated based on elimination order, not row position. First eliminated = last place, based on how many queens were still competing at the time</li>
+                            <li><strong>Smarter ranking</strong> — Ranks are now calculated based on elimination order,
+                                not row position. First eliminated = last place, based on how many queens were still
+                                competing at the time</li>
                         </ul>
                     </div>
                 </div>
@@ -623,26 +770,35 @@
                         <span class="changelog-version-tag">v1.2</span>
                         <span class="changelog-date">December 29, 2025</span>
                     </div>
-                    
+
                     <div class="changelog-section">
                         <h4>🎭 New: QUIT, DISQ &amp; DEPT Combo Placements</h4>
                         <ul>
-                            <li><strong>QUIT + combos</strong> — Paint any placement on top of a QUIT cell to create combos like <em>WIN + QUIT</em>. The cell keeps QUIT's pink color so it's clear they left.</li>
-                            <li><strong>DISQ + combos</strong> — Same idea! Paint on a DISQ cell to create combos like <em>HIGH + DISQ</em>. Keeps the black DISQ background.</li>
-                            <li><strong>DEPT + combos</strong> — Paint on a DEPT cell to create combos like <em>HIGH + DEPT</em>. Keeps the plum DEPT background.</li>
+                            <li><strong>QUIT + combos</strong> — Paint any placement on top of a QUIT cell to create
+                                combos like <em>WIN + QUIT</em>. The cell keeps QUIT's pink color so it's clear they
+                                left.</li>
+                            <li><strong>DISQ + combos</strong> — Same idea! Paint on a DISQ cell to create combos like
+                                <em>HIGH + DISQ</em>. Keeps the black DISQ background.
+                            </li>
+                            <li><strong>DEPT + combos</strong> — Paint on a DEPT cell to create combos like <em>HIGH +
+                                    DEPT</em>. Keeps the plum DEPT background.</li>
                         </ul>
-                        <p class="changelog-tip">💡 Try it: Paint QUIT on a cell (find it in <strong>Events tab</strong>), then paint WIN on top!</p>
+                        <p class="changelog-tip">💡 Try it: Paint QUIT on a cell (find it in <strong>Events
+                                tab</strong>), then paint WIN on top!</p>
                     </div>
 
                     <div class="changelog-section">
                         <h4>⭐ New: All Stars WIN Variants</h4>
                         <p class="changelog-intro">3 new placements added for Lip Sync Assassin format seasons:</p>
                         <ul>
-                            <li><strong>WIN (LS Win)</strong> — Top All Star won the lip sync alongside the Assassin (darkblue)</li>
+                            <li><strong>WIN (LS Win)</strong> — Top All Star won the lip sync alongside the Assassin
+                                (darkblue)</li>
                             <li><strong>WIN (LS Loss)</strong> — Top All Star lost to the Assassin (light blue)</li>
-                            <li><strong>WIN (LS Tie)</strong> — Tie in group voting, still had elimination power (steelblue)</li>
+                            <li><strong>WIN (LS Tie)</strong> — Tie in group voting, still had elimination power
+                                (steelblue)</li>
                         </ul>
-                        <p class="changelog-tip">📍 Find them: <strong>Placements tab</strong> → click the ▾ arrow next to <strong>WIN</strong> to expand</p>
+                        <p class="changelog-tip">📍 Find them: <strong>Placements tab</strong> → click the ▾ arrow next
+                            to <strong>WIN</strong> to expand</p>
                     </div>
 
                     <div class="changelog-section">
@@ -653,7 +809,8 @@
                             <li><strong>WIN</strong> — Won the smackdown and advanced (light blue)</li>
                             <li><strong>SOLO</strong> — Performed solo when opponent sat out (light green)</li>
                         </ul>
-                        <p class="changelog-tip">📍 Find them: <strong>Events tab</strong> → <strong>LOSS</strong> chip → click ▾ to expand</p>
+                        <p class="changelog-tip">📍 Find them: <strong>Events tab</strong> → <strong>LOSS</strong> chip
+                            → click ▾ to expand</p>
                     </div>
 
                     <div class="changelog-section">
@@ -663,15 +820,19 @@
                             <li><strong>DOUBLE DIAMOND</strong> — For queens who earned the Double Diamond</li>
                             <li><strong>GIFTED BADGE</strong> — When someone received a Gifted Badge</li>
                         </ul>
-                        <p class="changelog-tip">📍 Find them: <strong>Subtexts tab</strong> in the palette → paint on any cell</p>
+                        <p class="changelog-tip">📍 Find them: <strong>Subtexts tab</strong> in the palette → paint on
+                            any cell</p>
                     </div>
 
                     <div class="changelog-section">
                         <h4>✨ Improvements</h4>
                         <ul>
-                            <li><strong>TBA rank display</strong> — Queens without a terminal placement (elimination, winner, etc.) now show "TBA" instead of a rank number</li>
-                            <li><strong>Smarter TOP numbering</strong> — All WIN variants (including the new All Stars ones) now count toward TOP2/TOP3 auto-numbering</li>
-                            <li><strong>Better bold handling</strong> — Combo placements now respect each part's bold setting separately</li>
+                            <li><strong>TBA rank display</strong> — Queens without a terminal placement (elimination,
+                                winner, etc.) now show "TBA" instead of a rank number</li>
+                            <li><strong>Smarter TOP numbering</strong> — All WIN variants (including the new All Stars
+                                ones) now count toward TOP2/TOP3 auto-numbering</li>
+                            <li><strong>Better bold handling</strong> — Combo placements now respect each part's bold
+                                setting separately</li>
                         </ul>
                     </div>
                 </div>
@@ -681,7 +842,7 @@
                         <span class="changelog-version-tag">v1.1</span>
                         <span class="changelog-date">November 2025</span>
                     </div>
-                    
+
                     <div class="changelog-section">
                         <h4>🚀 Launch Features</h4>
                         <ul>
@@ -711,8 +872,10 @@
                     <pre id="exportHtmlContent"></pre>
                 </div>
                 <div class="flex gap-1 mt-2">
-                    <button class="btn btn-primary" id="exportHtml" onclick="navigator.clipboard.writeText(document.getElementById('exportHtmlContent').textContent); alert('Copied!');">
-                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <button class="btn btn-primary" id="exportHtml"
+                        onclick="navigator.clipboard.writeText(document.getElementById('exportHtmlContent').textContent); alert('Copied!');">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
                             <path d="M9 9h10v10H9z" />
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                         </svg>
@@ -731,7 +894,8 @@
                 <button class="modal-close" onclick="closeCountryModal()">&times;</button>
             </div>
             <div class="country-search-wrapper">
-                <input type="text" class="form-control country-search" id="countrySearch" placeholder="Search countries..." autocomplete="off">
+                <input type="text" class="form-control country-search" id="countrySearch"
+                    placeholder="Search countries..." autocomplete="off">
             </div>
             <div class="country-list" id="countryList"></div>
         </div>
@@ -739,4 +903,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>

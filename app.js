@@ -4825,17 +4825,31 @@ function getContestantExitInfo(contestant) {
         return { priority: numEpisodes + 997, tieKey: 'FINAL:LSFTC_SEMI' };
     }
 
-    // Find the actual elimination episode (after any returns)
-    // Track elimination placements and non-special finale placements separately
-    let lastElimEpisode = -1;
-    let lastFinaleEpisode = -1;
-    let lastReturnEpisode = -1;
+    // Find the FIRST non-nullified elimination episode.
+    // An elim is "nullified" if a RTRN-type placement appears after it.
+    // The first elim NOT followed by a RTRN takes precedence for ranking.
+    // Also track finale placements as fallback.
+    let firstEffectiveElimEpisode = -1;
+    let firstFinaleEpisode = -1;
+    
+    // Collect all elim episodes and return episodes, then resolve
+    const elimEpisodes = [];
+    const returnEpisodes = new Set();
     
     for (let epIdx = 0; epIdx < placements.length; epIdx++) {
         const raw = placements[epIdx];
         
         if (raw === 'RTRN' || isRtrnComboId(raw)) {
-            lastReturnEpisode = epIdx;
+            returnEpisodes.add(epIdx);
+            // RTRN combos (e.g. RTRN_ELIM) also count as an elim in the same episode
+            if (isRtrnComboId(raw)) {
+                const rtrnBase = canonicalizePlacementId(getRtrnComboBaseId(raw));
+                if (ELIMINATION_PLACEMENTS.has(rtrnBase)) {
+                    elimEpisodes.push(epIdx);
+                } else if (FINALE_PLACEMENTS.has(rtrnBase) && firstFinaleEpisode < 0) {
+                    firstFinaleEpisode = epIdx;
+                }
+            }
             continue;
         }
         
@@ -4844,17 +4858,31 @@ function getContestantExitInfo(contestant) {
         else if (isDisqComboId(raw)) baseId = 'DISQ';
         else if (isDeptComboId(raw)) baseId = 'DEPT';
         
-        if (epIdx > lastReturnEpisode) {
-            if (ELIMINATION_PLACEMENTS.has(baseId)) {
-                lastElimEpisode = epIdx;
-            } else if (FINALE_PLACEMENTS.has(baseId)) {
-                lastFinaleEpisode = epIdx;
+        if (ELIMINATION_PLACEMENTS.has(baseId)) {
+            elimEpisodes.push(epIdx);
+        } else if (FINALE_PLACEMENTS.has(baseId) && firstFinaleEpisode < 0) {
+            firstFinaleEpisode = epIdx;
+        }
+    }
+    
+    // Find the first elim that is NOT nullified by a later RTRN
+    for (const elimEp of elimEpisodes) {
+        // Check if any RTRN appears after this elim episode
+        let nullified = false;
+        for (const rtrnEp of returnEpisodes) {
+            if (rtrnEp > elimEp) {
+                nullified = true;
+                break;
             }
+        }
+        if (!nullified) {
+            firstEffectiveElimEpisode = elimEp;
+            break;
         }
     }
 
-    // Rank by elimination episode; fall back to finale episode for queens with no ELIM
-    const exitEpisode = lastElimEpisode >= 0 ? lastElimEpisode : lastFinaleEpisode;
+    // Rank by first non-nullified elimination episode; fall back to finale episode
+    const exitEpisode = firstEffectiveElimEpisode >= 0 ? firstEffectiveElimEpisode : firstFinaleEpisode;
     if (exitEpisode >= 0) {
         return { priority: exitEpisode, tieKey: `EXIT:${exitEpisode}` };
     }
@@ -4928,17 +4956,29 @@ function getContestantTieKey(contestant) {
     if (placements.includes('LSFTC_L3')) return 'FINAL:LSFTC_L3';
     if (placements.includes('LSFTC_L2') || placements.includes('LSFTC_L1')) return 'FINAL:LSFTC_SEMI';
 
-    // Find the actual elimination episode
-    // Track elimination and non-special finale placements separately
-    let elimEpIdx = -1;
-    let finaleEpIdx = -1;
+    // Find the FIRST non-nullified elimination episode.
+    // An elim is "nullified" if a RTRN-type placement appears after it.
+    const elimEpisodes = [];
+    const returnEpisodes = new Set();
+    let firstFinaleEp = -1;
     for (let epIdx = 0; epIdx < placements.length; epIdx++) {
         const raw = placements[epIdx] || 'EMPTY';
         
+        if (raw === 'RTRN' || isRtrnComboId(raw)) {
+            returnEpisodes.add(epIdx);
+            if (isRtrnComboId(raw)) {
+                const rtrnBase = canonicalizePlacementId(getRtrnComboBaseId(raw));
+                if (ELIMINATION_PLACEMENTS.has(rtrnBase)) {
+                    elimEpisodes.push(epIdx);
+                } else if (FINALE_PLACEMENTS.has(rtrnBase) && firstFinaleEp < 0) {
+                    firstFinaleEp = epIdx;
+                }
+            }
+            continue;
+        }
+        
         let baseId = raw;
-        if (isRtrnComboId(raw)) {
-            baseId = canonicalizePlacementId(getRtrnComboBaseId(raw));
-        } else if (isQuitComboId(raw)) {
+        if (isQuitComboId(raw)) {
             baseId = 'QUIT';
         } else if (isDisqComboId(raw)) {
             baseId = 'DISQ';
@@ -4946,12 +4986,28 @@ function getContestantTieKey(contestant) {
             baseId = 'DEPT';
         }
         
-        if (ELIMINATION_PLACEMENTS.has(baseId)) { elimEpIdx = epIdx; }
-        else if (FINALE_PLACEMENTS.has(baseId)) { finaleEpIdx = epIdx; }
+        if (ELIMINATION_PLACEMENTS.has(baseId)) { elimEpisodes.push(epIdx); }
+        else if (FINALE_PLACEMENTS.has(baseId) && firstFinaleEp < 0) { firstFinaleEp = epIdx; }
+    }
+    
+    // Find the first elim not nullified by a later RTRN
+    let firstEffectiveElim = -1;
+    for (const elimEp of elimEpisodes) {
+        let nullified = false;
+        for (const rtrnEp of returnEpisodes) {
+            if (rtrnEp > elimEp) {
+                nullified = true;
+                break;
+            }
+        }
+        if (!nullified) {
+            firstEffectiveElim = elimEp;
+            break;
+        }
     }
 
-    // Rank by elimination episode; fall back to finale episode for queens with no ELIM
-    const exitEp = elimEpIdx >= 0 ? elimEpIdx : finaleEpIdx;
+    // Rank by first non-nullified elimination episode; fall back to finale episode
+    const exitEp = firstEffectiveElim >= 0 ? firstEffectiveElim : firstFinaleEp;
     if (exitEp >= 0) return `EXIT:${exitEp}`;
 
     return null;
